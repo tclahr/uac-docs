@@ -1,9 +1,14 @@
 site_name: UAC Documentation
 site_url: https://github.com/tclahr/uac
 nav:
-  - Home: index.md
-  - Profiles: profiles.md
-  - Artifacts: artifacts.md
-  - Collectors: collectors.md
+  - 'BASICS':
+    - 'Getting started': index.md
+  - 'DEFINITIONS':
+    - 'Profile file': profile_file.md
+    - 'Artifacts file': artifacts_file.md
+    - 'Collectors': collectors.md
+    - 'Exposed variables': exposed_vars.md
+  - 'OUTPUT FILE':
+    - 'Output file format': output_file.md
 theme: readthedocs
 extra_css: [extra.css]
