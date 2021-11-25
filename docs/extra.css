@@ -1,0 +1,10 @@
+span.required {
+    color: red;
+    font-style: italic;
+    font-weight: bold;
+}
+
+span.optional {
+    font-style: italic;
+    font-weight: bold;
+}

@@ -1,0 +1,9 @@
+site_name: UAC Documentation
+site_url: https://github.com/tclahr/uac
+nav:
+  - Home: index.md
+  - Profiles: profiles.md
+  - Artifacts: artifacts.md
+  - Collectors: collectors.md
+theme: readthedocs
+extra_css: [extra.css]
