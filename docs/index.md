@@ -15,7 +15,7 @@ The source code is available from the [project page](https://github.com/tclahr/u
 - Collects information from processes running without a binary on disk.
 - Extracts information from files and directories to create a bodyfile (including enhanced file attributes for ext4).
 - Hashes running processes and executable files.
-- Acquires volatile memory from Linux systems using Microsoft's avml tool (https://github.com/microsoft/avml).
+- Acquires volatile memory from Linux systems using Microsoft's [avml](https://github.com/microsoft/avml) tool.
 
 ## Supported operating systems
 
