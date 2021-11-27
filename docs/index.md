@@ -8,14 +8,14 @@ The source code is available from the [project page](https://github.com/tclahr/u
 
 ## Main features
 
-- Fast and continuously tested
-- Runs everywhere with no dependencies (no installation required)
-- Customizable and extensible collections and artifacts
-- Respects the order of volatility during artifacts collection
-- Collects information from processes running without a binary on disk
-- Extracts information from files and directories to create a bodyfile (including enhanced file attributes for ext4)
-- Hashes running processes and executable files
-- Acquires volatile memory from Linux systems using avml tool
+- Fast and continuously tested.
+- Runs everywhere with no dependencies (no installation required).
+- Customizable and extensible collections and artifacts.
+- Respects the order of volatility during artifacts collection.
+- Collects information from processes running without a binary on disk.
+- Extracts information from files and directories to create a bodyfile (including enhanced file attributes for ext4).
+- Hashes running processes and executable files.
+- Acquires volatile memory from Linux systems using Microsoft's avml tool (https://github.com/microsoft/avml).
 
 ## Supported operating systems
 
