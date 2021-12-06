@@ -222,14 +222,40 @@ artifacts:
     output_file: etc.txt
 ```
 
+### path_pattern
+<span class="optional">Optional</span>
+
+Return the full file path if one of path_pattern values matches the file path. This option works exactly the same way as find's -path option.
+
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
+
+As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
+
+The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:
+
+- /home/user/.config<span style="color: red;">/discord/Cache/</span>00bcecbd2455cb22_0
+- /home/user/.var/app/com.discordapp.Discord/config<span style="color: red;">/discord/Cache/</span>index
+- /home/user/snap/discord/current/.config<span style="color: red;">/discord/Cache/</span>ac0fa118bdaaa62e_0
+
+```yaml
+artifacts:
+  -
+    description: Find Discord cache files.
+    supported_os: [all]
+    collector: find
+    path: /%user_home%
+    path_pattern: ["*/discord/Cache/*"]
+    output_file: discord_cache.txt
+```
+
 ### name_pattern
 <span class="optional">Optional</span>
 
-Return the full file path if one of the values of name_pattern matches the file name. This option works exactly the same way as find's -name option.
+Return the full file path if one of the name_pattern values matches the file name. This option works exactly the same way as find's -name option.
 
 Because the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so ```"a/b"``` will never match anything.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 ```yaml
 artifacts:
@@ -271,7 +297,7 @@ artifacts:
 
 Use this option to exclude paths from the collection. This option works exactly the same way as find's -path -prune option.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
 
@@ -282,7 +308,7 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /*
-    exclude_path_prune: ["/dev", "/var"]
+    exclude_path_pattern: ["/dev", "/var"]
     output_file: all_excluding_etc_var.txt
 ```
 
@@ -293,7 +319,7 @@ Use this option to exclude files from the collection. This option works exactly 
 
 Because the leading directories are removed, the file names considered for a match with exclude_name_pattern will never include a slash, so ```"a/b"``` will never match anything.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
 
@@ -304,7 +330,7 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /etc/*
-    exclude_name_prune: ["passwd", "shadow*"]
+    exclude_name_pattern: ["passwd", "shadow*"]
     output_file: etc_excluding_passwd_shadow.txt
 ```
 
@@ -603,6 +629,32 @@ artifacts:
     output_file: hash_my_file_list.txt
 ```
 
+### path_pattern
+<span class="optional">Optional</span>
+
+Return the full file path if one of path_pattern values matches the file path. This option works exactly the same way as find's -path option.
+
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
+
+As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
+
+The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:
+
+- /home/user/.config<span style="color: red;">/discord/Cache/</span>00bcecbd2455cb22_0
+- /home/user/.var/app/com.discordapp.Discord/config<span style="color: red;">/discord/Cache/</span>index
+- /home/user/snap/discord/current/.config<span style="color: red;">/discord/Cache/</span>ac0fa118bdaaa62e_0
+
+```yaml
+artifacts:
+  -
+    description: Find Discord cache files.
+    supported_os: [all]
+    collector: hash
+    path: /%user_home%
+    path_pattern: ["*/discord/Cache/*"]
+    output_file: discord_cache
+```
+
 ### name_pattern
 <span class="optional">Optional</span>
 
@@ -610,7 +662,7 @@ Return the full file path if one of the values of name_pattern matches the file 
 
 Because the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so ```"a/b"``` will never match anything.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 ```yaml
 artifacts:
@@ -652,7 +704,7 @@ artifacts:
 
 Use this option to exclude paths from the collection. This option works exactly the same way as find's -path -prune option.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
 
@@ -663,7 +715,7 @@ artifacts:
     supported_os: [all]
     collector: hash
     path: /*
-    exclude_path_prune: ["/dev", "/var"]
+    exclude_path_pattern: ["/dev", "/var"]
     output_file: all_excluding_etc_var.txt
 ```
 
@@ -674,7 +726,7 @@ Use this option to exclude files from the collection. This option works exactly 
 
 Because the leading directories are removed, the file names considered for a match with exclude_name_pattern will never include a slash, so ```"a/b"``` will never match anything.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
 
@@ -685,7 +737,7 @@ artifacts:
     supported_os: [all]
     collector: hash
     path: /etc/*
-    exclude_name_prune: ["passwd", "shadow*"]
+    exclude_name_pattern: ["passwd", "shadow*"]
     output_file: hash_etc_excluding_passwd_shadow.txt
 ```
 
@@ -864,6 +916,8 @@ artifacts:
 
 Output file name where the hashes will be stored in. UAC never overwrites output files. Data will be appended to file if the same file name is set for a different artifact rule within the same artifact directory.
 
+The proper file extension (.md5, .sha1 or .sha256) will be added automatically to the output file according to the hash algorithm used to hash the files. In the example below, the output file will be ```same_output_file.txt.md5``` and ```same_output_file.txt.sha256``` if MD5 and SHA256 algorithms were set in ```conf/uac.conf``` file.
+
 ```yaml
 artifacts:
   -
@@ -971,6 +1025,32 @@ artifacts:
     output_file: stat_my_file_list.txt
 ```
 
+### path_pattern
+<span class="optional">Optional</span>
+
+Return the full file path if one of path_pattern values matches the file path. This option works exactly the same way as find's -path option.
+
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
+
+As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
+
+The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:
+
+- /home/user/.config<span style="color: red;">/discord/Cache/</span>00bcecbd2455cb22_0
+- /home/user/.var/app/com.discordapp.Discord/config<span style="color: red;">/discord/Cache/</span>index
+- /home/user/snap/discord/current/.config<span style="color: red;">/discord/Cache/</span>ac0fa118bdaaa62e_0
+
+```yaml
+artifacts:
+  -
+    description: Find Discord cache files.
+    supported_os: [all]
+    collector: stat
+    path: /%user_home%
+    path_pattern: ["*/discord/Cache/*"]
+    output_file: discord_cache.txt
+```
+
 ### name_pattern
 <span class="optional">Optional</span>
 
@@ -978,7 +1058,7 @@ Return the full file path if one of the values of name_pattern matches the file 
 
 Because the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so ```"a/b"``` will never match anything.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 ```yaml
 artifacts:
@@ -1020,7 +1100,7 @@ artifacts:
 
 Use this option to exclude paths from the collection. This option works exactly the same way as find's -path -prune option.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
 
@@ -1031,7 +1111,7 @@ artifacts:
     supported_os: [all]
     collector: stat
     path: /*
-    exclude_path_prune: ["/dev", "/var"]
+    exclude_path_pattern: ["/dev", "/var"]
     output_file: stat_all_excluding_etc_var.txt
 ```
 
@@ -1042,7 +1122,7 @@ Use this option to exclude files from the collection. This option works exactly 
 
 Because the leading directories are removed, the file names considered for a match with exclude_name_pattern will never include a slash, so ```"a/b"``` will never match anything.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
 
@@ -1053,7 +1133,7 @@ artifacts:
     supported_os: [all]
     collector: stat
     path: /etc/*
-    exclude_name_prune: ["passwd", "shadow*"]
+    exclude_name_pattern: ["passwd", "shadow*"]
     output_file: stat_etc_excluding_passwd_shadow.txt
 ```
 
@@ -1345,6 +1425,31 @@ artifacts:
     is_file_list: true
 ```
 
+### path_pattern
+<span class="optional">Optional</span>
+
+Return the full file path if one of path_pattern values matches the file path. This option works exactly the same way as find's -path option.
+
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
+
+As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
+
+The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:
+
+- /home/user/.config<span style="color: red;">/discord/Cache/</span>00bcecbd2455cb22_0
+- /home/user/.var/app/com.discordapp.Discord/config<span style="color: red;">/discord/Cache/</span>index
+- /home/user/snap/discord/current/.config<span style="color: red;">/discord/Cache/</span>ac0fa118bdaaa62e_0
+
+```yaml
+artifacts:
+  -
+    description: Find Discord cache files.
+    supported_os: [all]
+    collector: file
+    path: /%user_home%
+    path_pattern: ["*/discord/Cache/*"]
+```
+
 ### name_pattern
 <span class="optional">Optional</span>
 
@@ -1352,7 +1457,7 @@ Return the full file path if one of the values of name_pattern matches the file 
 
 Because the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so ```"a/b"``` will never match anything.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 ```yaml
 artifacts:
@@ -1391,7 +1496,7 @@ artifacts:
 
 Use this option to exclude paths from the collection. This option works exactly the same way as find's -path -prune option.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
 
@@ -1402,7 +1507,7 @@ artifacts:
     supported_os: [all]
     collector: file
     path: /*
-    exclude_path_prune: ["/dev", "/var"]
+    exclude_path_pattern: ["/dev", "/var"]
 ```
 
 ### exclude_name_pattern
@@ -1412,7 +1517,7 @@ Use this option to exclude files from the collection. This option works exactly 
 
 Because the leading directories are removed, the file names considered for a match with exclude_name_pattern will never include a slash, so ```"a/b"``` will never match anything.
 
-Don't forget to enclose the pattern in double quotes in order to protect it from expansion by the shell. Use backslash (\\) to escape double quotes and commas.
+Don't forget to enclose the pattern in double quotes. Use backslash (\\) to escape double quotes and commas.
 
 As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
 
@@ -1423,7 +1528,7 @@ artifacts:
     supported_os: [all]
     collector: file
     path: /etc/*
-    exclude_name_prune: ["passwd", "shadow*"]
+    exclude_name_pattern: ["passwd", "shadow*"]
 ```
 
 ### exclude_file_system
