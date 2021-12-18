@@ -122,7 +122,7 @@ Validation Arguments:
 
 ## Using UAC
 
-A [profile](profiles.md) name or a list of [artifacts](artifacts.md), and the destination directory need to be provided in order to run a collection. The remaining parameters are optional.
+A [profile](profile_file.md) name or a list of [artifacts](artifacts_file.md), and the destination directory need to be provided in order to run a collection. The remaining parameters are optional.
 
 Common usage scenarios may include the following:
 
