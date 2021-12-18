@@ -138,6 +138,18 @@ Common usage scenarios may include the following:
 ./uac -a live_response/\*,bodyfile/bodyfile.yaml .
 ```
 
+- Collect all artifacts based on the ```full``` profile, but excludes the ```bodyfile/bodyfile.yaml``` artifact, and create the output file in ```/tmp```. 
+
+```shell
+./uac -p full -a \!bodyfile/bodyfile.yaml /tmp
+```
+
+- Note that when a profile and a list of artifacts are provided, the artifacts from the profile will always be collected first, even if the parameter ```-a``` was provided before ```-p``` in the command line. In the example below, the ```memory_dump/avml.yaml``` artifact will only be collected after all artifacts from ```full``` profile were collected.
+
+```shell
+./uac -a memory_dump/avml.yaml -p full /tmp
+```
+
 - Collect all artifacts based on the ```full``` profile, but limiting the data collection based on the date range provided.
 
 ```shell
