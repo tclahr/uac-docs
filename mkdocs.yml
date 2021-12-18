@@ -12,3 +12,6 @@ nav:
     - 'Output file format': output_file.md
 theme: readthedocs
 extra_css: [extra.css]
+plugins:
+  - search
+  - mike
