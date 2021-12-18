@@ -222,6 +222,18 @@ artifacts:
     output_file: etc.txt
 ```
 
+Note that you need to use quotation marks when specifying paths with spaces.
+
+```yaml
+artifacts:
+  -
+    description: Search for TCC.db file.
+    supported_os: [all]
+    collector: find
+    path: /Library/"Application Support"/com.apple.TCC/TCC.db
+    output_file: path_with_spaces.txt
+```
+
 ### path_pattern
 <span class="optional">Optional</span>
 
@@ -601,16 +613,28 @@ artifacts:
 
 For keeping consistences across all supported operating systems (and different ```find``` tool versions), it is recommended that all directory names ends with a ```/*``` (slash asterisks).
 
-Search all files  within ```/etc```. Note the use of a ```*``` at the end of the path.
+Hash all files  within ```/etc```. Note the use of a ```*``` at the end of the path.
 
 ```yaml
 artifacts:
   -
-    description: Search all files and directories within /etc.
+    description: Hash all files and directories within /etc.
     supported_os: [all]
-    collector: find
+    collector: hash
     path: /etc/*
     output_file: hashes_etc.txt
+```
+
+Note that you need to use quotation marks when specifying paths with spaces.
+
+```yaml
+artifacts:
+  -
+    description: Hash TCC.db file.
+    supported_os: [all]
+    collector: hash
+    path: /Library/"Application Support"/com.apple.TCC/TCC.db
+    output_file: path_with_spaces.txt
 ```
 
 ### is_file_list
@@ -997,7 +1021,7 @@ artifacts:
 
 For keeping consistences across all supported operating systems (and different ```find``` tool versions), it is recommended that all directory names ends with a ```/*``` (slash asterisks).
 
-Search all files  within ```/etc```. Note the use of a ```*``` at the end of the path.
+Stat all files  within ```/etc```. Note the use of a ```*``` at the end of the path.
 
 ```yaml
 artifacts:
@@ -1007,6 +1031,18 @@ artifacts:
     collector: stat
     path: /etc/*
     output_file: stat_etc.txt
+```
+
+Note that you need to use quotation marks when specifying paths with spaces.
+
+```yaml
+artifacts:
+  -
+    description: Stat TCC.db file.
+    supported_os: [all]
+    collector: stat
+    path: /Library/"Application Support"/com.apple.TCC/TCC.db
+    output_file: path_with_spaces.txt
 ```
 
 ### is_file_list
@@ -1408,6 +1444,17 @@ artifacts:
     supported_os: [all]
     collector: file
     path: /etc/*
+```
+
+Note that you need to use quotation marks when specifying paths with spaces.
+
+```yaml
+artifacts:
+  -
+    description: Collect TCC.db file.
+    supported_os: [all]
+    collector: file
+    path: /Library/"Application Support"/com.apple.TCC/TCC.db
 ```
 
 ### is_file_list
