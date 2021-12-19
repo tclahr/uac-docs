@@ -732,7 +732,7 @@ done
     compress_output_file: true
 </code></pre>
 <h2 id="hash-collector">hash collector</h2>
-<p>Use this collector to hash files and store the output into a text file. Hash algorithms that will be used during collection are defined in <code>conf/uac.conf</code> file.</p>
+<p>Use this collector to hash files and store the output into a text file. Hash algorithms that will be used during collection are defined in <code>config/uac.conf</code> file.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Hash all files smaller than 3072000 bytes.
@@ -1035,7 +1035,7 @@ done
 <h3 id="output_file_2">output_file</h3>
 <p><span class="required">Required</span></p>
 <p>Output file name where the hashes will be stored in. UAC never overwrites output files. Data will be appended to file if the same file name is set for a different artifact rule within the same artifact directory.</p>
-<p>The proper file extension (.md5, .sha1 or .sha256) will be added automatically to the output file according to the hash algorithm used to hash the files. In the example below, the output file will be <code>same_output_file.txt.md5</code> and <code>same_output_file.txt.sha256</code> if MD5 and SHA256 algorithms were set in <code>conf/uac.conf</code> file.</p>
+<p>The proper file extension (.md5, .sha1 or .sha256) will be added automatically to the output file according to the hash algorithm used to hash the files. In the example below, the output file will be <code>same_output_file.txt.md5</code> and <code>same_output_file.txt.sha256</code> if MD5 and SHA256 algorithms were set in <code>config/uac.conf</code> file.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Hash all files and directories from /etc.
