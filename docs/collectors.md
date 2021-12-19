@@ -575,7 +575,7 @@ artifacts:
 
 ## hash collector
 
-Use this collector to hash files and store the output into a text file. Hash algorithms that will be used during collection are defined in ```conf/uac.conf``` file.
+Use this collector to hash files and store the output into a text file. Hash algorithms that will be used during collection are defined in ```config/uac.conf``` file.
 
 ```yaml
 artifacts:
@@ -940,7 +940,7 @@ artifacts:
 
 Output file name where the hashes will be stored in. UAC never overwrites output files. Data will be appended to file if the same file name is set for a different artifact rule within the same artifact directory.
 
-The proper file extension (.md5, .sha1 or .sha256) will be added automatically to the output file according to the hash algorithm used to hash the files. In the example below, the output file will be ```same_output_file.txt.md5``` and ```same_output_file.txt.sha256``` if MD5 and SHA256 algorithms were set in ```conf/uac.conf``` file.
+The proper file extension (.md5, .sha1 or .sha256) will be added automatically to the output file according to the hash algorithm used to hash the files. In the example below, the output file will be ```same_output_file.txt.md5``` and ```same_output_file.txt.sha256``` if MD5 and SHA256 algorithms were set in ```config/uac.conf``` file.
 
 ```yaml
 artifacts:
