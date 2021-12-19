@@ -437,6 +437,15 @@ done
     path: /etc/*
     output_file: etc.txt
 </code></pre>
+<p>Note that you need to use quotation marks when specifying paths with spaces.</p>
+<pre><code class="language-yaml">artifacts:
+  -
+    description: Search for TCC.db file.
+    supported_os: [all]
+    collector: find
+    path: /Library/&quot;Application Support&quot;/com.apple.TCC/TCC.db
+    output_file: path_with_spaces.txt
+</code></pre>
 <h3 id="path_pattern">path_pattern</h3>
 <p><span class="optional">Optional</span></p>
 <p>Return the full file path if one of path_pattern values matches the file path. This option works exactly the same way as find's -path option.</p>
@@ -751,14 +760,23 @@ done
     output_file: hash_bin_sh.txt
 </code></pre>
 <p>For keeping consistences across all supported operating systems (and different <code>find</code> tool versions), it is recommended that all directory names ends with a <code>/*</code> (slash asterisks).</p>
-<p>Search all files  within <code>/etc</code>. Note the use of a <code>*</code> at the end of the path.</p>
+<p>Hash all files  within <code>/etc</code>. Note the use of a <code>*</code> at the end of the path.</p>
 <pre><code class="language-yaml">artifacts:
   -
-    description: Search all files and directories within /etc.
+    description: Hash all files and directories within /etc.
     supported_os: [all]
-    collector: find
+    collector: hash
     path: /etc/*
     output_file: hashes_etc.txt
+</code></pre>
+<p>Note that you need to use quotation marks when specifying paths with spaces.</p>
+<pre><code class="language-yaml">artifacts:
+  -
+    description: Hash TCC.db file.
+    supported_os: [all]
+    collector: hash
+    path: /Library/&quot;Application Support&quot;/com.apple.TCC/TCC.db
+    output_file: path_with_spaces.txt
 </code></pre>
 <h3 id="is_file_list">is_file_list</h3>
 <p><span class="optional">Optional</span></p>
@@ -1076,7 +1094,7 @@ done
     output_file: stat_bin_sh.txt
 </code></pre>
 <p>For keeping consistences across all supported operating systems (and different <code>find</code> tool versions), it is recommended that all directory names ends with a <code>/*</code> (slash asterisks).</p>
-<p>Search all files  within <code>/etc</code>. Note the use of a <code>*</code> at the end of the path.</p>
+<p>Stat all files  within <code>/etc</code>. Note the use of a <code>*</code> at the end of the path.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Stat all files and directories within /etc.
@@ -1084,6 +1102,15 @@ done
     collector: stat
     path: /etc/*
     output_file: stat_etc.txt
+</code></pre>
+<p>Note that you need to use quotation marks when specifying paths with spaces.</p>
+<pre><code class="language-yaml">artifacts:
+  -
+    description: Stat TCC.db file.
+    supported_os: [all]
+    collector: stat
+    path: /Library/&quot;Application Support&quot;/com.apple.TCC/TCC.db
+    output_file: path_with_spaces.txt
 </code></pre>
 <h3 id="is_file_list_1">is_file_list</h3>
 <p><span class="optional">Optional</span></p>
@@ -1413,6 +1440,14 @@ done
     supported_os: [all]
     collector: file
     path: /etc/*
+</code></pre>
+<p>Note that you need to use quotation marks when specifying paths with spaces.</p>
+<pre><code class="language-yaml">artifacts:
+  -
+    description: Collect TCC.db file.
+    supported_os: [all]
+    collector: file
+    path: /Library/&quot;Application Support&quot;/com.apple.TCC/TCC.db
 </code></pre>
 <h3 id="is_file_list_2">is_file_list</h3>
 <p><span class="optional">Optional</span></p>

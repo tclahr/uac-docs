@@ -259,6 +259,16 @@ Validation Arguments:
 <pre><code class="language-shell">./uac -a live_response/\*,bodyfile/bodyfile.yaml .
 </code></pre>
 <ul>
+<li>Collect all artifacts based on the <code>full</code> profile, but excludes the <code>bodyfile/bodyfile.yaml</code> artifact, and create the output file in <code>/tmp</code>. </li>
+</ul>
+<pre><code class="language-shell">./uac -p full -a \!bodyfile/bodyfile.yaml /tmp
+</code></pre>
+<ul>
+<li>Note that when a profile and a list of artifacts are provided, the artifacts from the profile will always be collected first, even if the parameter <code>-a</code> was provided before <code>-p</code> in the command line. In the example below, the <code>memory_dump/avml.yaml</code> artifact will only be collected after all artifacts from <code>full</code> profile were collected.</li>
+</ul>
+<pre><code class="language-shell">./uac -a memory_dump/avml.yaml -p full /tmp
+</code></pre>
+<ul>
 <li>Collect all artifacts based on the <code>full</code> profile, but limiting the data collection based on the date range provided.</li>
 </ul>
 <pre><code class="language-shell">./uac -p full /tmp --date-range-start 2021-05-01 --date-range-end 2021-08-31
