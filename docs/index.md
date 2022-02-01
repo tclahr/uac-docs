@@ -1,25 +1,26 @@
 # Welcome to the Unix-like Artifacts Collector documentation
 
-UAC is a Live Response collection tool for Incident Response that makes use of built-in tools to automate the collection of Unix-like systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.
+UAC is a Live Response collection tool for Incident Response that makes use of native binaries to automate the collection of Unix-like systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.
 
-UAC reads YAML files on the fly and, based on their contents, collects relevant artifacts using 5 different collectors: command, find, hash, stat and file. This makes UAC very customizable and extensible.
+UAC reads artifacts files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.
 
 The source code is available from the [project page](https://github.com/tclahr/uac).
 
 ## Main features
 
-- Fast and continuously tested.
 - Runs everywhere with no dependencies (no installation required).
 - Customizable and extensible collections and artifacts.
 - Respects the order of volatility during artifacts collection.
 - Collects information from processes running without a binary on disk.
 - Extracts information from files and directories to create a bodyfile (including enhanced file attributes for ext4).
 - Hashes running processes and executable files.
+- Collects user and system configuration files and logs.
+- Collects artifacts from applications.
 - Acquires volatile memory from Linux systems using Microsoft's [avml](https://github.com/microsoft/avml) tool.
 
 ## Supported operating systems
 
-UAC runs on any Unix-like system (regardless the processor architecture). All UAC needs is shell.
+UAC runs on any Unix-like system (regardless the processor architecture). All UAC needs is shell :)
 
 - AIX
 - Android
@@ -33,7 +34,7 @@ UAC runs on any Unix-like system (regardless the processor architecture). All UA
 
 ## Command line options
 
-UAC is a command line tool, and as such, has several options that can be used to interact with it.
+UAC is a command line tool, and as such, has several options that can be used to interact with it. It is recommended to run UAC from an external device/usb/network share to avoid overwriting evidence.
 
 <pre class="code">
 Usage: ./uac [-h] [-V] [--debug] {-p PROFILE | -a ARTIFACTS} DESTINATION
@@ -156,10 +157,10 @@ Common usage scenarios may include the following:
 ./uac -p full /tmp --date-range-start 2021-05-01 --date-range-end 2021-08-31
 ```
 
-- Collect all ```logs``` from a Linux disk image mounted in ```/mnt/ewf```.
+- Collect all but live response artifacts from a Linux disk image mounted in ```/mnt/ewf```.
 
 ```shell
-./uac -a files/logs/\* /tmp --mount-point /mnt/ewf --operating-system linux
+./uac -p full -a \!live_response/\* /tmp --mount-point /mnt/ewf --operating-system linux
 ```
 
 ## Validating custom artifacts files
