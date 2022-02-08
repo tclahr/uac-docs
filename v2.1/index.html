@@ -70,6 +70,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#file-an-issue-on-github">File an issue on Github</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#community-support">Community support</a>
+    </li>
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#license">License</a>
@@ -134,40 +136,6 @@
 <p>UAC is a Live Response collection tool for Incident Response that makes use of native binaries to automate the collection of Unix-like systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.</p>
 <p>UAC reads artifacts files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.</p>
 <p>The source code is available from the <a href="https://github.com/tclahr/uac">project page</a>.</p>
-<pre style="background-color: #eeeeee; border: 1px solid #999999;">
-tclahr@debian-10:~/uac$ sudo ./uac -p ir_triage /tmp
---------------------------------------------------------------------------------
-  __   __ _______ _______ 
- |: | |  |:  _   |:  ____|
- |  |_|  |  | |  |  |____ 
- |_______|__| |__|_______|
-
- Unix-like Artifacts Collector
---------------------------------------------------------------------------------
-Operating System    : linux
-System Architecture : x86_64
-Hostname            : debian-10
-Mount Point         : /
-Running as          : root
-Temp Directory      : /tmp/uac-data.tmp
---------------------------------------------------------------------------------
-Artifacts collection started...
-[001/186] live_response/process/ps.yaml
-[002/186] live_response/process/lsof.yaml
-[003/186] live_response/process/top.yaml
-...
-[184/186] files/system/var_spool.yaml
-[185/186] files/system/wifi.yaml
-[186/186] files/system/xsession_errors.yaml
---------------------------------------------------------------------------------
-Artifacts collection complete. Total running time: 113 seconds
-Creating output file. Please wait...
-Output file created '/tmp/uac-debian-10-linux-20220208063530.tar.gz'
-Hashing output file. Please wait...
-Acquisition log created '/tmp/uac-debian-10-linux-20220208063530.log'
-tclahr@debian-10:~/uac$
-</pre>
-
 <h2 id="main-features">Main features</h2>
 <ul>
 <li>Runs everywhere with no dependencies (no installation required).</li>
@@ -332,7 +300,14 @@ Validation Arguments:
 <h3 id="debug-mode">Debug mode</h3>
 <p>Debug mode <code>--debug</code> may be useful if you are trying to find the source for an error. When debug mode is on, UAC will use <code>set -x</code> to generate debugging messages, and store them into <code>uac.log.stderr</code> file.</p>
 <h3 id="file-an-issue-on-github">File an issue on Github</h3>
-<p>If you are experiencing an issue with UAC, you can create a New Issue at the <a href="https://github.com/tclahr/uac">project page</a>. See the Github <a href="https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue">guide on creating an issue</a> for more information.</p>
+<p>If you are experiencing an issue with UAC, you can create a New Issue at the <a href="https://github.com/tclahr/uac/issues">project page</a>. See the Github <a href="https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue">guide on creating an issue</a> for more information.</p>
+<h3 id="community-support">Community support</h3>
+<p>For general help using UAC, please refer to the <a href="https://tclahr.github.io/uac-docs">official UAC documentation page</a>. For additional help, you can use one of the channels to ask a question:</p>
+<ul>
+<li><a href="https://discord.com/invite/digitalforensics">Discord</a> (For live discussion with the community and UAC team)</li>
+<li><a href="https://github.com/tclahr/uac/issues">GitHub</a> (Bug reports and contributions)</li>
+<li><a href="https://twitter.com/tclahr">Twitter</a> (Get the news fast)</li>
+</ul>
 <h2 id="license">License</h2>
 <p>The UAC project uses the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License Version 2.0</a> software license.</p>
               
