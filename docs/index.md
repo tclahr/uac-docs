@@ -38,7 +38,7 @@ UAC is a command line tool, and as such, has several options that can be used to
 
 <pre class="code">
 Usage: ./uac [-h] [-V] [--debug] {-p PROFILE | -a ARTIFACTS} DESTINATION
-             [-m MOUNT_POINT] [-o OPERATING_SYSTEM] [-u] [--temp_dir PATH]
+             [-m MOUNT_POINT] [-s OPERATING_SYSTEM] [-u] [--temp_dir PATH]
              [--date-range-start YYYY-MM-DD] [--date-range-start YYYY-MM-DD]
              [--case-number CASE_NUMBER] [--description DESCRIPTION]
              [--evidence-number EVIDENCE_NUMBER] [--examiner EXAMINER]
@@ -72,7 +72,7 @@ Positional Arguments:
 Collection Arguments:
   -m, --mount-point MOUNT_POINT
                     Specify the mount point (default: /).
-  -o, --operating-system OPERATING_SYSTEM
+  -s, --operating-system OPERATING_SYSTEM
                     Specify the operating system.
                     Options: aix, android, freebsd, linux, macos, netbsd
                              netscaler, openbsd, solaris
@@ -123,7 +123,9 @@ Validation Arguments:
 
 ## Using UAC
 
-A [profile](profile_file.md) name or a list of [artifacts](artifacts_file.md), and the destination directory need to be provided in order to run a collection. The remaining parameters are optional.
+UAC does not need to be installed on the target system. You only need to download the latest version from the [releases page](https://github.com/tclahr/uac/releases), uncompress and run it. As simple as that!
+
+A [profile](profile_file.md) name and/or a list of [artifacts](artifacts_file.md), and the destination directory need to be provided in order to run a collection. The remaining parameters are optional.
 
 Common usage scenarios may include the following:
 
@@ -195,7 +197,23 @@ Debug mode ```--debug``` may be useful if you are trying to find the source for 
 
 ### File an issue on Github
 
-If you are experiencing an issue with UAC, you can create a New Issue at the [project page](https://github.com/tclahr/uac). See the Github [guide on creating an issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue) for more information.
+If you are a user and you find a bug, please submit an [issue](https://github.com/tclahr/uac/issues). Please try to provide sufficient information for someone else to reproduce the issue. One of the project's [maintainers](https://github.com/tclahr/uac/blob/master/MAINTAINERS.md) should respond to your issue soon.
+
+Please search within our [already reported bugs](https://github.com/tclahr/uac/issues) before raising a new one to make sure you're not raising a duplicate.
+
+See our [Contributing Guide](https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md) for more information.
+
+### Community support
+
+For additional help, you can use one of the channels to ask a question:
+
+- [Discord](https://discord.com/invite/digitalforensics) (For live discussion with the community and UAC team)
+- [GitHub](https://github.com/tclahr/uac/issues) (Bug reports and contributions)
+- [Twitter](https://twitter.com/tclahr) (Get the news fast)
+
+## Contributing
+
+Please read our [Contributing Guide](https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md) before submitting a Pull Request to the project.
 
 ## License
 
