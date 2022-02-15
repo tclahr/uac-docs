@@ -52,6 +52,8 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href=".">Getting started</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#unix-like-artifacts-collector">Unix-like Artifacts Collector</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#main-features">Main features</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#supported-operating-systems">Supported operating systems</a>
@@ -139,39 +141,36 @@
 <p>UAC reads artifacts files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.</p>
 <p>The source code is available from the <a href="https://github.com/tclahr/uac">project page</a>.</p>
 <!-- <pre style="border: 10px solid #333333; font-size: 90%; color: #CCCCCC; background-color: #333333;"> -->
-<pre style="border: 10px solid; font-size: 90%;">
-$ sudo ./uac -p ir_triage /tmp
-----------------------------------------------------------------------
-  __   __ _______ _______ 
+<p><code>
+$ sudo ./uac -p ir_triage /tmp</p>
+<hr />
+<p><strong>   __ _______ _______ 
  |: | |  |:  _   |:  ____|
- |  |_|  |  | |  |  |____ 
- |_______|__| |__|_______|
-
- Unix-like Artifacts Collector
-----------------------------------------------------------------------
-Operating System    : linux
+ |  |<em>|  |  | |  |  |_</em></strong> 
+ |<strong><em>_</em></strong>|<strong>| |</strong>|<strong><em>_</em></strong>|</p>
+<h2 id="unix-like-artifacts-collector">Unix-like Artifacts Collector</h2>
+<p>Operating System    : linux
 System Architecture : x86_64
 Hostname            : skeletor
 Mount Point         : /
 Running as          : root
-Temp Directory      : /tmp/uac-data.tmp
-----------------------------------------------------------------------
-Artifacts collection started...
+Temp Directory      : /tmp/uac-data.tmp</p>
+<hr />
+<p>Artifacts collection started...
 [001/217] live_response/process/ps.yaml
 [002/217] live_response/process/lsof.yaml
 [003/217] live_response/process/top.yaml
 ...
 [215/217] files/system/var_spool.yaml
 [216/217] files/system/wifi.yaml
-[217/217] files/system/xsession_errors.yaml
-----------------------------------------------------------------------
-Artifacts collection complete. Total running time: 150 seconds
+[217/217] files/system/xsession_errors.yaml</p>
+<hr />
+<p>Artifacts collection complete. Total running time: 150 seconds
 Creating output file. Please wait...
 Output file created '/tmp/uac-skeletor-linux-20220214231300.tar.gz'
 Hashing output file. Please wait...
 Acquisition log created '/tmp/uac-skeletor-linux-20220214231300.log'
-</pre>
-
+</code></p>
 <h2 id="main-features">Main features</h2>
 <ul>
 <li>Runs everywhere with no dependencies (no installation required).</li>
