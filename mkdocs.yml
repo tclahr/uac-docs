@@ -14,4 +14,3 @@ theme: readthedocs
 extra_css: [extra.css]
 plugins:
   - search
-  - mike
