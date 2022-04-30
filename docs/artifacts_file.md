@@ -74,6 +74,7 @@ The currently suppored operating systems are (case sensitive):
 | ----- | ----------- |
 | aix | Artifact applies to AIX systems. |
 | android | Artifact applies to Android systems. |
+| esxi | Artifact applies to ESXi systems. |
 | freebsd | Artifact applies to FreeBSD systems. |
 | linux | Artifact applies to Linux systems. |
 | macos | Artifact applies to macOS systems. |
