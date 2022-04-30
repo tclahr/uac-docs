@@ -1,10 +1,12 @@
 # Welcome to the Unix-like Artifacts Collector documentation
 
-UAC is a Live Response collection tool for Incident Response that makes use of native binaries to automate the collection of Unix-like systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.
+UAC is a Live Response collection script for Incident Response that makes use of native binaries and tools to automate the collection of AIX, Android, ESXi, FreeBSD, Linux, macOS, NetBSD, NetScaler, OpenBSD and Solaris systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.
 
 UAC reads artifacts files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.
 
 The source code is available from the [project page](https://github.com/tclahr/uac).
+
+[![uac_collection](img/uac_collection.gif)](#)
 
 ## Main features
 
@@ -22,15 +24,19 @@ The source code is available from the [project page](https://github.com/tclahr/u
 
 UAC runs on any Unix-like system (regardless the processor architecture). All UAC needs is shell :)
 
-- AIX
-- Android
-- FreeBSD
-- Linux
-- macOS
-- NetBSD
-- NetScaler
-- OpenBSD
-- Solaris
+[![AIX](https://img.shields.io/static/v1?label=&message=AIX&color=brightgreen&style=for-the-badge)](#)
+[![Android](https://img.shields.io/static/v1?label=&message=Android&color=green&style=for-the-badge)](#)
+[![ESXi](https://img.shields.io/static/v1?label=&message=ESXi&color=blue&style=for-the-badge)](#)
+[![FreeBSD](https://img.shields.io/static/v1?label=&message=FreeBSD&color=red&style=for-the-badge)](#)
+[![Linux](https://img.shields.io/static/v1?label=&message=Linux&color=lightgray&style=for-the-badge)](#)
+[![macOS](https://img.shields.io/static/v1?label=&message=macOS&color=blueviolet&style=for-the-badge)](#)
+[![NetBSD](https://img.shields.io/static/v1?label=&message=NetBSD&color=orange&style=for-the-badge)](#)
+
+[![NetScaler](https://img.shields.io/static/v1?label=&message=NetScaler&color=blue&style=for-the-badge)](#)
+[![OpenBSD](https://img.shields.io/static/v1?label=&message=OpenBSD&color=yellow&style=for-the-badge)](#)
+[![Solaris](https://img.shields.io/static/v1?label=&message=Solaris&color=lightblue&style=for-the-badge)](#)
+
+*Note that UAC even runs on systems like Network Attached Storage (NAS) devices, Network devices such as OpenWrt, and IoT devices.*
 
 ## Command line options
 
@@ -44,8 +50,9 @@ Usage: ./uac [-h] [-V] [--debug] {-p PROFILE | -a ARTIFACTS} DESTINATION
              [--evidence-number EVIDENCE_NUMBER] [--examiner EXAMINER]
              [--notes NOTES] [--hostname HOSTNAME] [--stfp SERVER] 
              [--sftp-port PORT] [--sftp-identity-file FILE]
-             [--sftp-delete-local-on-success] [--debug]
-   or: ./uac --validate-artifacts-file FILE
+             [--s3-presigned-url URL] [--s3-presigned-url-log-file URL]
+             [--delete-local-on-successful-transfer] [--debug]
+   or: $0 --validate-artifacts-file FILE
 
 Optional Arguments:
   -h, --help        Display this help and exit.
@@ -67,18 +74,20 @@ Profiling Arguments:
                     Use '--artifacts list' to list available artifacts.
 
 Positional Arguments:
-  DESTINATION       Specify the directory the output file will be created in.
+  DESTINATION       Specify the directory the output file should be copied to.
 
 Collection Arguments:
   -m, --mount-point MOUNT_POINT
                     Specify the mount point (default: /).
   -s, --operating-system OPERATING_SYSTEM
                     Specify the operating system.
-                    Options: aix, android, freebsd, linux, macos, netbsd
+                    Options: aix, android, esxi, freebsd, linux, macos, netbsd
                              netscaler, openbsd, solaris
   -u, --run-as-non-root
                     Disable root user check.
                     Note that data collection may be limited.
+      --hostname HOSTNAME
+                    Specify the target system hostname.
       --temp-dir PATH   
                     Write all temporary data to this directory.
 
@@ -101,8 +110,6 @@ Informational Arguments:
                     Specify the examiner name.
       --notes NOTES
                     Specify the notes.
-      --hostname HOSTNAME
-                    Specify the target system hostname.
 
 Remote Transfer Arguments:
       --sftp SERVER
@@ -113,8 +120,12 @@ Remote Transfer Arguments:
       --sftp-identity-file FILE
                     File from which the identity (private key) for public key
                     authentication is read.
-      --sftp-delete-local-on-success
-                    Delete local output file on successful transfer.
+      --s3-presigned-url URL
+                    Transfer output file to AWS S3 using a presigned URL.
+      --s3-presigned-url-log-file URL
+                    Transfer log file to AWS S3 using a presigned URL.
+      --delete-local-on-successful-transfer
+                    Delete local output and log files on successful transfer.
 
 Validation Arguments:
       --validate-artifacts-file FILE
@@ -126,6 +137,125 @@ Validation Arguments:
 UAC does not need to be installed on the target system. You only need to download the latest version from the [releases page](https://github.com/tclahr/uac/releases), uncompress and run it. As simple as that!
 
 A [profile](profile_file.md) name and/or a list of [artifacts](artifacts_file.md), and the destination directory need to be provided in order to run a collection. The remaining parameters are optional.
+
+### Command line options
+
+**-p, --profile**
+
+Specify the collection profile name. Profiles are used to define the list of artifacts that will be collected during the execution. They are YAML files located in the ```profiles``` directory.
+
+Use '--profile list' to list available profiles.
+
+**-a, --artifacts**
+
+Specify the artifacts to be collected during the collection. Artifacts are used to define parameters that will be used by a [collector](collectors.md) to collect data. They are YAML files located in the ```artifacts``` directory.
+
+You can specify multiple artifacts at once by separating them with a comma (no spaces). Each element can be prepended with an exclamation mark to exclude the artifact. Special characters such as ! and * must be escaped with a backslash.
+
+Use '--artifacts list' to list available artifacts.
+
+Examples:
+```shell
+--artifacts files/logs/\*,\!files/logs/var_log.yaml
+```
+
+**DESTINATION**
+
+The directory where the output and acquisition log files should be copied to.
+
+### Collection options
+
+**-m, --mount-point**
+
+The mount point where the files will be collected from. Default is /.
+
+**-s, --operating-system**
+
+This option can be used to force UAC to collect artifacts for a given operating system. By default, UAC will always try to identify the target operating system automatically.
+
+Accepted values: aix, android, esxi, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris
+
+**-u, --run-as-non-root**
+
+Disable root user check. Note that artifacts collection may be limited.
+
+**--hostname**
+
+The target system hostname to be used as part of the output file name. By default, UAC will always try to identify the target system's hostname.
+
+**--temp-dir**
+
+The directory UAC will use to store temporary data.
+
+### Filter options
+
+**--date-range-start**
+
+Only collects files that were last modified/accessed/changed after the given date. Value needs to be in YYYY-MM-DD format.
+
+**--date-range-end**
+
+Only collects files that were last modified/accessed/changed before the given date. Value needs to be in YYYY-MM-DD format.
+
+### Case information options
+
+**--case-number**
+
+The case number.
+
+**--description**
+
+The case description.
+
+**--evidence-number**
+
+The evidence number.
+
+**--examiner**
+
+The examiner's name.
+
+**--notes**
+
+The case notes.
+
+### SFTP options
+
+**--sftp**
+
+SFTP server host/IP for transferring the output and acquisition log files. It must be specified in the form [user@]host:[path]
+
+**--sftp-port**
+
+SFTP server port. Default is 22.
+
+**--sftp-identity-file**
+
+File from which the identity (private key) for public key authentication is read.
+
+### S3 options
+
+**--s3-presigned-url**
+
+This allows for using a presigned URL to upload the output file to S3 (if curl available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+
+**--s3-presigned-url-log-file**
+
+This allows for using a presigned URL to upload the acquisition log file to S3 (if curl available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+
+### Diagnostic options
+
+**--debug**
+
+Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored into the ```uac.log.stderr``` file.
+
+### Other options
+
+**--delete-local-on-successful-transfer**
+
+Delete the local output and acquisition log file if they were successfully transferred to a remote destination such as a SFTP server or S3.
+
+### Examples
 
 Common usage scenarios may include the following:
 
@@ -213,7 +343,9 @@ For additional help, you can use one of the channels to ask a question:
 
 ## Contributing
 
-Please read our [Contributing Guide](https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md) before submitting a Pull Request to the project.
+Have you created your own artifact files? Please share them with us!
+
+You can contribute with new artifacts, profiles, bug fixes or even proposing new features. Please read our [Contributing Guide](https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md) before submitting a Pull Request to the project.
 
 ## License
 
