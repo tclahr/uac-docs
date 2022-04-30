@@ -6,6 +6,7 @@ There are some variables that can be used that will be replaced by UAC at runtim
 |---|---|
 |%uac_directory%|Replaced with the full path to where uac was run from|
 |%output_file%|Replaced with the file name set in the output_file option|
+|%destination_directory%|Replaced with the full path to the destination directory along with the path to the artifact appended to it|
 |%mount_point%|Replaced with the full path of the target mount point|
 |%start_date%|Replaced with the date specified for --date-range-start|
 |%start_date_epoch%|Replaced with the epoch converted date specified for --date-range-start|
