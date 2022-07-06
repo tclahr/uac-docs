@@ -23,7 +23,7 @@ The profile name. This is the name UAC uses to find the correct profile file dur
 ## description
 <span class="required">Required</span>
 
-Describes the purpose of the profile as a whole. It should contain all the details about what kind of collection will be performed. No like breaks supported.
+Describes the purpose of the profile as a whole. It should contain all the details about what kind of collection will be performed. No line breaks are supported.
 
 ## artifacts
 <span class="required">Required</span>
@@ -32,7 +32,7 @@ Set of artifacts files that will be used during the collection. All available ar
 
 Artifacts files will be executed in the same order they were added to the profile file.
 
-The example below shows a profile file which will collect ```ps```, and then ```lsof``` artifacts.
+The example below shows a profile file that will collect `ps````, and then ```lsof``` artifacts.
 
 ```yaml
 name: myprofile
@@ -42,7 +42,7 @@ artifacts:
   - live_response/process/lsof.yaml
 ```
 
-Wildcards and regex patterns (globbing) are also supported to refer to artifacts files. The example below shows a profile which will collect all artifacts located in the ```live_response/process``` directory. Note that the artifacts files will be parsed in alphabetical order in this case.
+Wildcards and regex patterns (globbing) are also supported to refer to artifacts files. The example below shows a profile that will collect all artifacts located in the ```live_response/process``` directory. Note that the artifacts files will be parsed in alphabetical order in this case.
 
 ```yaml
 name: myprofile
@@ -51,7 +51,7 @@ artifacts:
   - live_response/process/*
 ```
 
-Artifacts files can also be skipped from collection using the exclamation mark (!) before the artifacts file path. The example below shows a profile which will collect all artifacts located in the ```files``` directory (and subdirectories), excluding ```files/logs/additional_logs.yaml``` and all artifacts files located in ```files/applications``` directory.
+Artifacts files can also be skipped from the collection using the exclamation mark (!) before the artifacts file path. The example below shows a profile that will collect all artifacts located in the ```files``` directory (and subdirectories), excluding ```files/logs/additional_logs.yaml``` and all artifacts files located in ```files/applications``` directory.
 
 ```yaml
 name: myprofile
