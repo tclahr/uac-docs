@@ -208,8 +208,6 @@ artifacts:
     output_file: cmdline.txt
 ```
 
-For keeping consistencies across all supported operating systems (and different ```find``` tool versions), it is recommended that all directory names end with a ```/*``` (slash asterisks).
-
 Search all files and directories within ```/etc```. Note the use of a ```*``` at the end of the path.
 
 ```yaml
@@ -218,7 +216,7 @@ artifacts:
     description: Search all files and directories within /etc.
     supported_os: [all]
     collector: find
-    path: /etc/*
+    path: /etc
     output_file: etc.txt
 ```
 
@@ -275,7 +273,7 @@ artifacts:
     description: Search all wtmp and utmp files.
     supported_os: [all]
     collector: find
-    path: /var/*
+    path: /var
     name_pattern: ["wtmp", "btmp"]
     output_file: wtmp_btmp.txt
 ```
@@ -288,7 +286,7 @@ artifacts:
     description: Search all HTML and TXT files.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     name_pattern: ["*.html", "*.txt"]
     output_file: all_html_txt.txt
 ```
@@ -299,7 +297,7 @@ artifacts:
     description: Search all .log and .Log (capital L) files.
     supported_os: [all]
     collector: find
-    path: /var/log/*
+    path: /var/log
     name_pattern: ["*.[Ll]og"]
     output_file: all_log_files.txt
 ```
@@ -319,7 +317,7 @@ artifacts:
     description: Search all excluding /etc and /var.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     exclude_path_pattern: ["/dev", "/var"]
     output_file: all_excluding_etc_var.txt
 ```
@@ -341,7 +339,7 @@ artifacts:
     description: Search /etc excluding passwd and shadow* files.
     supported_os: [all]
     collector: find
-    path: /etc/*
+    path: /etc
     exclude_name_pattern: ["passwd", "shadow*"]
     output_file: etc_excluding_passwd_shadow.txt
 ```
@@ -359,7 +357,7 @@ artifacts:
     description: Search all files excluding any files located in procfs, nfs and devfs file systems.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     exclude_file_system: [procfs, nfs, devfs]
     output_file: exclude_procfs_nfs_devfs.txt
 ```
@@ -375,7 +373,7 @@ artifacts:
     description: Descend at most 5 levels of directories below /.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     max_depth: 5
     output_file: max_5_levels.txt
 ```
@@ -403,7 +401,7 @@ artifacts:
     description: Search files only.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     output_file: files_only.txt
 ```
@@ -414,7 +412,7 @@ artifacts:
     description: Search directories only.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: d
     output_file: directories_only.txt
 ```
@@ -430,7 +428,7 @@ artifacts:
     description: Search all files bigger than 1048576 bytes.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     min_file_size: 1048576
     output_file: bigger_than.txt
@@ -447,7 +445,7 @@ artifacts:
     description: Search all files smaller than 1048576 bytes.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     max_file_size: 1048576
     output_file: smaller_than.txt
@@ -470,7 +468,7 @@ artifacts:
     description: Search files that have permissions set to 755.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     permissions: 755
     output_file: all_755_permissions.txt
@@ -484,7 +482,7 @@ artifacts:
     description: Search for files that have SUID bit set.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     permissions: -4000
     output_file: suid_files.txt
@@ -505,7 +503,7 @@ artifacts:
     description: Search /etc regardless date range set by --date-range-start and --date-range-end.
     supported_os: [all]
     collector: find
-    path: /etc/*
+    path: /etc
     ignore_date_range: true
     output_file: ignore_date_range.txt
 ```
@@ -537,13 +535,13 @@ artifacts:
     description: Search all files and directories from /etc.
     supported_os: [all]
     collector: find
-    path: /etc/*
+    path: /etc
     output_file: same_output_file.txt
   -
     description: Search all files and directories from /var/log.
     supported_os: [all]
     collector: find
-    path: /var/log/*
+    path: /var/log
     output_file: same_output_file.txt
 ```
 
@@ -583,7 +581,7 @@ artifacts:
     description: Hash all files smaller than 3072000 bytes.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     exclude_file_system: [proc, procfs]
     file_type: f
     max_depth: 4
@@ -611,8 +609,6 @@ artifacts:
     output_file: hash_bin_sh.txt
 ```
 
-For keeping consistencies across all supported operating systems (and different ```find``` tool versions), it is recommended that all directory names end with a ```/*``` (slash asterisks).
-
 Hash all files within ```/etc```. Note the use of a ```*``` at the end of the path.
 
 ```yaml
@@ -621,7 +617,7 @@ artifacts:
     description: Hash all files and directories within /etc.
     supported_os: [all]
     collector: hash
-    path: /etc/*
+    path: /etc
     output_file: hashes_etc.txt
 ```
 
@@ -694,7 +690,7 @@ artifacts:
     description: Hash all wtmp and utmp files.
     supported_os: [all]
     collector: hash
-    path: /var/*
+    path: /var
     name_pattern: ["wtmp", "btmp"]
     output_file: hash_wtmp_btmp.txt
 ```
@@ -707,7 +703,7 @@ artifacts:
     description: Hash all HTML and TXT files.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     name_pattern: ["*.html", "*.txt"]
     output_file: hash_all_html_txt
 ```
@@ -718,7 +714,7 @@ artifacts:
     description: Hash all .log and .Log (capital L) files.
     supported_os: [all]
     collector: hash
-    path: /var/log/*
+    path: /var/log
     name_pattern: ["*.[Ll]og"]
     output_file: hash_all_log_files
 ```
@@ -738,7 +734,7 @@ artifacts:
     description: Hash all files excluding /etc and /var.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     exclude_path_pattern: ["/dev", "/var"]
     output_file: all_excluding_etc_var.txt
 ```
@@ -760,7 +756,7 @@ artifacts:
     description: Hash all from /etc excluding passwd and shadow* files.
     supported_os: [all]
     collector: hash
-    path: /etc/*
+    path: /etc
     exclude_name_pattern: ["passwd", "shadow*"]
     output_file: hash_etc_excluding_passwd_shadow.txt
 ```
@@ -778,7 +774,7 @@ artifacts:
     description: Hash all files excluding any files located in procfs, nfs and devfs file systems.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     exclude_file_system: [procfs, nfs, devfs]
     file_type: f
     output_file: hash_all_exclude_procfs_nfs_devfs.txt
@@ -795,7 +791,7 @@ artifacts:
     description: Descend at most 5 levels of directories below /.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     max_depth: 5
     output_file: hash_max_5_levels.txt
 ```
@@ -823,7 +819,7 @@ artifacts:
     description: Hash files only
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     output_file: files_only.txt
 ```
@@ -839,7 +835,7 @@ artifacts:
     description: Hash all files bigger than 1048576 bytes
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     file_type: f
     min_file_size: 1048576
     output_file: hash_bigger_than.txt
@@ -856,7 +852,7 @@ artifacts:
     description: Hash all files smaller than 1048576 bytes
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     file_type: f
     max_file_size: 1048576
     output_file: hash_smaller_than.txt
@@ -879,7 +875,7 @@ artifacts:
     description: Hash files that have permissions set to 755.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     file_type: f
     permissions: 755
     output_file: hash_all_755_permissions.txt
@@ -893,7 +889,7 @@ artifacts:
     description: Hash all files that have SUID bit set.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     file_type: f
     permissions: -4000
     output_file: hash_suid_files.txt
@@ -914,7 +910,7 @@ artifacts:
     description: Hash all files from /etc regardless date range set by --date-range-start and --date-range-end.
     supported_os: [all]
     collector: hash
-    path: /etc/*
+    path: /etc
     ignore_date_range: true
     output_file: hash_ignore_date_range.txt
 ```
@@ -948,13 +944,13 @@ artifacts:
     description: Hash all files and directories from /etc.
     supported_os: [all]
     collector: hash
-    path: /etc/*
+    path: /etc
     output_file: same_output_file.txt
   -
     description: Hash all files and directories from /var/log.
     supported_os: [all]
     collector: hash
-    path: /var/log/*
+    path: /var/log
     output_file: same_output_file.txt
 ```
 
@@ -994,7 +990,7 @@ artifacts:
     description: Stat all files.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     output_file: stat.txt
 
@@ -1019,8 +1015,6 @@ artifacts:
     output_file: stat_bin_sh.txt
 ```
 
-For keeping consistences across all supported operating systems (and different ```find``` tool versions), it is recommended that all directory names ends with a ```/*``` (slash asterisks).
-
 Stat all files  within ```/etc```. Note the use of a ```*``` at the end of the path.
 
 ```yaml
@@ -1029,7 +1023,7 @@ artifacts:
     description: Stat all files and directories within /etc.
     supported_os: [all]
     collector: stat
-    path: /etc/*
+    path: /etc
     output_file: stat_etc.txt
 ```
 
@@ -1102,7 +1096,7 @@ artifacts:
     description: Stat all wtmp and utmp files.
     supported_os: [all]
     collector: stat
-    path: /var/*
+    path: /var
     name_pattern: ["wtmp", "btmp"]
     output_file: stat_wtmp_btmp.txt
 ```
@@ -1115,7 +1109,7 @@ artifacts:
     description: Stat all HTML and TXT files.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     name_pattern: ["*.html", "*.txt"]
     output_file: stat_all_html_txt
 ```
@@ -1126,7 +1120,7 @@ artifacts:
     description: Stat all .log and .Log (capital L) files.
     supported_os: [all]
     collector: stat
-    path: /var/log/*
+    path: /var/log
     name_pattern: ["*.[Ll]og"]
     output_file: stat_all_log_files
 ```
@@ -1146,7 +1140,7 @@ artifacts:
     description: Stat all files excluding /etc and /var.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     exclude_path_pattern: ["/dev", "/var"]
     output_file: stat_all_excluding_etc_var.txt
 ```
@@ -1168,7 +1162,7 @@ artifacts:
     description: Stat all from /etc excluding passwd and shadow* files.
     supported_os: [all]
     collector: stat
-    path: /etc/*
+    path: /etc
     exclude_name_pattern: ["passwd", "shadow*"]
     output_file: stat_etc_excluding_passwd_shadow.txt
 ```
@@ -1186,7 +1180,7 @@ artifacts:
     description: Stat all files excluding any files located in procfs, nfs and devfs file systems.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     exclude_file_system: [procfs, nfs, devfs]
     file_type: f
     output_file: stat_all_exclude_procfs_nfs_devfs.txt
@@ -1203,7 +1197,7 @@ artifacts:
     description: Descend at most 5 levels of directories below /.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     max_depth: 5
     output_file: stat_max_5_levels.txt
 ```
@@ -1231,7 +1225,7 @@ artifacts:
     description: Stat files only.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     output_file: stat_files_only.txt
 ```
@@ -1242,7 +1236,7 @@ artifacts:
     description: Stat directories only.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: d
     output_file: stat_directories_only.txt
 ```
@@ -1258,7 +1252,7 @@ artifacts:
     description: Stat all files bigger than 1048576 bytes.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     min_file_size: 1048576
     output_file: stat_bigger_than.txt
@@ -1275,7 +1269,7 @@ artifacts:
     description: Stat all files smaller than 1048576 bytes.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     max_file_size: 1048576
     output_file: stat_smaller_than.txt
@@ -1298,7 +1292,7 @@ artifacts:
     description: Stat files that have permissions set to 755.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     permissions: 755
     output_file: stat_all_755_permissions.txt
@@ -1312,7 +1306,7 @@ artifacts:
     description: Stat all files that have SUID bit set.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     permissions: -4000
     output_file: stat_suid_files.txt
@@ -1333,7 +1327,7 @@ artifacts:
     description: Stat all files from /etc regardless date range set by --date-range-start and --date-range-end.
     supported_os: [all]
     collector: stat
-    path: /etc/*
+    path: /etc
     ignore_date_range: true
     output_file: stat_ignore_date_range.txt
 ```
@@ -1365,13 +1359,13 @@ artifacts:
     description: Stat all files and directories from /etc.
     supported_os: [all]
     collector: stat
-    path: /etc/*
+    path: /etc
     output_file: same_output_file.txt
   -
     description: Stat all files and directories from /var/log.
     supported_os: [all]
     collector: stat
-    path: /var/log/*
+    path: /var/log
     output_file: same_output_file.txt
 ```
 
@@ -1411,7 +1405,7 @@ artifacts:
     description: Collect all files within /var/log (recursive).
     supported_os: [all]
     collector: file
-    path: /var/log/*
+    path: /var/log
     file_type: f
 ```
 
@@ -1433,8 +1427,6 @@ artifacts:
     path: /bin/sh
 ```
 
-For keeping consistencies across all supported operating systems (and different ```find``` tool versions), it is recommended that all directory names ends with a ```/*``` (slash asterisks).
-
 Collect all files from ```/etc```. Note the use of a ```*``` at the end of the path.
 
 ```yaml
@@ -1443,7 +1435,7 @@ artifacts:
     description: Collect all files and directories within /etc.
     supported_os: [all]
     collector: file
-    path: /etc/*
+    path: /etc
 ```
 
 Note that you need to use quotation marks when specifying paths with spaces.
@@ -1512,7 +1504,7 @@ artifacts:
     description: Collect all wtmp and utmp files.
     supported_os: [all]
     collector: file
-    path: /var/*
+    path: /var
     name_pattern: ["wtmp", "btmp"]
 ```
 
@@ -1524,7 +1516,7 @@ artifacts:
     description: Collect all HTML and TXT files.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     name_pattern: ["*.html", "*.txt"]
 ```
 
@@ -1534,7 +1526,7 @@ artifacts:
     description: Collect all .log and .Log (capital L) files.
     supported_os: [all]
     collector: file
-    path: /var/log/*
+    path: /var/log
     name_pattern: ["*.[Ll]og"]
 ```
 
@@ -1553,7 +1545,7 @@ artifacts:
     description: Collect all files excluding /etc and /var.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     exclude_path_pattern: ["/dev", "/var"]
 ```
 
@@ -1574,7 +1566,7 @@ artifacts:
     description: Collect all from /etc excluding passwd and shadow* files.
     supported_os: [all]
     collector: file
-    path: /etc/*
+    path: /etc
     exclude_name_pattern: ["passwd", "shadow*"]
 ```
 
@@ -1591,7 +1583,7 @@ artifacts:
     description: Collect all files excluding any files located in procfs, nfs and devfs file systems.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     exclude_file_system: [procfs, nfs, devfs]
     file_type: f
 ```
@@ -1607,7 +1599,7 @@ artifacts:
     description: Descend at most 5 levels of directories below /.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     max_depth: 5
 ```
 
@@ -1634,7 +1626,7 @@ artifacts:
     description: Collect files only.
     supported_os: [all]
     collector: file
-    path: /var/log/*
+    path: /var/log
     file_type: f
 ```
 
@@ -1649,7 +1641,7 @@ artifacts:
     description: Collect all files bigger than 1048576 bytes.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     file_type: f
     min_file_size: 1048576
 ```
@@ -1665,7 +1657,7 @@ artifacts:
     description: Collect all files smaller than 1048576 bytes.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     file_type: f
     max_file_size: 1048576
 ```
@@ -1687,7 +1679,7 @@ artifacts:
     description: Collect files that have permissions set to 755.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     file_type: f
     permissions: 755
 ```
@@ -1700,7 +1692,7 @@ artifacts:
     description: Collect all files that have SUID bit set.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     file_type: f
     permissions: -4000
 ```
@@ -1720,7 +1712,7 @@ artifacts:
     description: Collect all files from /etc regardless date range set by --date-range-start and --date-range-end.
     supported_os: [all]
     collector: file
-    path: /etc/*
+    path: /etc
     ignore_date_range: true
 ```
 
