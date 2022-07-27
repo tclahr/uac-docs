@@ -10,6 +10,8 @@ nav:
     - 'Exposed variables': exposed_vars.md
   - 'OUTPUT FILE':
     - 'Output file format': output_file.md
+  - 'OTHER':
+    - 'Super Timeline creation': super_timeline.md
 theme: readthedocs
 extra_css: [extra.css]
 plugins:
