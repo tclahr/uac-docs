@@ -22,7 +22,7 @@ The source code is available from the [project page](https://github.com/tclahr/u
 
 ## Supported operating systems
 
-UAC runs on any Unix-like system (regardless the processor architecture). All UAC needs is shell :)
+UAC runs on any Unix-like system (regardless of the processor architecture). All UAC needs is shell :)
 
 [![AIX](https://img.shields.io/static/v1?label=&message=AIX&color=brightgreen&style=for-the-badge)](#)
 [![Android](https://img.shields.io/static/v1?label=&message=Android&color=green&style=for-the-badge)](#)
@@ -94,10 +94,10 @@ Collection Arguments:
 Filter Arguments:
       --date-range-start YYYY-MM-DD
                     Only collects files that were last modified/accessed/changed
-                    after given date.
+                    after the given date.
       --date-range-end YYYY-MM-DD
                     Only collects files that were last modified/accessed/changed
-                    before given date.
+                    before the given date.
 
 Informational Arguments:
       --case-number CASE_NUMBER
@@ -118,12 +118,12 @@ Remote Transfer Arguments:
       --sftp-port PORT
                     Remote SFTP server port (default: 22).
       --sftp-identity-file FILE
-                    File from which the identity (private key) for public key
+                    File from which the identity (private key) for public-key
                     authentication is read.
       --s3-presigned-url URL
-                    Transfer output file to AWS S3 using a presigned URL.
+                    Transfer output file to AWS S3 using a pre-signed URL.
       --s3-presigned-url-log-file URL
-                    Transfer log file to AWS S3 using a presigned URL.
+                    Transfer log file to AWS S3 using a pre-signed URL.
       --delete-local-on-successful-transfer
                     Delete local output and log files on successful transfer.
 
@@ -136,7 +136,9 @@ Validation Arguments:
 
 UAC does not need to be installed on the target system. You only need to download the latest version from the [releases page](https://github.com/tclahr/uac/releases), uncompress and run it. As simple as that!
 
-A [profile](profile_file.md) name and/or a list of [artifacts](artifacts_file.md), and the destination directory need to be provided in order to run a collection. The remaining parameters are optional.
+A [profile](profile_file.md) name and/or a list of [artifacts](artifacts_file.md), and the destination directory need to be provided to run a collection. The remaining parameters are optional.
+
+You can use as many --artifacts (-a) and --profile (-p) as you want to build an even more customized collection. Artifacts will be collected in the order they were provided in the command line. Note that duplicated artifacts will be collected only once.
 
 ### Command line options
 
@@ -145,6 +147,16 @@ A [profile](profile_file.md) name and/or a list of [artifacts](artifacts_file.md
 Specify the collection profile name. Profiles are used to define the list of artifacts that will be collected during the execution. They are YAML files located in the ```profiles``` directory.
 
 Use '--profile list' to list available profiles.
+
+Examples:
+
+```shell
+-p ir_triage
+```
+
+```shell
+-p ir_triage -p my_custom_profile
+```
 
 **-a, --artifacts**
 
@@ -155,8 +167,13 @@ You can specify multiple artifacts at once by separating them with a comma (no s
 Use '--artifacts list' to list available artifacts.
 
 Examples:
+
 ```shell
---artifacts files/logs/\*,\!files/logs/var_log.yaml
+-a files/logs/\*,\!files/logs/var_log.yaml
+```
+
+```shell
+-a live_response/\* -a files/logs/\* -a \!files/logs/var_log.yaml
 ```
 
 **DESTINATION**
@@ -231,29 +248,29 @@ SFTP server port. Default is 22.
 
 **--sftp-identity-file**
 
-File from which the identity (private key) for public key authentication is read.
+File from which the identity (private key) for public-key authentication is read.
 
 ### S3 options
 
 **--s3-presigned-url**
 
-This allows for using a presigned URL to upload the output file to S3 (if curl available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+This allows for using a pre-signed URL to upload the output file to S3 (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
 
 **--s3-presigned-url-log-file**
 
-This allows for using a presigned URL to upload the acquisition log file to S3 (if curl available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+This allows for using a pre-signed URL to upload the acquisition log file to S3 (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
 
 ### Diagnostic options
 
 **--debug**
 
-Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored into the ```uac.log.stderr``` file.
+Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored in the `uac.log`.stderr``` file.
 
 ### Other options
 
 **--delete-local-on-successful-transfer**
 
-Delete the local output and acquisition log file if they were successfully transferred to a remote destination such as a SFTP server or S3.
+Delete the local output and acquisition log files if they were successfully transferred to a remote destination such as an SFTP server or S3.
 
 ### Examples
 
@@ -277,13 +294,19 @@ Common usage scenarios may include the following:
 ./uac -p full -a \!bodyfile/bodyfile.yaml /tmp
 ```
 
-- Note that when a profile and a list of artifacts are provided, the artifacts from the profile will always be collected first, even if the parameter ```-a``` was provided before ```-p``` in the command line. In the example below, the ```memory_dump/avml.yaml``` artifact will only be collected after all artifacts from ```full``` profile were collected.
+- Collect the memory dump, then all artifacts based on the ```full``` profile.
 
 ```shell
 ./uac -a memory_dump/avml.yaml -p full /tmp
 ```
 
-- Collect all artifacts based on the ```full``` profile, but limiting the data collection based on the date range provided.
+- Collect the memory dump, then all artifacts based on the ```ir_triage``` and ```my_custom_profile01``` profiles, and excludes the ```bodyfile/bodyfile.yaml``` artifact.
+
+```shell
+./uac -a memory_dump/avml.yaml -p ir_triage -p my_custom_profile01 -a \!bodyfile/bodyfile.yaml /tmp
+```
+
+- Collect all artifacts based on the ```full``` profile, but limit the data collection based on the date range provided.
 
 ```shell
 ./uac -p full /tmp --date-range-start 2021-05-01 --date-range-end 2021-08-31
@@ -307,7 +330,7 @@ It is recommended that you validate your custom artifacts files before running a
 
 Place your validated binary files in the ```[uac_directory]\bin``` directory if you want them to be executed instead of the built-in ones provided by the target operating system.
 
-UAC will detect and run CPU architecture specific executable files, so they need to be placed within the following directory structure: ```[uac_directory]\bin\[operating_system]\[architecture]```.
+UAC will detect and run CPU architecture-specific executable files, so they need to be placed within the following directory structure: ```[uac_directory]\bin\[operating_system]\[architecture]```.
 
 Operating system must be one of the following options (in lowercase): android, aix, freebsd, linux, macos, netbsd, netscaler, openbsd or solaris.
 
@@ -345,7 +368,7 @@ For additional help, you can use one of the channels to ask a question:
 
 Have you created your own artifact files? Please share them with us!
 
-You can contribute with new artifacts, profiles, bug fixes or even proposing new features. Please read our [Contributing Guide](https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md) before submitting a Pull Request to the project.
+You can contribute with new artifacts, profiles, bug fixes or even propose new features. Please read our [Contributing Guide](https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md) before submitting a Pull Request to the project.
 
 ## License
 

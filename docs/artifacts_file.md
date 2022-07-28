@@ -6,7 +6,7 @@ Artifacts files should always be created for artifacts that can be grouped toget
 
 UAC reads artifacts files on the fly and, based on their contents, collects relevant artifacts using one of the 5 available [collectors](collectors.md).
 
-The example below contains 2 set of rules, which the first one uses the [hash](collectors.md#hash-collector) collector, and the second one uses the [command](collectors.md#command-collector) collector to collect the artifacts.
+The example below contains 2 sets of rules, the first one uses the [hash](collectors.md#hash-collector) collector, and the second one uses the [command](collectors.md#command-collector) collector to collect the artifacts.
 
 ```yaml
 version: 1.0
@@ -30,12 +30,12 @@ An artifact file has one required field at the top of the file [version](#versio
 ## version
 <span class="required">Required</span>
 
-The artifact file version. It needs to be updated everytime a new artifact is added or changed.
+The artifact file version. It needs to be updated every time a new artifact is added or changed.
 
 ## artifacts
 <span class="required">Required</span>
 
-Set of rules (sequence of mappings) that defines what artifact will be collected. 
+Set of rules (sequence of mappings) that define what artifact will be collected. 
 
 An artifact rule has three mandatory fields [description](#description), [supported_os](#supported_os) and [collector](#collector), followed by additional fields depending on the [collector](collectors.md) chosen.
 
@@ -61,14 +61,14 @@ artifacts:
 ### description
 <span class="required">Required</span>
 
-One line description of what will be collected. No like breaks supported.
+One-line description of what will be collected. No line breaks supported.
 
 ### supported_os
 <span class="required">Required</span>
 
 List of operating systems that the artifact applies to. Use ```all``` if the artifact applies to all operating systems.
 
-The currently suppored operating systems are (case sensitive):
+The currently supported operating systems are (case sensitive):
 
 | Value | Description |
 | ----- | ----------- |

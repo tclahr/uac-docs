@@ -1,6 +1,6 @@
 # Exposed variables
 
-There are some variables that can be used that will be replaced by UAC at runtime:
+Some variables can be used and will be replaced by UAC at runtime:
 
 |Variable Name|Description|
 |---|---|
@@ -13,7 +13,7 @@ There are some variables that can be used that will be replaced by UAC at runtim
 |%end_date%|Replaced with the date specified for --date-range-end|
 |%end_date_epoch%|Replaced with the epoch converted date specified for --date-range-end|
 
-The following two variables will trigger a loop which UAC will run the command across all users.
+The following two variables will trigger a loop in which UAC will run the command across all users.
 
 |Variable Name|Description|
 |---|---|
