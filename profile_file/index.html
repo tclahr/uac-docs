@@ -70,6 +70,11 @@
                   <li class="toctree-l1"><a class="reference internal" href="../output_file/">Output file format</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">OTHER</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../super_timeline/">Super Timeline creation</a>
+                  </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -111,25 +116,25 @@ artifacts:
 <p>The profile name. This is the name UAC uses to find the correct profile file during the script execution.</p>
 <h2 id="description">description</h2>
 <p><span class="required">Required</span></p>
-<p>Describes the purpose of the profile as a whole. It should contain all the details about what kind of collection will be performed. No like breaks supported.</p>
+<p>Describes the purpose of the profile as a whole. It should contain all the details about what kind of collection will be performed. No line breaks are supported.</p>
 <h2 id="artifacts">artifacts</h2>
 <p><span class="required">Required</span></p>
 <p>Set of artifacts files that will be used during the collection. All available artifacts files are located in the <code>artifacts</code> directory.</p>
 <p>Artifacts files will be executed in the same order they were added to the profile file.</p>
-<p>The example below shows a profile file which will collect <code>ps</code>, and then <code>lsof</code> artifacts.</p>
+<p>The example below shows a profile file that will collect `ps<code>`, and then</code>lsof``` artifacts.</p>
 <pre><code class="language-yaml">name: myprofile
 description: My profile.
 artifacts:
   - live_response/process/ps.yaml
   - live_response/process/lsof.yaml
 </code></pre>
-<p>Wildcards and regex patterns (globbing) are also supported to refer to artifacts files. The example below shows a profile which will collect all artifacts located in the <code>live_response/process</code> directory. Note that the artifacts files will be parsed in alphabetical order in this case.</p>
+<p>Wildcards and regex patterns (globbing) are also supported to refer to artifacts files. The example below shows a profile that will collect all artifacts located in the <code>live_response/process</code> directory. Note that the artifacts files will be parsed in alphabetical order in this case.</p>
 <pre><code class="language-yaml">name: myprofile
 description: My profile.
 artifacts:
   - live_response/process/*
 </code></pre>
-<p>Artifacts files can also be skipped from collection using the exclamation mark (!) before the artifacts file path. The example below shows a profile which will collect all artifacts located in the <code>files</code> directory (and subdirectories), excluding <code>files/logs/additional_logs.yaml</code> and all artifacts files located in <code>files/applications</code> directory.</p>
+<p>Artifacts files can also be skipped from the collection using the exclamation mark (!) before the artifacts file path. The example below shows a profile that will collect all artifacts located in the <code>files</code> directory (and subdirectories), excluding <code>files/logs/additional_logs.yaml</code> and all artifacts files located in <code>files/applications</code> directory.</p>
 <pre><code class="language-yaml">name: myprofile
 description: My profile.
 artifacts:

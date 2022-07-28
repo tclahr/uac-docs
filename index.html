@@ -110,6 +110,11 @@
                   <li class="toctree-l1"><a class="reference internal" href="output_file/">Output file format</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">OTHER</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="super_timeline/">Super Timeline creation</a>
+                  </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -152,7 +157,7 @@
 <li>Acquires volatile memory from Linux systems using Microsoft's <a href="https://github.com/microsoft/avml">avml</a> tool.</li>
 </ul>
 <h2 id="supported-operating-systems">Supported operating systems</h2>
-<p>UAC runs on any Unix-like system (regardless the processor architecture). All UAC needs is shell :)</p>
+<p>UAC runs on any Unix-like system (regardless of the processor architecture). All UAC needs is shell :)</p>
 <p><a href="#"><img alt="AIX" src="https://img.shields.io/static/v1?label=&amp;message=AIX&amp;color=brightgreen&amp;style=for-the-badge" /></a>
 <a href="#"><img alt="Android" src="https://img.shields.io/static/v1?label=&amp;message=Android&amp;color=green&amp;style=for-the-badge" /></a>
 <a href="#"><img alt="ESXi" src="https://img.shields.io/static/v1?label=&amp;message=ESXi&amp;color=blue&amp;style=for-the-badge" /></a>
@@ -218,10 +223,10 @@ Collection Arguments:
 Filter Arguments:
       --date-range-start YYYY-MM-DD
                     Only collects files that were last modified/accessed/changed
-                    after given date.
+                    after the given date.
       --date-range-end YYYY-MM-DD
                     Only collects files that were last modified/accessed/changed
-                    before given date.
+                    before the given date.
 
 Informational Arguments:
       --case-number CASE_NUMBER
@@ -242,12 +247,12 @@ Remote Transfer Arguments:
       --sftp-port PORT
                     Remote SFTP server port (default: 22).
       --sftp-identity-file FILE
-                    File from which the identity (private key) for public key
+                    File from which the identity (private key) for public-key
                     authentication is read.
       --s3-presigned-url URL
-                    Transfer output file to AWS S3 using a presigned URL.
+                    Transfer output file to AWS S3 using a pre-signed URL.
       --s3-presigned-url-log-file URL
-                    Transfer log file to AWS S3 using a presigned URL.
+                    Transfer log file to AWS S3 using a pre-signed URL.
       --delete-local-on-successful-transfer
                     Delete local output and log files on successful transfer.
 
@@ -258,17 +263,25 @@ Validation Arguments:
 
 <h2 id="using-uac">Using UAC</h2>
 <p>UAC does not need to be installed on the target system. You only need to download the latest version from the <a href="https://github.com/tclahr/uac/releases">releases page</a>, uncompress and run it. As simple as that!</p>
-<p>A <a href="profile_file/">profile</a> name and/or a list of <a href="artifacts_file/">artifacts</a>, and the destination directory need to be provided in order to run a collection. The remaining parameters are optional.</p>
+<p>A <a href="profile_file/">profile</a> name and/or a list of <a href="artifacts_file/">artifacts</a>, and the destination directory need to be provided to run a collection. The remaining parameters are optional.</p>
+<p>You can use as many --artifacts (-a) and --profile (-p) as you want to build an even more customized collection. Artifacts will be collected in the order they were provided in the command line. Note that duplicated artifacts will be collected only once.</p>
 <h3 id="command-line-options_1">Command line options</h3>
 <p><strong>-p, --profile</strong></p>
 <p>Specify the collection profile name. Profiles are used to define the list of artifacts that will be collected during the execution. They are YAML files located in the <code>profiles</code> directory.</p>
 <p>Use '--profile list' to list available profiles.</p>
+<p>Examples:</p>
+<pre><code class="language-shell">-p ir_triage
+</code></pre>
+<pre><code class="language-shell">-p ir_triage -p my_custom_profile
+</code></pre>
 <p><strong>-a, --artifacts</strong></p>
 <p>Specify the artifacts to be collected during the collection. Artifacts are used to define parameters that will be used by a <a href="collectors/">collector</a> to collect data. They are YAML files located in the <code>artifacts</code> directory.</p>
 <p>You can specify multiple artifacts at once by separating them with a comma (no spaces). Each element can be prepended with an exclamation mark to exclude the artifact. Special characters such as ! and * must be escaped with a backslash.</p>
 <p>Use '--artifacts list' to list available artifacts.</p>
 <p>Examples:</p>
-<pre><code class="language-shell">--artifacts files/logs/\*,\!files/logs/var_log.yaml
+<pre><code class="language-shell">-a files/logs/\*,\!files/logs/var_log.yaml
+</code></pre>
+<pre><code class="language-shell">-a live_response/\* -a files/logs/\* -a \!files/logs/var_log.yaml
 </code></pre>
 <p><strong>DESTINATION</strong></p>
 <p>The directory where the output and acquisition log files should be copied to.</p>
@@ -306,18 +319,18 @@ Validation Arguments:
 <p><strong>--sftp-port</strong></p>
 <p>SFTP server port. Default is 22.</p>
 <p><strong>--sftp-identity-file</strong></p>
-<p>File from which the identity (private key) for public key authentication is read.</p>
+<p>File from which the identity (private key) for public-key authentication is read.</p>
 <h3 id="s3-options">S3 options</h3>
 <p><strong>--s3-presigned-url</strong></p>
-<p>This allows for using a presigned URL to upload the output file to S3 (if curl available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.</p>
+<p>This allows for using a pre-signed URL to upload the output file to S3 (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.</p>
 <p><strong>--s3-presigned-url-log-file</strong></p>
-<p>This allows for using a presigned URL to upload the acquisition log file to S3 (if curl available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.</p>
+<p>This allows for using a pre-signed URL to upload the acquisition log file to S3 (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.</p>
 <h3 id="diagnostic-options">Diagnostic options</h3>
 <p><strong>--debug</strong></p>
-<p>Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored into the <code>uac.log.stderr</code> file.</p>
+<p>Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored in the <code>uac.log</code>.stderr``` file.</p>
 <h3 id="other-options">Other options</h3>
 <p><strong>--delete-local-on-successful-transfer</strong></p>
-<p>Delete the local output and acquisition log file if they were successfully transferred to a remote destination such as a SFTP server or S3.</p>
+<p>Delete the local output and acquisition log files if they were successfully transferred to a remote destination such as an SFTP server or S3.</p>
 <h3 id="examples">Examples</h3>
 <p>Common usage scenarios may include the following:</p>
 <ul>
@@ -336,12 +349,17 @@ Validation Arguments:
 <pre><code class="language-shell">./uac -p full -a \!bodyfile/bodyfile.yaml /tmp
 </code></pre>
 <ul>
-<li>Note that when a profile and a list of artifacts are provided, the artifacts from the profile will always be collected first, even if the parameter <code>-a</code> was provided before <code>-p</code> in the command line. In the example below, the <code>memory_dump/avml.yaml</code> artifact will only be collected after all artifacts from <code>full</code> profile were collected.</li>
+<li>Collect the memory dump, then all artifacts based on the <code>full</code> profile.</li>
 </ul>
 <pre><code class="language-shell">./uac -a memory_dump/avml.yaml -p full /tmp
 </code></pre>
 <ul>
-<li>Collect all artifacts based on the <code>full</code> profile, but limiting the data collection based on the date range provided.</li>
+<li>Collect the memory dump, then all artifacts based on the <code>ir_triage</code> and <code>my_custom_profile01</code> profiles, and excludes the <code>bodyfile/bodyfile.yaml</code> artifact.</li>
+</ul>
+<pre><code class="language-shell">./uac -a memory_dump/avml.yaml -p ir_triage -p my_custom_profile01 -a \!bodyfile/bodyfile.yaml /tmp
+</code></pre>
+<ul>
+<li>Collect all artifacts based on the <code>full</code> profile, but limit the data collection based on the date range provided.</li>
 </ul>
 <pre><code class="language-shell">./uac -p full /tmp --date-range-start 2021-05-01 --date-range-end 2021-08-31
 </code></pre>
@@ -356,7 +374,7 @@ Validation Arguments:
 </code></pre>
 <h2 id="using-your-own-binary-files">Using your own binary files</h2>
 <p>Place your validated binary files in the <code>[uac_directory]\bin</code> directory if you want them to be executed instead of the built-in ones provided by the target operating system.</p>
-<p>UAC will detect and run CPU architecture specific executable files, so they need to be placed within the following directory structure: <code>[uac_directory]\bin\[operating_system]\[architecture]</code>.</p>
+<p>UAC will detect and run CPU architecture-specific executable files, so they need to be placed within the following directory structure: <code>[uac_directory]\bin\[operating_system]\[architecture]</code>.</p>
 <p>Operating system must be one of the following options (in lowercase): android, aix, freebsd, linux, macos, netbsd, netscaler, openbsd or solaris.</p>
 <p>Architecture is the kernel architecture (in lowercase). It can be retrieved using <code>uname</code> tool.</p>
 <p>For example:</p>
@@ -381,7 +399,7 @@ Validation Arguments:
 </ul>
 <h2 id="contributing">Contributing</h2>
 <p>Have you created your own artifact files? Please share them with us!</p>
-<p>You can contribute with new artifacts, profiles, bug fixes or even proposing new features. Please read our <a href="https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md">Contributing Guide</a> before submitting a Pull Request to the project.</p>
+<p>You can contribute with new artifacts, profiles, bug fixes or even propose new features. Please read our <a href="https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md">Contributing Guide</a> before submitting a Pull Request to the project.</p>
 <h2 id="license">License</h2>
 <p>The UAC project uses the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License Version 2.0</a> software license.</p>
               

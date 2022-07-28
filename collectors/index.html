@@ -218,6 +218,11 @@
                   <li class="toctree-l1"><a class="reference internal" href="../output_file/">Output file format</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">OTHER</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../super_timeline/">Super Timeline creation</a>
+                  </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -270,9 +275,9 @@
 </code></pre>
 <h3 id="command">command</h3>
 <p><span class="required">Required</span></p>
-<p>The command that will be run in the target system and the output will be collected from.</p>
+<p>The command will be run in the target system and the output will be collected from it.</p>
 <p>The path to the executable is not required. Only the name of the executable and the parameters should be given.</p>
-<p>UAC can also run executables located in the <code>bin</code> directory. Even in this case the path to the executable is not required. The <code>bin</code> directory is always added to PATH when UAC starts. Please refer to <code>bin/README.md</code> file for more information.</p>
+<p>UAC can also run executables located in the <code>bin</code> directory. Even in this case, the path to the executable is not required. The <code>bin</code> directory is always added to PATH when UAC starts. Please refer to <code>bin/README.md</code> file for more information.</p>
 <p>The example below shows how to collect the output from <code>ps -ef</code> command:</p>
 <pre><code class="language-yaml">artifacts:
   -
@@ -305,8 +310,8 @@ done
 </tr>
 </tbody>
 </table>
-<p>Let's suppose you need to collect containers logs, and you don't know the containers IDs. First you need to retrieve all the IDs: <code>docker container ps -all | sed 1d | awk '{print $1}'</code></p>
-<p>The <code>%line%</code> variable will be replaced by each output line resulted from that command (which are containers IDs in the example above).</p>
+<p>Let's suppose you need to collect container logs, and you don't know the container IDs. First, you need to retrieve all the IDs: <code>docker container ps -all | sed 1d | awk '{print $1}'</code></p>
+<p>The <code>%line%</code> variable will be replaced by each output line resulting from that command (which are container IDs in the example above).</p>
 <p>This means if you have 10 containers, the command <code>docker container logs %line%</code> will be run 10 times, one for each container ID. Example:</p>
 <pre><code class="language-yaml">artifacts:
   -
@@ -319,7 +324,7 @@ done
 </code></pre>
 <h3 id="output_file">output_file</h3>
 <p><span class="required">Required</span></p>
-<p>Output file name where collected data will be stored in. UAC never overwrites output files. Data will be appended to file if the same file name is set for a different artifact rule within the same artifact directory.</p>
+<p>Output file name where collected data will be stored in. UAC never overwrites output files. Data will be appended to the file if the same file name is set for a different artifact rule within the same artifact directory.</p>
 <p>Both <code>ps</code> and <code>ps auxwww</code> outputs will be stored into the same <code>ps.txt</code> file in the example below.</p>
 <pre><code class="language-yaml">artifacts:
   -
@@ -338,10 +343,10 @@ done
 <h3 id="output_directory">output_directory</h3>
 <p><span class="optional">Optional</span></p>
 <p>Defines the subdirectory name the output file will be stored in.</p>
-<p>By default, collected artifacts will always be stored into a directory which its path follows the same structure defined in the artifacts directory.</p>
+<p>By default, collected artifacts will always be stored in a directory whose path follows the same structure defined in the artifacts directory.</p>
 <p>In the example below, the output file created by <code>bodyfile.yaml</code> will be stored into <code>bodyfile</code> directory, and the output files created by <code>docker.yaml</code> will be stored into <code>live_response/containers</code> directory.</p>
 <p><img alt="screenshot" src="../img/output_directory_01.png" /></p>
-<p>But in some cases it is preferred to have the output file stored into subdirectories. Let's use the <code>live_response/process/string_running_processes.yaml</code> as an example where the output file is stored into <code>live_response/process/proc/%line%</code> subdirectory. </p>
+<p>But in some cases, it is preferred to have the output file stored in subdirectories. Let's use the <code>live_response/process/string_running_processes.yaml</code> as an example where the output file is stored into <code>live_response/process/proc/%line%</code> subdirectory. </p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Extract strings from running processes.
@@ -407,14 +412,13 @@ done
     path: /proc/*/cmdline
     output_file: cmdline.txt
 </code></pre>
-<p>For keeping consistences across all supported operating systems (and different <code>find</code> tool versions), it is recommended that all directory names ends with a <code>/*</code> (slash asterisks).</p>
 <p>Search all files and directories within <code>/etc</code>. Note the use of a <code>*</code> at the end of the path.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Search all files and directories within /etc.
     supported_os: [all]
     collector: find
-    path: /etc/*
+    path: /etc
     output_file: etc.txt
 </code></pre>
 <p>Note that you need to use quotation marks when specifying paths with spaces.</p>
@@ -428,8 +432,8 @@ done
 </code></pre>
 <h3 id="path_pattern">path_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Return the full file path if one of path_pattern values matches the file path. This option works exactly the same way as find's -path option.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Return the full file path if one of the path_pattern values matches the file path. This option works the same way as find's -path option.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <p>The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:</p>
 <ul>
@@ -448,15 +452,15 @@ done
 </code></pre>
 <h3 id="name_pattern">name_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Return the full file path if one of the name_pattern values matches the file name. This option works exactly the same way as find's -name option.</p>
+<p>Return the full file path if one of the name_pattern values matches the file name. This option works the same way as find's -name option.</p>
 <p>Because the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Search all wtmp and utmp files.
     supported_os: [all]
     collector: find
-    path: /var/*
+    path: /var
     name_pattern: [&quot;wtmp&quot;, &quot;btmp&quot;]
     output_file: wtmp_btmp.txt
 </code></pre>
@@ -466,7 +470,7 @@ done
     description: Search all HTML and TXT files.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     name_pattern: [&quot;*.html&quot;, &quot;*.txt&quot;]
     output_file: all_html_txt.txt
 </code></pre>
@@ -475,36 +479,36 @@ done
     description: Search all .log and .Log (capital L) files.
     supported_os: [all]
     collector: find
-    path: /var/log/*
+    path: /var/log
     name_pattern: [&quot;*.[Ll]og&quot;]
     output_file: all_log_files.txt
 </code></pre>
 <h3 id="exclude_path_pattern">exclude_path_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to exclude paths from the collection. This option works exactly the same way as find's -path -prune option.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Use this option to exclude paths from the collection. This option works the same way as find's -path -prune option.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Search all excluding /etc and /var.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     exclude_path_pattern: [&quot;/dev&quot;, &quot;/var&quot;]
     output_file: all_excluding_etc_var.txt
 </code></pre>
 <h3 id="exclude_name_pattern">exclude_name_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to exclude files from the collection. This option works exactly the same way as find's -name -prune option.</p>
+<p>Use this option to exclude files from the collection. This option works the same way as find's -name -prune option.</p>
 <p>Because the leading directories are removed, the file names considered for a match with exclude_name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Search /etc excluding passwd and shadow* files.
     supported_os: [all]
     collector: find
-    path: /etc/*
+    path: /etc
     exclude_name_pattern: [&quot;passwd&quot;, &quot;shadow*&quot;]
     output_file: etc_excluding_passwd_shadow.txt
 </code></pre>
@@ -517,25 +521,25 @@ done
     description: Search all files excluding any files located in procfs, nfs and devfs file systems.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     exclude_file_system: [procfs, nfs, devfs]
     output_file: exclude_procfs_nfs_devfs.txt
 </code></pre>
 <h3 id="max_depth">max_depth</h3>
 <p><span class="optional">Optional</span></p>
-<p>Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only apply the tests and actions to the starting-points themselves. This option works exactly the same way as find's -maxdepth option.</p>
+<p>Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only applying the tests and actions to the starting-points themselves. This option works the same way as find's -maxdepth option.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Descend at most 5 levels of directories below /.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     max_depth: 5
     output_file: max_5_levels.txt
 </code></pre>
 <h3 id="file_type">file_type</h3>
 <p><span class="optional">Optional</span></p>
-<p>This option works exactly the same way as find's -type option.</p>
+<p>This option works the same way as find's -type option.</p>
 <p>File is of type:</p>
 <table>
 <thead>
@@ -580,7 +584,7 @@ done
     description: Search files only.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     output_file: files_only.txt
 </code></pre>
@@ -589,39 +593,39 @@ done
     description: Search directories only.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: d
     output_file: directories_only.txt
 </code></pre>
 <h3 id="min_file_size">min_file_size</h3>
 <p><span class="optional">Optional</span></p>
-<p>The minimum size of a file to search, in bytes. Any files smaller than this will be ignored.</p>
+<p>The minimum size of a file to search in bytes. Any files smaller than this will be ignored.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Search all files bigger than 1048576 bytes.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     min_file_size: 1048576
     output_file: bigger_than.txt
 </code></pre>
 <h3 id="max_file_size">max_file_size</h3>
 <p><span class="optional">Optional</span></p>
-<p>The maximum size of a file to search, in bytes. Any files bigger than this will be ignored.</p>
+<p>The maximum size of a file to search in bytes. Any files bigger than this will be ignored.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Search all files smaller than 1048576 bytes.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     max_file_size: 1048576
     output_file: smaller_than.txt
 </code></pre>
 <h3 id="permissions">permissions</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to search for files and directories based on their permissions. This option works exactly the same way as find's -perm option.</p>
+<p>Use this option to search for files and directories based on their permissions. This option works the same way as find's -perm option.</p>
 <p>Please note that symbolic mode is not supported (e.g: -g=w).</p>
 <p>Permissions can be used as follows:</p>
 <ul>
@@ -632,7 +636,7 @@ done
     description: Search files that have permissions set to 755.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     permissions: 755
     output_file: all_755_permissions.txt
@@ -645,7 +649,7 @@ done
     description: Search for files that have SUID bit set.
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     permissions: -4000
     output_file: suid_files.txt
@@ -653,14 +657,14 @@ done
 <h3 id="ignore_date_range">ignore_date_range</h3>
 <p><span class="optional">Optional</span></p>
 <p>Use this option to collect files ignoring the date set using both --date-range-start and --date-range-end command line options.</p>
-<p>This is useful when you want to set a date range for your collection, but want to collect some files regardless their last accessed, modified and changed dates.</p>
-<p>Example, search for all files and subdirecties from /etc regardless their last accessed, modified and changed dates, even if a date range was set using --date-range-start and --date-range-end command line options.</p>
+<p>This is useful when you want to set a date range for your collection, but want to collect some files regardless of their last accessed, modified and changed dates.</p>
+<p>For example, search for all files and subdirectories from /etc regardless of their last accessed, modified and changed dates, even if a date range was set using --date-range-start and --date-range-end command line options.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Search /etc regardless date range set by --date-range-start and --date-range-end.
     supported_os: [all]
     collector: find
-    path: /etc/*
+    path: /etc
     ignore_date_range: true
     output_file: ignore_date_range.txt
 </code></pre>
@@ -678,28 +682,28 @@ done
 </code></pre>
 <h3 id="output_file_1">output_file</h3>
 <p><span class="required">Required</span></p>
-<p>Output file name where the list of files will be stored in. UAC never overwrites output files. Data will be appended to file if the same file name is set for a different artifact rule within the same artifact directory.</p>
+<p>Output file name where the list of files will be stored in. UAC never overwrites output files. Data will be appended to the file if the same file name is set for a different artifact rule within the same artifact directory.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Search all files and directories from /etc.
     supported_os: [all]
     collector: find
-    path: /etc/*
+    path: /etc
     output_file: same_output_file.txt
   -
     description: Search all files and directories from /var/log.
     supported_os: [all]
     collector: find
-    path: /var/log/*
+    path: /var/log
     output_file: same_output_file.txt
 </code></pre>
 <h3 id="output_directory_1">output_directory</h3>
 <p><span class="optional">Optional</span></p>
 <p>Defines the subdirectory name the output file will be stored in.</p>
-<p>By default, collected artifacts will always be stored into a directory which its path follows the same structure defined in the artifacts directory.</p>
-<p>In the example below, the output file created by <code>bodyfile.yaml</code> will be stored into <code>bodyfile</code> directory, and the output files created by <code>docker.yaml</code> will be stored into <code>live_response/containers</code> directory.</p>
+<p>By default, collected artifacts will always be stored in a directory whose path follows the same structure defined in the artifacts directory.</p>
+<p>In the example below, the output file created by <code>bodyfile.yaml</code> will be stored in <code>bodyfile</code> directory, and the output files created by <code>docker.yaml</code> will be stored in <code>live_response/containers</code> directory.</p>
 <p><img alt="screenshot" src="../img/output_directory_01.png" /></p>
-<p>But in some cases it is preferred to have the output file stored into subdirectories. Let's use the <code>live_response/process/string_running_processes.yaml</code> as an example where the output file is stored into <code>live_response/process/proc/%line%</code> subdirectory. </p>
+<p>But in some cases, it is preferred to have the output file stored in subdirectories. Let's use the <code>live_response/process/string_running_processes.yaml</code> as an example where the output file is stored into <code>live_response/process/proc/%line%</code> subdirectory. </p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Extract strings from running processes.
@@ -718,7 +722,7 @@ done
     description: Hash all files smaller than 3072000 bytes.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     exclude_file_system: [proc, procfs]
     file_type: f
     max_depth: 4
@@ -739,14 +743,13 @@ done
     path: /bin/sh
     output_file: hash_bin_sh.txt
 </code></pre>
-<p>For keeping consistences across all supported operating systems (and different <code>find</code> tool versions), it is recommended that all directory names ends with a <code>/*</code> (slash asterisks).</p>
-<p>Hash all files  within <code>/etc</code>. Note the use of a <code>*</code> at the end of the path.</p>
+<p>Hash all files within <code>/etc</code>. Note the use of a <code>*</code> at the end of the path.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Hash all files and directories within /etc.
     supported_os: [all]
     collector: hash
-    path: /etc/*
+    path: /etc
     output_file: hashes_etc.txt
 </code></pre>
 <p>Note that you need to use quotation marks when specifying paths with spaces.</p>
@@ -772,8 +775,8 @@ done
 </code></pre>
 <h3 id="path_pattern_1">path_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Return the full file path if one of path_pattern values matches the file path. This option works exactly the same way as find's -path option.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Return the full file path if one of the path_pattern values matches the file path. This option works the same way as find's -path option.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <p>The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:</p>
 <ul>
@@ -792,15 +795,15 @@ done
 </code></pre>
 <h3 id="name_pattern_1">name_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Return the full file path if one of the values of name_pattern matches the file name. This option works exactly the same way as find's -name option.</p>
+<p>Return the full file path if one of the values of name_pattern matches the file name. This option works the same way as find's -name option.</p>
 <p>Because the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Hash all wtmp and utmp files.
     supported_os: [all]
     collector: hash
-    path: /var/*
+    path: /var
     name_pattern: [&quot;wtmp&quot;, &quot;btmp&quot;]
     output_file: hash_wtmp_btmp.txt
 </code></pre>
@@ -810,7 +813,7 @@ done
     description: Hash all HTML and TXT files.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     name_pattern: [&quot;*.html&quot;, &quot;*.txt&quot;]
     output_file: hash_all_html_txt
 </code></pre>
@@ -819,36 +822,36 @@ done
     description: Hash all .log and .Log (capital L) files.
     supported_os: [all]
     collector: hash
-    path: /var/log/*
+    path: /var/log
     name_pattern: [&quot;*.[Ll]og&quot;]
     output_file: hash_all_log_files
 </code></pre>
 <h3 id="exclude_path_pattern_1">exclude_path_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to exclude paths from the collection. This option works exactly the same way as find's -path -prune option.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Use this option to exclude paths from the collection. This option works the same way as find's -path -prune option.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Hash all files excluding /etc and /var.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     exclude_path_pattern: [&quot;/dev&quot;, &quot;/var&quot;]
     output_file: all_excluding_etc_var.txt
 </code></pre>
 <h3 id="exclude_name_pattern_1">exclude_name_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to exclude files from the collection. This option works exactly the same way as find's -name -prune option.</p>
+<p>Use this option to exclude files from the collection. This option works the same way as find's -name -prune option.</p>
 <p>Because the leading directories are removed, the file names considered for a match with exclude_name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Hash all from /etc excluding passwd and shadow* files.
     supported_os: [all]
     collector: hash
-    path: /etc/*
+    path: /etc
     exclude_name_pattern: [&quot;passwd&quot;, &quot;shadow*&quot;]
     output_file: hash_etc_excluding_passwd_shadow.txt
 </code></pre>
@@ -861,26 +864,26 @@ done
     description: Hash all files excluding any files located in procfs, nfs and devfs file systems.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     exclude_file_system: [procfs, nfs, devfs]
     file_type: f
     output_file: hash_all_exclude_procfs_nfs_devfs.txt
 </code></pre>
 <h3 id="max_depth_1">max_depth</h3>
 <p><span class="optional">Optional</span></p>
-<p>Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only apply the tests and actions to the starting-points themselves. This option works exactly the same way as find's -maxdepth option.</p>
+<p>Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only applying the tests and actions to the starting-points themselves. This option works the same way as find's -maxdepth option.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Descend at most 5 levels of directories below /.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     max_depth: 5
     output_file: hash_max_5_levels.txt
 </code></pre>
 <h3 id="file_type_1">file_type</h3>
 <p><span class="optional">Optional</span></p>
-<p>This option works exactly the same way as find's -type option.</p>
+<p>This option works the same way as find's -type option.</p>
 <p>File is of type:</p>
 <table>
 <thead>
@@ -925,39 +928,39 @@ done
     description: Hash files only
     supported_os: [all]
     collector: find
-    path: /*
+    path: /
     file_type: f
     output_file: files_only.txt
 </code></pre>
 <h3 id="min_file_size_1">min_file_size</h3>
 <p><span class="optional">Optional</span></p>
-<p>The minimum size of a file to hash, in bytes. Any files smaller than this will be ignored.</p>
+<p>The minimum size of a file to hash in bytes. Any files smaller than this will be ignored.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Hash all files bigger than 1048576 bytes
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     file_type: f
     min_file_size: 1048576
     output_file: hash_bigger_than.txt
 </code></pre>
 <h3 id="max_file_size_1">max_file_size</h3>
 <p><span class="optional">Optional</span></p>
-<p>The maximum size of a file to hash, in bytes. Any files bigger than this will be ignored.</p>
+<p>The maximum size of a file to hash in bytes. Any files bigger than this will be ignored.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Hash all files smaller than 1048576 bytes
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     file_type: f
     max_file_size: 1048576
     output_file: hash_smaller_than.txt
 </code></pre>
 <h3 id="permissions_1">permissions</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to hash files based on their permissions. This option works exactly the same way as find's -perm option.</p>
+<p>Use this option to hash files based on their permissions. This option works the same way as find's -perm option.</p>
 <p>Please note that symbolic mode is not supported (e.g: -g=w).</p>
 <p>Permissions can be used as follows:</p>
 <ul>
@@ -968,7 +971,7 @@ done
     description: Hash files that have permissions set to 755.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     file_type: f
     permissions: 755
     output_file: hash_all_755_permissions.txt
@@ -981,7 +984,7 @@ done
     description: Hash all files that have SUID bit set.
     supported_os: [all]
     collector: hash
-    path: /*
+    path: /
     file_type: f
     permissions: -4000
     output_file: hash_suid_files.txt
@@ -989,14 +992,14 @@ done
 <h3 id="ignore_date_range_1">ignore_date_range</h3>
 <p><span class="optional">Optional</span></p>
 <p>Use this option to hash files ignoring the date set using both --date-range-start and --date-range-end command line options.</p>
-<p>This is useful when you want to set a date range for your collection, but want to hash some files regardless their last accessed, modified and changed dates.</p>
-<p>Example, hash for all files and subdirecties from /etc regardless their last accessed, modified and changed dates, even if a date range was set using --date-range-start and --date-range-end command line options.</p>
+<p>This is useful when you want to set a date range for your collection, but want to hash some files regardless of their last accessed, modified and changed dates.</p>
+<p>For example, hash for all files and subdirectories from /etc regardless of their last accessed, modified and changed dates, even if a date range was set using --date-range-start and --date-range-end command line options.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Hash all files from /etc regardless date range set by --date-range-start and --date-range-end.
     supported_os: [all]
     collector: hash
-    path: /etc/*
+    path: /etc
     ignore_date_range: true
     output_file: hash_ignore_date_range.txt
 </code></pre>
@@ -1021,13 +1024,13 @@ done
     description: Hash all files and directories from /etc.
     supported_os: [all]
     collector: hash
-    path: /etc/*
+    path: /etc
     output_file: same_output_file.txt
   -
     description: Hash all files and directories from /var/log.
     supported_os: [all]
     collector: hash
-    path: /var/log/*
+    path: /var/log
     output_file: same_output_file.txt
 </code></pre>
 <h3 id="output_directory_2">output_directory</h3>
@@ -1055,7 +1058,7 @@ done
     description: Stat all files.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     output_file: stat.txt
 
@@ -1073,14 +1076,13 @@ done
     path: /bin/sh
     output_file: stat_bin_sh.txt
 </code></pre>
-<p>For keeping consistences across all supported operating systems (and different <code>find</code> tool versions), it is recommended that all directory names ends with a <code>/*</code> (slash asterisks).</p>
 <p>Stat all files  within <code>/etc</code>. Note the use of a <code>*</code> at the end of the path.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Stat all files and directories within /etc.
     supported_os: [all]
     collector: stat
-    path: /etc/*
+    path: /etc
     output_file: stat_etc.txt
 </code></pre>
 <p>Note that you need to use quotation marks when specifying paths with spaces.</p>
@@ -1106,8 +1108,8 @@ done
 </code></pre>
 <h3 id="path_pattern_2">path_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Return the full file path if one of path_pattern values matches the file path. This option works exactly the same way as find's -path option.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Return the full file path if one of path_pattern values matches the file path. This option works the same way as find's -path option.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <p>The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:</p>
 <ul>
@@ -1126,15 +1128,15 @@ done
 </code></pre>
 <h3 id="name_pattern_2">name_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Return the full file path if one of the values of name_pattern matches the file name. This option works exactly the same way as find's -name option.</p>
+<p>Return the full file path if one of the values of name_pattern matches the file name. This option works the same way as find's -name option.</p>
 <p>Because the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Stat all wtmp and utmp files.
     supported_os: [all]
     collector: stat
-    path: /var/*
+    path: /var
     name_pattern: [&quot;wtmp&quot;, &quot;btmp&quot;]
     output_file: stat_wtmp_btmp.txt
 </code></pre>
@@ -1144,7 +1146,7 @@ done
     description: Stat all HTML and TXT files.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     name_pattern: [&quot;*.html&quot;, &quot;*.txt&quot;]
     output_file: stat_all_html_txt
 </code></pre>
@@ -1153,36 +1155,36 @@ done
     description: Stat all .log and .Log (capital L) files.
     supported_os: [all]
     collector: stat
-    path: /var/log/*
+    path: /var/log
     name_pattern: [&quot;*.[Ll]og&quot;]
     output_file: stat_all_log_files
 </code></pre>
 <h3 id="exclude_path_pattern_2">exclude_path_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to exclude paths from the collection. This option works exactly the same way as find's -path -prune option.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Use this option to exclude paths from the collection. This option works the same way as find's -path -prune option.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Stat all files excluding /etc and /var.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     exclude_path_pattern: [&quot;/dev&quot;, &quot;/var&quot;]
     output_file: stat_all_excluding_etc_var.txt
 </code></pre>
 <h3 id="exclude_name_pattern_2">exclude_name_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to exclude files from the collection. This option works exactly the same way as find's -name -prune option.</p>
+<p>Use this option to exclude files from the collection. This option works the same way as find's -name -prune option.</p>
 <p>Because the leading directories are removed, the file names considered for a match with exclude_name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Stat all from /etc excluding passwd and shadow* files.
     supported_os: [all]
     collector: stat
-    path: /etc/*
+    path: /etc
     exclude_name_pattern: [&quot;passwd&quot;, &quot;shadow*&quot;]
     output_file: stat_etc_excluding_passwd_shadow.txt
 </code></pre>
@@ -1195,26 +1197,26 @@ done
     description: Stat all files excluding any files located in procfs, nfs and devfs file systems.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     exclude_file_system: [procfs, nfs, devfs]
     file_type: f
     output_file: stat_all_exclude_procfs_nfs_devfs.txt
 </code></pre>
 <h3 id="max_depth_2">max_depth</h3>
 <p><span class="optional">Optional</span></p>
-<p>Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only apply the tests and actions to the starting-points themselves. This option works exactly the same way as find's -maxdepth option.</p>
+<p>Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only applying the tests and actions to the starting-points themselves. This option works the same way as find's -maxdepth option.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Descend at most 5 levels of directories below /.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     max_depth: 5
     output_file: stat_max_5_levels.txt
 </code></pre>
 <h3 id="file_type_2">file_type</h3>
 <p><span class="optional">Optional</span></p>
-<p>This option works exactly the same way as find's -type option.</p>
+<p>This option works the same way as find's -type option.</p>
 <p>File is of type:</p>
 <table>
 <thead>
@@ -1259,7 +1261,7 @@ done
     description: Stat files only.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     output_file: stat_files_only.txt
 </code></pre>
@@ -1268,7 +1270,7 @@ done
     description: Stat directories only.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: d
     output_file: stat_directories_only.txt
 </code></pre>
@@ -1280,7 +1282,7 @@ done
     description: Stat all files bigger than 1048576 bytes.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     min_file_size: 1048576
     output_file: stat_bigger_than.txt
@@ -1293,14 +1295,14 @@ done
     description: Stat all files smaller than 1048576 bytes.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     max_file_size: 1048576
     output_file: stat_smaller_than.txt
 </code></pre>
 <h3 id="permissions_2">permissions</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to stat files based on their permissions. This option works exactly the same way as find's -perm option.</p>
+<p>Use this option to stat files based on their permissions. This option works the same way as find's -perm option.</p>
 <p>Please note that symbolic mode is not supported (e.g: -g=w).</p>
 <p>Permissions can be used as follows:</p>
 <ul>
@@ -1311,7 +1313,7 @@ done
     description: Stat files that have permissions set to 755.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     permissions: 755
     output_file: stat_all_755_permissions.txt
@@ -1324,7 +1326,7 @@ done
     description: Stat all files that have SUID bit set.
     supported_os: [all]
     collector: stat
-    path: /*
+    path: /
     file_type: f
     permissions: -4000
     output_file: stat_suid_files.txt
@@ -1332,14 +1334,14 @@ done
 <h3 id="ignore_date_range_2">ignore_date_range</h3>
 <p><span class="optional">Optional</span></p>
 <p>Use this option to stat files ignoring the date set using both --date-range-start and --date-range-end command line options.</p>
-<p>This is useful when you want to set a date range for your collection, but want to stat some files regardless their last accessed, modified and changed dates.</p>
-<p>Example, stat for all files and subdirecties from /etc regardless their last accessed, modified and changed dates, even if a date range was set using --date-range-start and --date-range-end command line options.</p>
+<p>This is useful when you want to set a date range for your collection, but want to stat some files regardless of their last accessed, modified and changed dates.</p>
+<p>For example, stat for all files and subdirectories from /etc regardless of their last accessed, modified and changed dates, even if a date range was set using --date-range-start and --date-range-end command line options.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Stat all files from /etc regardless date range set by --date-range-start and --date-range-end.
     supported_os: [all]
     collector: stat
-    path: /etc/*
+    path: /etc
     ignore_date_range: true
     output_file: stat_ignore_date_range.txt
 </code></pre>
@@ -1363,22 +1365,22 @@ done
     description: Stat all files and directories from /etc.
     supported_os: [all]
     collector: stat
-    path: /etc/*
+    path: /etc
     output_file: same_output_file.txt
   -
     description: Stat all files and directories from /var/log.
     supported_os: [all]
     collector: stat
-    path: /var/log/*
+    path: /var/log
     output_file: same_output_file.txt
 </code></pre>
 <h3 id="output_directory_3">output_directory</h3>
 <p><span class="optional">Optional</span></p>
 <p>Defines the subdirectory name the output file will be stored in.</p>
-<p>By default, collected artifacts will always be stored into a directory which its path follows the same structure defined in the artifacts directory.</p>
-<p>In the example below, the output file created by <code>bodyfile.yaml</code> will be stored into <code>bodyfile</code> directory, and the output files created by <code>docker.yaml</code> will be stored into <code>live_response/containers</code> directory.</p>
+<p>By default, collected artifacts will always be stored in a directory whose path follows the same structure defined in the artifacts directory.</p>
+<p>In the example below, the output file created by <code>bodyfile.yaml</code> will be stored in <code>bodyfile</code> directory, and the output files created by <code>docker.yaml</code> will be stored in <code>live_response/containers</code> directory.</p>
 <p><img alt="screenshot" src="../img/output_directory_01.png" /></p>
-<p>But in some cases it is preferred to have the output file stored into subdirectories. Let's use the <code>live_response/process/string_running_processes.yaml</code> as an example where the output file is stored into <code>live_response/process/proc/%line%</code> subdirectory. </p>
+<p>But in some cases, it is preferred to have the output file stored in subdirectories. Let's use the <code>live_response/process/string_running_processes.yaml</code> as an example where the output file is stored into <code>live_response/process/proc/%line%</code> subdirectory. </p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Extract strings from running processes.
@@ -1397,7 +1399,7 @@ done
     description: Collect all files within /var/log (recursive).
     supported_os: [all]
     collector: file
-    path: /var/log/*
+    path: /var/log
     file_type: f
 </code></pre>
 <h3 id="path_3">path</h3>
@@ -1412,14 +1414,13 @@ done
     collector: file
     path: /bin/sh
 </code></pre>
-<p>For keeping consistences across all supported operating systems (and different <code>find</code> tool versions), it is recommended that all directory names ends with a <code>/*</code> (slash asterisks).</p>
 <p>Collect all files from <code>/etc</code>. Note the use of a <code>*</code> at the end of the path.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Collect all files and directories within /etc.
     supported_os: [all]
     collector: file
-    path: /etc/*
+    path: /etc
 </code></pre>
 <p>Note that you need to use quotation marks when specifying paths with spaces.</p>
 <pre><code class="language-yaml">artifacts:
@@ -1442,8 +1443,8 @@ done
 </code></pre>
 <h3 id="path_pattern_3">path_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Return the full file path if one of path_pattern values matches the file path. This option works exactly the same way as find's -path option.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Return the full file path if one of the path_pattern values matches the file path. This option works the same way as find's -path option.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <p>The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:</p>
 <ul>
@@ -1461,15 +1462,15 @@ done
 </code></pre>
 <h3 id="name_pattern_3">name_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Return the full file path if one of the values of name_pattern matches the file name. This option works exactly the same way as find's -name option.</p>
+<p>Return the full file path if one of the values of name_pattern matches the file name. This option works the same way as find's -name option.</p>
 <p>Because the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Collect all wtmp and utmp files.
     supported_os: [all]
     collector: file
-    path: /var/*
+    path: /var
     name_pattern: [&quot;wtmp&quot;, &quot;btmp&quot;]
 </code></pre>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
@@ -1478,7 +1479,7 @@ done
     description: Collect all HTML and TXT files.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     name_pattern: [&quot;*.html&quot;, &quot;*.txt&quot;]
 </code></pre>
 <pre><code class="language-yaml">artifacts:
@@ -1486,34 +1487,34 @@ done
     description: Collect all .log and .Log (capital L) files.
     supported_os: [all]
     collector: file
-    path: /var/log/*
+    path: /var/log
     name_pattern: [&quot;*.[Ll]og&quot;]
 </code></pre>
 <h3 id="exclude_path_pattern_3">exclude_path_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to exclude paths from the collection. This option works exactly the same way as find's -path -prune option.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Use this option to exclude paths from the collection. This option works the same way as find's -path -prune option.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Collect all files excluding /etc and /var.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     exclude_path_pattern: [&quot;/dev&quot;, &quot;/var&quot;]
 </code></pre>
 <h3 id="exclude_name_pattern_3">exclude_name_pattern</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to exclude files from the collection. This option works exactly the same way as find's -name -prune option.</p>
+<p>Use this option to exclude files from the collection. This option works the same way as find's -name -prune option.</p>
 <p>Because the leading directories are removed, the file names considered for a match with exclude_name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
-<p>Don't forget to enclose the pattern in double quotes. Use backslash (\) to escape double quotes and commas.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Collect all from /etc excluding passwd and shadow* files.
     supported_os: [all]
     collector: file
-    path: /etc/*
+    path: /etc
     exclude_name_pattern: [&quot;passwd&quot;, &quot;shadow*&quot;]
 </code></pre>
 <h3 id="exclude_file_system_3">exclude_file_system</h3>
@@ -1525,24 +1526,24 @@ done
     description: Collect all files excluding any files located in procfs, nfs and devfs file systems.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     exclude_file_system: [procfs, nfs, devfs]
     file_type: f
 </code></pre>
 <h3 id="max_depth_3">max_depth</h3>
 <p><span class="optional">Optional</span></p>
-<p>Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only apply the tests and actions to the starting-points themselves. This option works exactly the same way as find's -maxdepth option.</p>
+<p>Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only applying the tests and actions to the starting-points themselves. This option works the same way as find's -maxdepth option.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Descend at most 5 levels of directories below /.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     max_depth: 5
 </code></pre>
 <h3 id="file_type_3">file_type</h3>
 <p><span class="optional">Optional</span></p>
-<p>This option works exactly the same way as find's -type option.</p>
+<p>This option works the same way as find's -type option.</p>
 <p>File is of type:</p>
 <table>
 <thead>
@@ -1587,36 +1588,36 @@ done
     description: Collect files only.
     supported_os: [all]
     collector: file
-    path: /var/log/*
+    path: /var/log
     file_type: f
 </code></pre>
 <h3 id="min_file_size_3">min_file_size</h3>
 <p><span class="optional">Optional</span></p>
-<p>The minimum size of a file to stat, in bytes. Any files smaller than this will be ignored.</p>
+<p>The minimum size of a file to stat in bytes. Any files smaller than this will be ignored.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Collect all files bigger than 1048576 bytes.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     file_type: f
     min_file_size: 1048576
 </code></pre>
 <h3 id="max_file_size_3">max_file_size</h3>
 <p><span class="optional">Optional</span></p>
-<p>The maximum size of a file to stat, in bytes. Any files bigger than this will be ignored.</p>
+<p>The maximum size of a file to stat in bytes. Any files bigger than this will be ignored.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Collect all files smaller than 1048576 bytes.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     file_type: f
     max_file_size: 1048576
 </code></pre>
 <h3 id="permissions_3">permissions</h3>
 <p><span class="optional">Optional</span></p>
-<p>Use this option to collect files based on their permissions. This option works exactly the same way as find's -perm option.</p>
+<p>Use this option to collect files based on their permissions. This option works the same way as find's -perm option.</p>
 <p>Please note that symbolic mode is not supported (e.g: -g=w).</p>
 <p>Permissions can be used as follows:</p>
 <ul>
@@ -1627,7 +1628,7 @@ done
     description: Collect files that have permissions set to 755.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     file_type: f
     permissions: 755
 </code></pre>
@@ -1639,21 +1640,21 @@ done
     description: Collect all files that have SUID bit set.
     supported_os: [all]
     collector: file
-    path: /*
+    path: /
     file_type: f
     permissions: -4000
 </code></pre>
 <h3 id="ignore_date_range_3">ignore_date_range</h3>
 <p><span class="optional">Optional</span></p>
 <p>Use this option to collect files ignoring the date set using both --date-range-start and --date-range-end command line options.</p>
-<p>This is useful when you want to set a date range for your collection, but want to collect some files regardless their last accessed, modified and changed dates.</p>
-<p>Example, collect all files and subdirecties from /etc regardless their last accessed, modified and changed dates, even if a date range was set using --date-range-start and --date-range-end command line options.</p>
+<p>This is useful when you want to set a date range for your collection, but want to collect some files regardless of their last accessed, modified and changed dates.</p>
+<p>For example, collect all files and subdirectories from /etc regardless of their last accessed, modified and changed dates, even if a date range was set using --date-range-start and --date-range-end command line options.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Collect all files from /etc regardless date range set by --date-range-start and --date-range-end.
     supported_os: [all]
     collector: file
-    path: /etc/*
+    path: /etc
     ignore_date_range: true
 </code></pre>
 <h3 id="exclude_nologin_users_4">exclude_nologin_users</h3>
