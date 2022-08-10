@@ -264,7 +264,7 @@ This allows for using a pre-signed URL to upload the acquisition log file to S3 
 
 **--debug**
 
-Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored in the `uac.log`.stderr``` file.
+Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored in the ```uac.log.stderr``` file.
 
 ### Other options
 
