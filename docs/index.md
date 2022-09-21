@@ -124,6 +124,10 @@ Remote Transfer Arguments:
                     Transfer output file to AWS S3 using a pre-signed URL.
       --s3-presigned-url-log-file URL
                     Transfer log file to AWS S3 using a pre-signed URL.
+      --azure-storage-sas-url URL
+                    Transfer output file to Azure Storage using a SAS URL.
+      --azure-storage-sas-url-log-file URL
+                    Transfer log file to Azure Storage using a SAS URL.
       --delete-local-on-successful-transfer
                     Delete local output and log files on successful transfer.
 
@@ -259,6 +263,16 @@ This allows for using a pre-signed URL to upload the output file to S3 (if curl 
 **--s3-presigned-url-log-file**
 
 This allows for using a pre-signed URL to upload the acquisition log file to S3 (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+
+### Azure Storage options
+
+**--azure-storage-sas-url**
+
+This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+
+**--azure-storage-sas-url-log-file**
+
+This allows for using a shared access signature (SAS) URL to upload the acquisition log file to Azure Storage (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
 
 ### Diagnostic options
 
