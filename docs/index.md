@@ -51,6 +51,7 @@ Usage: ./uac [-h] [-V] [--debug] {-p PROFILE | -a ARTIFACTS} DESTINATION
              [--notes NOTES] [--hostname HOSTNAME] [--stfp SERVER] 
              [--sftp-port PORT] [--sftp-identity-file FILE]
              [--s3-presigned-url URL] [--s3-presigned-url-log-file URL]
+             [--azure-storage-sas-url URL] [--azure-storage-sas-url-log-file URL]
              [--delete-local-on-successful-transfer] [--debug]
    or: $0 --validate-artifacts-file FILE
 
