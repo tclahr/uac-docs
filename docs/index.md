@@ -52,6 +52,8 @@ Usage: ./uac [-h] [-V] [--debug] {-p PROFILE | -a ARTIFACTS} DESTINATION
              [--sftp-port PORT] [--sftp-identity-file FILE]
              [--s3-presigned-url URL] [--s3-presigned-url-log-file URL]
              [--azure-storage-sas-url URL] [--azure-storage-sas-url-log-file URL]
+             [--ibm-cos-url URL] [--ibm-cos-url-log-file URL]
+             [--ibm-cloud-api-key KEY]
              [--delete-local-on-successful-transfer] [--debug]
    or: $0 --validate-artifacts-file FILE
 
@@ -129,6 +131,12 @@ Remote Transfer Arguments:
                     Transfer output file to Azure Storage using a SAS URL.
       --azure-storage-sas-url-log-file URL
                     Transfer log file to Azure Storage using a SAS URL.
+      --ibm-cos-url URL
+                    Transfer output file to IBM Cloud Object Storage.
+      --ibm-cos-url-log-file URL
+                    Transfer log file to IBM Cloud Object Storage.
+      --ibm-cloud-api-key KEY
+                    IBM Cloud API key / Bearer token.
       --delete-local-on-successful-transfer
                     Delete local output and log files on successful transfer.
 
@@ -261,19 +269,67 @@ File from which the identity (private key) for public-key authentication is read
 
 This allows for using a pre-signed URL to upload the output file to S3 (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
 
+Example:
+
+```https://uac-test.s3.amazonaws.com/uac-output.tar.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220924T135105Z&X-Amz-Expires=360000&X-Amz-SignedHeaders=host&X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795```
+
+Please refer to [AWS documentation page](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html) for more information.
+
 **--s3-presigned-url-log-file**
 
 This allows for using a pre-signed URL to upload the acquisition log file to S3 (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+
+Example:
+
+```https://uac-test.s3.amazonaws.com/uac-output.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220924T135105Z&X-Amz-Expires=360000&X-Amz-SignedHeaders=host&X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795```
 
 ### Azure Storage options
 
 **--azure-storage-sas-url**
 
-This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage (if curl is available). It is strongly recommended to use single quotes to enclose the URL.
+
+Example:
+
+```https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D```
+
+Please refer to [Azure documentation page](https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview) for more information.
 
 **--azure-storage-sas-url-log-file**
 
-This allows for using a shared access signature (SAS) URL to upload the acquisition log file to Azure Storage (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+This allows for using a shared access signature (SAS) URL to upload the acquisition log file to Azure Storage (if curl is available). It is strongly recommended to use single quotes to enclose the URL.
+
+Example:
+
+```https://uac-test.blob.core.windows.net/uac-container/uac-output.log?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D```
+
+### IBM Cloud Object Storage options
+
+**--ibm-cos-url**
+
+This allows uploading the output file to IBM Cloud Object Storage (if curl is available). It is strongly recommended to use single quotes to enclose the URL.
+
+Example:
+
+```https://s3.us-south.cloud-object-storage.appdomain.cloud/uac-test/uac-output.tar.gz```
+
+Please refer to [IBM Cloud documentation page](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-curl) for more information.
+
+**--ibm-cos-url-log-file**
+
+This allows uploading the acquisition log file to IBM Cloud Object Storage (if curl is available). It is strongly recommended to use single quotes to enclose the URL.
+
+Example:
+
+```https://s3.us-south.cloud-object-storage.appdomain.cloud/uac-test/uac-output.log```
+
+**--ibm-cloud-api-key**
+
+IBM Cloud API key / Bearer token required to access the object storage.
+
+Example:
+
+```eyJraWQiOiIyMDIyMDkxMzA4MjciLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwiaWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwicmVhbG1pZCI6IklCTWlkIiwianRpIjoiYWVhMDE0MGYtZGM2Ni00MzE0LWJhMjMtZTIxOTAzZmQ3Y2ZhIiwiaWRlbnRpZmllciI6IjA2MDAwMUtVUkMiLCJnaXZlbl9uYW1lIjoiVGhpYWdvIiwiZmFtaWx5X25hbWUiOiJDYW5ve``` (truncated)
 
 ### Diagnostic options
 
