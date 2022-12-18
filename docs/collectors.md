@@ -91,7 +91,7 @@ artifacts:
 
 Output file name where collected data will be stored in. UAC never overwrites output files. Data will be appended to the file if the same file name is set for a different artifact rule within the same artifact directory.
 
-Both ```ps``` and ```ps auxwww``` outputs will be stored into the same ```ps.txt``` file in the example below.
+Both ```ps``` and ```ps auxwww``` outputs will be stored in the same ```ps.txt``` file in the example below. Note that any standard error message (coming from stderr stream) will be stored in ```ps.txt.stderr``` file.
 
 ```yaml
 artifacts:
@@ -133,6 +133,24 @@ artifacts:
     output_directory: proc/%line%
     output_file: strings.txt
     compress_output_file: true
+```
+
+### stderr_output_file
+<span class="required">Optional</span>
+
+Use this option to define a custom stderr file name.
+
+Standard error messages (coming from stderr stream) will be stored in the ```custom.txt.stderr``` file in the example below.
+
+```yaml
+artifacts:
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    command: ps
+    output_file: ps.txt
+    stderr_output_file: custom.txt.stderr
 ```
 
 ### compressed_output_file
@@ -529,6 +547,8 @@ artifacts:
 
 Output file name where the list of files will be stored in. UAC never overwrites output files. Data will be appended to the file if the same file name is set for a different artifact rule within the same artifact directory.
 
+Note that in the example below, any standard error message (coming from stderr stream) will be stored in ```same_output_file.txt.stderr``` file.
+
 ```yaml
 artifacts:
   -
@@ -569,6 +589,26 @@ artifacts:
     output_directory: proc/%line%
     output_file: strings.txt
     compress_output_file: true
+```
+
+### stderr_output_file
+<span class="required">Optional</span>
+
+Use this option to define a custom stderr file name.
+
+Standard error messages (coming from stderr stream) will be stored in the ```custom.txt.stderr``` file in the example below.
+
+```yaml
+artifacts:
+  -
+    description: List all socket files.
+    supported_os: [all]
+    collector: find
+    path: /
+    file_type: s
+    exclude_file_system: [proc, procfs]
+    output_file: socket_files.txt
+    stderr_output_file: custom.txt.stderr
 ```
 
 ## hash collector
@@ -938,6 +978,8 @@ Output file name where the hashes will be stored in. UAC never overwrites output
 
 The proper file extension (.md5, .sha1 or .sha256) will be added automatically to the output file according to the hash algorithm used to hash the files. In the example below, the output file will be ```same_output_file.txt.md5``` and ```same_output_file.txt.sha256``` if MD5 and SHA256 algorithms were set in ```config/uac.conf``` file.
 
+Note that in the example below, any standard error message (coming from stderr stream) will be stored in ```same_output_file.txt.stderr``` file.
+
 ```yaml
 artifacts:
   -
@@ -978,6 +1020,24 @@ artifacts:
     output_directory: proc/%line%
     output_file: strings.txt
     compress_output_file: true
+```
+
+### stderr_output_file
+<span class="required">Optional</span>
+
+Use this option to define a custom stderr file name.
+
+Standard error messages (coming from stderr stream) will be stored in the ```custom.txt.stderr``` file in the example below.
+
+```yaml
+artifacts:
+  -
+    description: Hash running processes.
+    supported_os: [aix]
+    collector: hash
+    path: /proc/[0-9]*/object/a.out
+    output_file: hash_running_processes
+    stderr_output_file: custom.stderr.txt
 ```
 
 ## stat collector
@@ -1353,6 +1413,8 @@ artifacts:
 
 Output file name where the stat information will be stored in. UAC never overwrites output files. Data will be appended to file if the same file name is set for a different artifact rule within the same artifact directory.
 
+Note that in the example below, any standard error message (coming from stderr stream) will be stored in ```same_output_file.txt.stderr``` file.
+
 ```yaml
 artifacts:
   -
@@ -1393,6 +1455,26 @@ artifacts:
     output_directory: proc/%line%
     output_file: strings.txt
     compress_output_file: true
+```
+
+### stderr_output_file
+<span class="required">Optional</span>
+
+Use this option to define a custom stderr file name.
+
+Standard error messages (coming from stderr stream) will be stored in the ```custom.txt.stderr``` file in the example below.
+
+```yaml
+artifacts:
+  -
+    description: Collect file stat information to create a bodyfile.
+    supported_os: [all]
+    collector: stat
+    path: /
+    exclude_file_system: [proc, procfs]
+    max_depth: 6
+    output_file: bodyfile.txt
+    stderr_output_file: custom.txt.stderr
 ```
 
 ## file collector
