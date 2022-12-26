@@ -153,6 +153,8 @@ A [profile](profile_file.md) name and/or a list of [artifacts](artifacts_file.md
 
 You can use as many --artifacts (-a) and --profile (-p) as you want to build an even more customized collection. Artifacts will be collected in the order they were provided in the command line. Note that duplicated artifacts will be collected only once.
 
+> **Full Disk Access** permission is a privacy feature introduced in macOS Mojave (10.14) that prevents some applications from accessing important data, such as Mail, Messages, and Safari files. So it is strongly recommended that you manually [grant permission for Terminal application](https://support.apple.com/guide/mac-help/allow-access-to-system-configuration-files-mchlccb25729/mac) before running UAC from the terminal, or [grant permission for remote users](https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac) before running UAC via ssh.
+
 ### Command line options
 
 **-p, --profile**
