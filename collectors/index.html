@@ -64,6 +64,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#output_directory">output_directory</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#stderr_output_file">stderr_output_file</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#compressed_output_file">compressed_output_file</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#exclude_nologin_users">exclude_nologin_users</a>
@@ -102,6 +104,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#output_directory_1">output_directory</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#stderr_output_file_1">stderr_output_file</a>
+    </li>
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#hash-collector">hash collector</a>
@@ -138,6 +142,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#output_directory_2">output_directory</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#stderr_output_file_2">stderr_output_file</a>
+    </li>
         </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#stat-collector">stat collector</a>
@@ -173,6 +179,8 @@
     <li class="toctree-l3"><a class="reference internal" href="#output_file_3">output_file</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#output_directory_3">output_directory</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#stderr_output_file_3">stderr_output_file</a>
     </li>
         </ul>
     </li>
@@ -325,7 +333,7 @@ done
 <h3 id="output_file">output_file</h3>
 <p><span class="required">Required</span></p>
 <p>Output file name where collected data will be stored in. UAC never overwrites output files. Data will be appended to the file if the same file name is set for a different artifact rule within the same artifact directory.</p>
-<p>Both <code>ps</code> and <code>ps auxwww</code> outputs will be stored into the same <code>ps.txt</code> file in the example below.</p>
+<p>Both <code>ps</code> and <code>ps auxwww</code> outputs will be stored in the same <code>ps.txt</code> file in the example below. Note that any standard error message (coming from stderr stream) will be stored in <code>ps.txt.stderr</code> file.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Report a snapshot of the current processes.
@@ -357,6 +365,19 @@ done
     output_directory: proc/%line%
     output_file: strings.txt
     compress_output_file: true
+</code></pre>
+<h3 id="stderr_output_file">stderr_output_file</h3>
+<p><span class="required">Optional</span></p>
+<p>Use this option to define a custom stderr file name.</p>
+<p>Standard error messages (coming from stderr stream) will be stored in the <code>custom.txt.stderr</code> file in the example below.</p>
+<pre><code class="language-yaml">artifacts:
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    command: ps
+    output_file: ps.txt
+    stderr_output_file: custom.txt.stderr
 </code></pre>
 <h3 id="compressed_output_file">compressed_output_file</h3>
 <p><span class="optional">Optional</span></p>
@@ -683,6 +704,7 @@ done
 <h3 id="output_file_1">output_file</h3>
 <p><span class="required">Required</span></p>
 <p>Output file name where the list of files will be stored in. UAC never overwrites output files. Data will be appended to the file if the same file name is set for a different artifact rule within the same artifact directory.</p>
+<p>Note that in the example below, any standard error message (coming from stderr stream) will be stored in <code>same_output_file.txt.stderr</code> file.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Search all files and directories from /etc.
@@ -714,6 +736,21 @@ done
     output_directory: proc/%line%
     output_file: strings.txt
     compress_output_file: true
+</code></pre>
+<h3 id="stderr_output_file_1">stderr_output_file</h3>
+<p><span class="required">Optional</span></p>
+<p>Use this option to define a custom stderr file name.</p>
+<p>Standard error messages (coming from stderr stream) will be stored in the <code>custom.txt.stderr</code> file in the example below.</p>
+<pre><code class="language-yaml">artifacts:
+  -
+    description: List all socket files.
+    supported_os: [all]
+    collector: find
+    path: /
+    file_type: s
+    exclude_file_system: [proc, procfs]
+    output_file: socket_files.txt
+    stderr_output_file: custom.txt.stderr
 </code></pre>
 <h2 id="hash-collector">hash collector</h2>
 <p>Use this collector to hash files and store the output into a text file. Hash algorithms that will be used during collection are defined in <code>config/uac.conf</code> file.</p>
@@ -1019,6 +1056,7 @@ done
 <p><span class="required">Required</span></p>
 <p>Output file name where the hashes will be stored in. UAC never overwrites output files. Data will be appended to file if the same file name is set for a different artifact rule within the same artifact directory.</p>
 <p>The proper file extension (.md5, .sha1 or .sha256) will be added automatically to the output file according to the hash algorithm used to hash the files. In the example below, the output file will be <code>same_output_file.txt.md5</code> and <code>same_output_file.txt.sha256</code> if MD5 and SHA256 algorithms were set in <code>config/uac.conf</code> file.</p>
+<p>Note that in the example below, any standard error message (coming from stderr stream) will be stored in <code>same_output_file.txt.stderr</code> file.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Hash all files and directories from /etc.
@@ -1050,6 +1088,19 @@ done
     output_directory: proc/%line%
     output_file: strings.txt
     compress_output_file: true
+</code></pre>
+<h3 id="stderr_output_file_2">stderr_output_file</h3>
+<p><span class="required">Optional</span></p>
+<p>Use this option to define a custom stderr file name.</p>
+<p>Standard error messages (coming from stderr stream) will be stored in the <code>custom.txt.stderr</code> file in the example below.</p>
+<pre><code class="language-yaml">artifacts:
+  -
+    description: Hash running processes.
+    supported_os: [aix]
+    collector: hash
+    path: /proc/[0-9]*/object/a.out
+    output_file: hash_running_processes
+    stderr_output_file: custom.stderr.txt
 </code></pre>
 <h2 id="stat-collector">stat collector</h2>
 <p>Use this collector to extract information from files and directories using either <code>stat</code> or <code>stat.pl</code> tool to create a body file. The body file is an intermediate file when creating a timeline of file activity. It is a pipe ("|") delimited text file that contains one line for each file. <a href="https://github.com/log2timeline/plaso">Plaso</a> and <a href="https://wiki.sleuthkit.org/index.php?title=Mactime">mactime</a> tools can be used to read this file and sorts the contents.</p>
@@ -1360,6 +1411,7 @@ done
 <h3 id="output_file_3">output_file</h3>
 <p><span class="required">Required</span></p>
 <p>Output file name where the stat information will be stored in. UAC never overwrites output files. Data will be appended to file if the same file name is set for a different artifact rule within the same artifact directory.</p>
+<p>Note that in the example below, any standard error message (coming from stderr stream) will be stored in <code>same_output_file.txt.stderr</code> file.</p>
 <pre><code class="language-yaml">artifacts:
   -
     description: Stat all files and directories from /etc.
@@ -1391,6 +1443,21 @@ done
     output_directory: proc/%line%
     output_file: strings.txt
     compress_output_file: true
+</code></pre>
+<h3 id="stderr_output_file_3">stderr_output_file</h3>
+<p><span class="required">Optional</span></p>
+<p>Use this option to define a custom stderr file name.</p>
+<p>Standard error messages (coming from stderr stream) will be stored in the <code>custom.txt.stderr</code> file in the example below.</p>
+<pre><code class="language-yaml">artifacts:
+  -
+    description: Collect file stat information to create a bodyfile.
+    supported_os: [all]
+    collector: stat
+    path: /
+    exclude_file_system: [proc, procfs]
+    max_depth: 6
+    output_file: bodyfile.txt
+    stderr_output_file: custom.txt.stderr
 </code></pre>
 <h2 id="file-collector">file collector</h2>
 <p>Use this collector to collect files and directories.</p>

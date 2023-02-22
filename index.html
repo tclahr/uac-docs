@@ -79,7 +79,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#validating-custom-artifacts-files">Validating custom artifacts files</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#using-your-own-binary-files">Using your own binary files</a>
+    <li class="toctree-l2"><a class="reference internal" href="#using-your-binary-files">Using your binary files</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#troubleshooting-and-support">Troubleshooting and support</a>
         <ul>
@@ -154,11 +154,11 @@
 <li>Customizable and extensible collections and artifacts.</li>
 <li>Respects the order of volatility during artifacts collection.</li>
 <li>Collects information from processes running without a binary on disk.</li>
-<li>Extracts information from files and directories to create a bodyfile (including enhanced file attributes for ext4).</li>
 <li>Hashes running processes and executable files.</li>
+<li>Extracts information from files and directories to create a bodyfile (including enhanced file attributes for ext4).</li>
 <li>Collects user and system configuration files and logs.</li>
 <li>Collects artifacts from applications.</li>
-<li>Acquires volatile memory from Linux systems using Microsoft's <a href="https://github.com/microsoft/avml">avml</a> tool.</li>
+<li>Acquires volatile memory from Linux systems using different methods and tools.</li>
 </ul>
 <h2 id="supported-operating-systems">Supported operating systems</h2>
 <p>UAC runs on any Unix-like system (regardless of the processor architecture). All UAC needs is shell :)</p>
@@ -282,6 +282,9 @@ Validation Arguments:
 <p>UAC does not need to be installed on the target system. You only need to download the latest version from the <a href="https://github.com/tclahr/uac/releases">releases page</a>, uncompress and run it. As simple as that!</p>
 <p>A <a href="profile_file/">profile</a> name and/or a list of <a href="artifacts_file/">artifacts</a>, and the destination directory need to be provided to run a collection. The remaining parameters are optional.</p>
 <p>You can use as many --artifacts (-a) and --profile (-p) as you want to build an even more customized collection. Artifacts will be collected in the order they were provided in the command line. Note that duplicated artifacts will be collected only once.</p>
+<blockquote>
+<p><strong>Full Disk Access</strong> permission is a privacy feature introduced in macOS Mojave (10.14) that prevents some applications from accessing important data, such as Mail, Messages, and Safari files. So it is strongly recommended that you manually <a href="https://support.apple.com/guide/mac-help/allow-access-to-system-configuration-files-mchlccb25729/mac">grant permission for Terminal application</a> before running UAC from the terminal, or <a href="https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac">grant permission for remote users</a> before running UAC via ssh.</p>
+</blockquote>
 <h3 id="command-line-options_1">Command line options</h3>
 <p><strong>-p, --profile</strong></p>
 <p>Specify the collection profile name. Profiles are used to define the list of artifacts that will be collected during the execution. They are YAML files located in the <code>profiles</code> directory.</p>
@@ -298,7 +301,7 @@ Validation Arguments:
 <p>Examples:</p>
 <pre><code class="language-shell">-a files/logs/\*,\!files/logs/var_log.yaml
 </code></pre>
-<pre><code class="language-shell">-a live_response/\* -a files/logs/\* -a \!files/logs/var_log.yaml
+<pre><code class="language-shell">-a artifacts/live_response/\* -a ./artifacts/files/logs/\* -a \!artifacts/files/logs/var_log.yaml
 </code></pre>
 <p><strong>DESTINATION</strong></p>
 <p>The directory where the output and acquisition log files should be copied to.</p>
@@ -379,46 +382,32 @@ Validation Arguments:
 <p>Delete the local output and acquisition log files if they were successfully transferred to a remote destination such as an SFTP server or S3.</p>
 <h3 id="examples">Examples</h3>
 <p>Common usage scenarios may include the following:</p>
-<ul>
-<li>Collect all artifacts based on the <code>full</code> profile, and create the output file in <code>/tmp</code>.</li>
-</ul>
+<p><strong>Collect all artifacts based on the <code>full</code> profile, and create the output file in <code>/tmp</code>.</strong></p>
 <pre><code class="language-shell">./uac -p full /tmp
 </code></pre>
-<ul>
-<li>Collect all <code>live_response</code>, and the <code>bodyfile/bodyfile.yaml</code> artifact, and create the output file in the current directory.</li>
-</ul>
+<p><strong>Collect all <code>live_response</code>, and the <code>bodyfile/bodyfile.yaml</code> artifact, and create the output file in the current directory.</strong></p>
 <pre><code class="language-shell">./uac -a live_response/\*,bodyfile/bodyfile.yaml .
 </code></pre>
-<ul>
-<li>Collect all artifacts based on the <code>full</code> profile, but excludes the <code>bodyfile/bodyfile.yaml</code> artifact, and create the output file in <code>/tmp</code>. </li>
-</ul>
+<p><strong>Collect all artifacts based on the <code>full</code> profile, but excludes the <code>bodyfile/bodyfile.yaml</code> artifact, and create the output file in <code>/tmp</code>.</strong></p>
 <pre><code class="language-shell">./uac -p full -a \!bodyfile/bodyfile.yaml /tmp
 </code></pre>
-<ul>
-<li>Collect the memory dump, then all artifacts based on the <code>full</code> profile.</li>
-</ul>
-<pre><code class="language-shell">./uac -a memory_dump/avml.yaml -p full /tmp
+<p><strong>Collect the memory dump, then all artifacts based on the <code>full</code> profile.</strong></p>
+<pre><code class="language-shell">./uac -a artifacts/memory_dump/avml.yaml -p full /tmp
 </code></pre>
-<ul>
-<li>Collect the memory dump, then all artifacts based on the <code>ir_triage</code> and <code>my_custom_profile01</code> profiles, and excludes the <code>bodyfile/bodyfile.yaml</code> artifact.</li>
-</ul>
-<pre><code class="language-shell">./uac -a memory_dump/avml.yaml -p ir_triage -p my_custom_profile01 -a \!bodyfile/bodyfile.yaml /tmp
+<p><strong>Collect the memory dump, then all artifacts based on the <code>ir_triage</code> profile excluding the <code>bodyfile/bodyfile.yaml</code> artifact.</strong></p>
+<pre><code class="language-shell">./uac -a ./artifacts/memory_dump/avml.yaml -p ir_triage -a \!artifacts/bodyfile/bodyfile.yaml /tmp
 </code></pre>
-<ul>
-<li>Collect all artifacts based on the <code>full</code> profile, but limit the data collection based on the date range provided.</li>
-</ul>
+<p><strong>Collect all artifacts based on the <code>full</code> profile, but limit the data collection based on the date range provided.</strong></p>
 <pre><code class="language-shell">./uac -p full /tmp --date-range-start 2021-05-01 --date-range-end 2021-08-31
 </code></pre>
-<ul>
-<li>Collect all but live response artifacts from a Linux disk image mounted in <code>/mnt/ewf</code>.</li>
-</ul>
+<p><strong>Collect all but live response artifacts from a Linux disk image mounted in <code>/mnt/ewf</code>.</strong></p>
 <pre><code class="language-shell">./uac -p full -a \!live_response/\* /tmp --mount-point /mnt/ewf --operating-system linux
 </code></pre>
 <h2 id="validating-custom-artifacts-files">Validating custom artifacts files</h2>
 <p>It is recommended that you validate your custom artifacts files before running a collection. You can do it using the <code>--validate-artifacts-file</code> option as shown below.</p>
 <pre><code class="language-shell">./uac --validate-artifacts-file ./artifacts/files/my_custom_artifact.yaml
 </code></pre>
-<h2 id="using-your-own-binary-files">Using your own binary files</h2>
+<h2 id="using-your-binary-files">Using your binary files</h2>
 <p>Place your validated binary files in the <code>[uac_directory]\bin</code> directory if you want them to be executed instead of the built-in ones provided by the target operating system.</p>
 <p>UAC will detect and run CPU architecture-specific executable files, so they need to be placed within the following directory structure: <code>[uac_directory]\bin\[operating_system]\[architecture]</code>.</p>
 <p>Operating system must be one of the following options (in lowercase): android, aix, freebsd, linux, macos, netbsd, netscaler, openbsd or solaris.</p>
@@ -431,7 +420,7 @@ Validation Arguments:
 </ul>
 <h2 id="troubleshooting-and-support">Troubleshooting and support</h2>
 <h3 id="debug-mode">Debug mode</h3>
-<p>Debug mode <code>--debug</code> may be useful if you are trying to find the source for an error. When debug mode is on, UAC will use <code>set -x</code> to generate debugging messages, and store them into <code>uac.log.stderr</code> file.</p>
+<p>Debug mode <code>--debug</code> may be useful if you are trying to find the source for an error. When debug mode is on, UAC will use <code>set -x</code> to generate debugging messages, and store them in <code>uac.log.stderr</code> file.</p>
 <h3 id="file-an-issue-on-github">File an issue on Github</h3>
 <p>If you are a user and you find a bug, please submit an <a href="https://github.com/tclahr/uac/issues">issue</a>. Please try to provide sufficient information for someone else to reproduce the issue. One of the project's <a href="https://github.com/tclahr/uac/blob/master/MAINTAINERS.md">maintainers</a> should respond to your issue soon.</p>
 <p>Please search within our <a href="https://github.com/tclahr/uac/issues">already reported bugs</a> before raising a new one to make sure you're not raising a duplicate.</p>
@@ -444,7 +433,7 @@ Validation Arguments:
 <li><a href="https://twitter.com/tclahr">Twitter</a> (Get the news fast)</li>
 </ul>
 <h2 id="contributing">Contributing</h2>
-<p>Have you created your own artifact files? Please share them with us!</p>
+<p>Have you created any artifact files? Please share them with us!</p>
 <p>You can contribute with new artifacts, profiles, bug fixes or even propose new features. Please read our <a href="https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md">Contributing Guide</a> before submitting a Pull Request to the project.</p>
 <h2 id="license">License</h2>
 <p>The UAC project uses the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License Version 2.0</a> software license.</p>
