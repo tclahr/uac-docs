@@ -14,11 +14,11 @@ The source code is available from the [project page](https://github.com/tclahr/u
 - Customizable and extensible collections and artifacts.
 - Respects the order of volatility during artifacts collection.
 - Collects information from processes running without a binary on disk.
-- Extracts information from files and directories to create a bodyfile (including enhanced file attributes for ext4).
 - Hashes running processes and executable files.
+- Extracts information from files and directories to create a bodyfile (including enhanced file attributes for ext4).
 - Collects user and system configuration files and logs.
 - Collects artifacts from applications.
-- Acquires volatile memory from Linux systems using Microsoft's [avml](https://github.com/microsoft/avml) tool.
+- Acquires volatile memory from Linux systems using different methods and tools.
 
 ## Supported operating systems
 
@@ -153,6 +153,8 @@ A [profile](profile_file.md) name and/or a list of [artifacts](artifacts_file.md
 
 You can use as many --artifacts (-a) and --profile (-p) as you want to build an even more customized collection. Artifacts will be collected in the order they were provided in the command line. Note that duplicated artifacts will be collected only once.
 
+> **Full Disk Access** permission is a privacy feature introduced in macOS Mojave (10.14) that prevents some applications from accessing important data, such as Mail, Messages, and Safari files. So it is strongly recommended that you manually [grant permission for Terminal application](https://support.apple.com/guide/mac-help/allow-access-to-system-configuration-files-mchlccb25729/mac) before running UAC from the terminal, or [grant permission for remote users](https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac) before running UAC via ssh.
+
 ### Command line options
 
 **-p, --profile**
@@ -186,7 +188,7 @@ Examples:
 ```
 
 ```shell
--a live_response/\* -a files/logs/\* -a \!files/logs/var_log.yaml
+-a artifacts/live_response/\* -a ./artifacts/files/logs/\* -a \!artifacts/files/logs/var_log.yaml
 ```
 
 **DESTINATION**
@@ -347,43 +349,43 @@ Delete the local output and acquisition log files if they were successfully tran
 
 Common usage scenarios may include the following:
 
-- Collect all artifacts based on the ```full``` profile, and create the output file in ```/tmp```.
+**Collect all artifacts based on the ```full``` profile, and create the output file in ```/tmp```.**
 
 ```shell
 ./uac -p full /tmp
 ```
 
-- Collect all ```live_response```, and the ```bodyfile/bodyfile.yaml``` artifact, and create the output file in the current directory.
+**Collect all ```live_response```, and the ```bodyfile/bodyfile.yaml``` artifact, and create the output file in the current directory.**
 
 ```shell
 ./uac -a live_response/\*,bodyfile/bodyfile.yaml .
 ```
 
-- Collect all artifacts based on the ```full``` profile, but excludes the ```bodyfile/bodyfile.yaml``` artifact, and create the output file in ```/tmp```. 
+**Collect all artifacts based on the ```full``` profile, but excludes the ```bodyfile/bodyfile.yaml``` artifact, and create the output file in ```/tmp```.**
 
 ```shell
 ./uac -p full -a \!bodyfile/bodyfile.yaml /tmp
 ```
 
-- Collect the memory dump, then all artifacts based on the ```full``` profile.
+**Collect the memory dump, then all artifacts based on the ```full``` profile.**
 
 ```shell
-./uac -a memory_dump/avml.yaml -p full /tmp
+./uac -a artifacts/memory_dump/avml.yaml -p full /tmp
 ```
 
-- Collect the memory dump, then all artifacts based on the ```ir_triage``` and ```my_custom_profile01``` profiles, and excludes the ```bodyfile/bodyfile.yaml``` artifact.
+**Collect the memory dump, then all artifacts based on the ```ir_triage``` profile excluding the ```bodyfile/bodyfile.yaml``` artifact.**
 
 ```shell
-./uac -a memory_dump/avml.yaml -p ir_triage -p my_custom_profile01 -a \!bodyfile/bodyfile.yaml /tmp
+./uac -a ./artifacts/memory_dump/avml.yaml -p ir_triage -a \!artifacts/bodyfile/bodyfile.yaml /tmp
 ```
 
-- Collect all artifacts based on the ```full``` profile, but limit the data collection based on the date range provided.
+**Collect all artifacts based on the ```full``` profile, but limit the data collection based on the date range provided.**
 
 ```shell
 ./uac -p full /tmp --date-range-start 2021-05-01 --date-range-end 2021-08-31
 ```
 
-- Collect all but live response artifacts from a Linux disk image mounted in ```/mnt/ewf```.
+**Collect all but live response artifacts from a Linux disk image mounted in ```/mnt/ewf```.**
 
 ```shell
 ./uac -p full -a \!live_response/\* /tmp --mount-point /mnt/ewf --operating-system linux
@@ -397,7 +399,7 @@ It is recommended that you validate your custom artifacts files before running a
 ./uac --validate-artifacts-file ./artifacts/files/my_custom_artifact.yaml
 ```
 
-## Using your own binary files
+## Using your binary files
 
 Place your validated binary files in the ```[uac_directory]\bin``` directory if you want them to be executed instead of the built-in ones provided by the target operating system.
 
@@ -417,7 +419,7 @@ For example:
 
 ### Debug mode
 
-Debug mode ```--debug``` may be useful if you are trying to find the source for an error. When debug mode is on, UAC will use ```set -x``` to generate debugging messages, and store them into ```uac.log.stderr``` file.
+Debug mode ```--debug``` may be useful if you are trying to find the source for an error. When debug mode is on, UAC will use ```set -x``` to generate debugging messages, and store them in ```uac.log.stderr``` file.
 
 ### File an issue on Github
 
@@ -437,7 +439,7 @@ For additional help, you can use one of the channels to ask a question:
 
 ## Contributing
 
-Have you created your own artifact files? Please share them with us!
+Have you created any artifact files? Please share them with us!
 
 You can contribute with new artifacts, profiles, bug fixes or even propose new features. Please read our [Contributing Guide](https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md) before submitting a Pull Request to the project.
 
