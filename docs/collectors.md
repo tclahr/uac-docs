@@ -22,7 +22,7 @@ artifacts:
     description: Extract strings from running processes.
     supported_os: [aix]
     collector: command
-    loop_command: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
+    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
     command: strings -a /proc/%line%/object/a.out
     output_directory: proc/%line%
     output_file: strings.txt
@@ -50,7 +50,7 @@ artifacts:
     output_file: ps_-ef.txt
 ```
 
-### loop_command
+### foreach
 <span class="optional">Optional</span>
 
 The command that will be run and the output lines will be used as the input for the [command](#command) option.
@@ -58,7 +58,7 @@ The command that will be run and the output lines will be used as the input for 
 The logic behind it is:
 
 ```
-for (each line returned by loop_command); do
+for (each line returned by foreach); do
   command
 done
 ```
@@ -67,7 +67,7 @@ There is one variable that can be used that will be replaced by UAC at runtime:
 
 |VARIABLE NAME|DESCRIPTION|
 |---|---|
-|%line%|Replaced with each line returned by the execution of the loop_command command|
+|%line%|Replaced with each line returned by the execution of the foreach command|
 
 Let's suppose you need to collect container logs, and you don't know the container IDs. First, you need to retrieve all the IDs: ```docker container ps -all | sed 1d | awk '{print $1}'```
 
@@ -81,7 +81,7 @@ artifacts:
     description: Fetch the logs of all containers.
     supported_os: [linux]
     collector: command
-    loop_command: docker container ps -all | sed 1d | awk '{print $1}'
+    foreach: docker container ps -all | sed 1d | awk '{print $1}'
     command: docker container logs %line%
     output_file: docker_container_logs_%line%.txt
 ```
@@ -128,7 +128,7 @@ artifacts:
     description: Extract strings from running processes.
     supported_os: [android, linux, netbsd]
     collector: command
-    loop_command: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
+    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
     command: strings -a /proc/%line%/exe
     output_directory: proc/%line%
     output_file: strings.txt
@@ -584,7 +584,7 @@ artifacts:
     description: Extract strings from running processes.
     supported_os: [android, linux, netbsd]
     collector: command
-    loop_command: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
+    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
     command: strings -a /proc/%line%/exe
     output_directory: proc/%line%
     output_file: strings.txt
@@ -1015,7 +1015,7 @@ artifacts:
     description: Extract strings from running processes.
     supported_os: [android, linux, netbsd]
     collector: command
-    loop_command: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
+    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
     command: strings -a /proc/%line%/exe
     output_directory: proc/%line%
     output_file: strings.txt
@@ -1450,7 +1450,7 @@ artifacts:
     description: Extract strings from running processes.
     supported_os: [android, linux, netbsd]
     collector: command
-    loop_command: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
+    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
     command: strings -a /proc/%line%/exe
     output_directory: proc/%line%
     output_file: strings.txt
