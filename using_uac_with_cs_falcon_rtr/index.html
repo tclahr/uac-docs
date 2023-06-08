@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/output_file/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/using_uac_with_cs_falcon_rtr/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Output file format - UAC Documentation</title>
+    <title>Using UAC with CrowdStrike Falcon Real Time Response - UAC Documentation</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Output file format";
-        var mkdocs_page_input_path = "output_file.md";
-        var mkdocs_page_url = "/tclahr/uac/output_file/";
+        var mkdocs_page_name = "Using UAC with CrowdStrike Falcon Real Time Response";
+        var mkdocs_page_input_path = "using_uac_with_cs_falcon_rtr.md";
+        var mkdocs_page_url = "/tclahr/uac/using_uac_with_cs_falcon_rtr/";
       </script>
     
     <script src="../js/jquery-3.6.0.min.js" defer></script>
@@ -58,17 +58,17 @@
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OUTPUT FILE</span></p>
-              <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Output file format</a>
-    <ul class="current">
-    </ul>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../output_file/">Output file format</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OTHER</span></p>
-              <ul>
+              <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../super_timeline/">Super Timeline creation</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Using UAC with CrowdStrike Falcon Real Time Response</a>
+    <ul class="current">
+    </ul>
                   </li>
               </ul>
       </div>
@@ -85,8 +85,8 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
-          <li>OUTPUT FILE &raquo;</li>
-      <li>Output file format</li>
+          <li>OTHER &raquo;</li>
+      <li>Using UAC with CrowdStrike Falcon Real Time Response</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -95,16 +95,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="output-file-format">Output file format</h1>
-<p>A compressed archive (tar.gz) file is created in the destination directory when the collection is finished. The following pattern is used for naming output files: <code>uac-HOSTNAME-OPERATING_SYSTEM-YYYYMMDDhhmmss.tar.gz</code>. The compressed archive file is hashed and the value is stored in the acquisition log file.</p>
-<p>Each artifact will be stored in its own directory. Files collected by <a href="../collectors/#file-collector">file</a> collector will be placed into the <code>[root]</code> directory.</p>
-<p><img alt="screenshot" src="../img/output_file_01.png" /></p>
+                <h1 id="using-uac-with-crowdstrike-falcon-real-time-response">Using UAC with CrowdStrike Falcon Real Time Response</h1>
+<p>With CrowdStrike Falcon Real Time Response (RTR), analysts can remotely access and interact with endpoints in real time, gaining instant visibility into the system and collecting valuable forensic data by deploying files and running custom scripts.</p>
+<p>In the instructions below the UAC package (i.e. uac-2.6.0.tar.gz) was stored in the CrowdStrike cloud. This way it can be deployed even if an endpoint is isolated via Network Containment feature.</p>
+<p>1. Start by creating a temporary working directory on the live endpoint, then change the working directory to it.</p>
+<pre><code class="language-text">/&gt; mkdir /tmp/uac
+/&gt; cd /tmp/uac
+</code></pre>
+<p>2. Deploy and uncompress the UAC package.</p>
+<pre><code class="language-text">/tmp/uac&gt; put &quot;uac-2.6.0.tar.gz&quot;
+/tmp/uac&gt; runscript -Raw=&quot;tar -zxf uac-2.6.0.tar.gz&quot; -Timeout=60
+</code></pre>
+<p>3. Change the working directory and run the collection. Note that CrowdStrike Falcon RTR session times out after 10 minutes. Make sure to keep the Falcon RTR session active.</p>
+<pre><code class="language-text">/tmp/uac&gt; cd uac-2.6.0
+/tmp/uac/uac-2.6.0&gt; runscript -Raw=&quot;./uac -p ir_triage /tmp/uac&quot; -Timeout=9999
+</code></pre>
+<p>4. Upload the output and log files to the CrowdStrike cloud using the <code>get</code> command.</p>
+<pre><code class="language-text">/tmp/uac/uac-2.6.0&gt; get &quot;/tmp/uac/uac-hostname-os-20230101120101.tar.gz&quot;
+/tmp/uac/uac-2.6.0&gt; get &quot;/tmp/uac/uac-hostname-os-20230101120101.log&quot;
+</code></pre>
+<blockquote>
+<p>Note: The maximum file size for <code>get</code> is 4 GB. When needed, split the files using the <code>split</code> command.</p>
+</blockquote>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../exposed_vars/" class="btn btn-neutral float-left" title="Exposed variables"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../super_timeline/" class="btn btn-neutral float-right" title="Super Timeline creation">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../super_timeline/" class="btn btn-neutral float-left" title="Super Timeline creation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
     </div>
 
   <hr/>
@@ -127,10 +144,8 @@
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../exposed_vars/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../super_timeline/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
-    
-      <span><a href="../super_timeline/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
