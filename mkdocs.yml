@@ -12,6 +12,7 @@ nav:
     - 'Output file format': output_file.md
   - 'OTHER':
     - 'Super Timeline creation': super_timeline.md
+    - 'Using UAC with CrowdStrike Falcon Real Time Response': using_uac_with_cs_falcon_rtr.md
 theme: readthedocs
 extra_css: [extra.css]
 plugins:
