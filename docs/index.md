@@ -69,6 +69,9 @@ Positional Arguments:
   DESTINATION       Specify the directory the output file should be copied to.
 
 Output File Arguments:
+  -o  --output-filename FILENAME
+                    Output filename (without extension).
+                    Default: uac-%hostname%-%os%-%timestamp%
   -z  --zip         Create a password-protected zip file.
                     Default password: infected
       --zip-password PASSWORD
@@ -190,6 +193,28 @@ Examples:
 
 The directory where the output and acquisition log files should be copied to.
 
+### Output File Arguments
+
+**-o, --output-filename**
+
+Output filename (without extension).
+
+The following variables are supported:
+
+|Variable|Replacement|
+|---|---|
+|%hostname%|Hostname of the target system|
+|%os%|Operating system of the target system|
+|%timestamp%|Timestamp (YYYYMMDDhhmmss)|
+
+**-z, --zip**
+
+Create a password-protected zip file. Default password: infected
+
+**--zip-password**
+
+Set a custom password.
+
 ### Collection Arguments
 
 **-m, --mount-point**
@@ -223,16 +248,6 @@ Only collects files that were last modified/accessed/changed after the given dat
 **--date-range-end**
 
 Only collects files that were last modified/accessed/changed before the given date. Value needs to be in YYYY-MM-DD format.
-
-### Output File Arguments
-
-**-z, --zip**
-
-Create a password-protected zip file. Default password: infected
-
-**--zip-password**
-
-Set a custom password.
 
 ### Case information Arguments
 

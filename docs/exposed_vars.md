@@ -2,22 +2,22 @@
 
 Some variables can be used and will be replaced by UAC at runtime:
 
-|Variable Name|Description|
+|Variable|Replacement|
 |---|---|
-|%uac_directory%|Replaced with the full path to where uac was run from|
-|%destination_directory%|Replaced with the full path to the destination directory along with the path to the artifact appended to it|
-|%mount_point%|Replaced with the full path of the target mount point|
-|%start_date%|Replaced with the date specified for --date-range-start|
-|%start_date_epoch%|Replaced with the epoch converted date specified for --date-range-start|
-|%end_date%|Replaced with the date specified for --date-range-end|
-|%end_date_epoch%|Replaced with the epoch converted date specified for --date-range-end|
+|%uac_directory%|Full path to where uac was run from|
+|%destination_directory%|Full path to the destination directory along with the path to the artifact appended to it|
+|%mount_point%|Full path of the target mount point|
+|%start_date%|Date specified by --date-range-start|
+|%start_date_epoch%|Epoch converted date specified by --date-range-start|
+|%end_date%|Date specified by --date-range-end|
+|%end_date_epoch%|Epoch converted date specified by --date-range-end|
 
 The following two variables will trigger a loop in which UAC will run the command across all users.
 
-|Variable Name|Description|
+|Variable|Replacement|
 |---|---|
-|%user%|Replaced with the username of each user|
-|%user_home%|Replaced with the user's home directory path|
+|%user%|Username of each user|
+|%user_home%|User's home directory path|
 
 Examples:
 
