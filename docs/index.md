@@ -197,7 +197,7 @@ The directory where the output and acquisition log files should be copied to.
 
 **-o, --output-filename**
 
-Output filename (without extension).
+Output filename (without extension). Default: uac-%hostname%-%os%-%timestamp%
 
 The following variables are supported:
 
