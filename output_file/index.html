@@ -96,8 +96,9 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="output-file-format">Output file format</h1>
-<p>A compressed archive (tar.gz) file is created in the destination directory when the collection is finished. The following pattern is used for naming output files: <code>uac-HOSTNAME-OPERATING_SYSTEM-YYYYMMDDhhmmss.tar.gz</code>. The compressed archive file is hashed and the value is stored in the acquisition log file.</p>
-<p>Each artifact will be stored in its own directory. Files collected by <a href="../collectors/#file-collector">file</a> collector will be placed into the <code>[root]</code> directory.</p>
+<p>A compressed archive file is created in the destination directory when the collection is finished. The default output file name will be (without extension): <code>uac-%hostname%-%os%-%timestamp%</code></p>
+<p>The compressed archive file is hashed and the value is stored in the acquisition log file.</p>
+<p>Each artifact will be stored in its directory. Files collected by <a href="../collectors/#file-collector">file</a> collector will be placed into the <code>[root]</code> directory.</p>
 <p><img alt="screenshot" src="../img/output_file_01.png" /></p>
               
             </div>

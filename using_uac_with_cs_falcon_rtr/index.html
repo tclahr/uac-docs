@@ -104,11 +104,11 @@
 </code></pre>
 <p>2. Deploy and uncompress the UAC package.</p>
 <pre><code class="language-text">/tmp/uac&gt; put &quot;uac-2.6.0.tar.gz&quot;
-/tmp/uac&gt; runscript -Raw=&quot;tar -zxf uac-2.6.0.tar.gz&quot; -Timeout=60
+/tmp/uac&gt; runscript -Raw=```tar -zxf uac-2.6.0.tar.gz``` -Timeout=60
 </code></pre>
 <p>3. Change the working directory and run the collection. Note that CrowdStrike Falcon RTR session times out after 10 minutes. Make sure to keep the Falcon RTR session active.</p>
 <pre><code class="language-text">/tmp/uac&gt; cd uac-2.6.0
-/tmp/uac/uac-2.6.0&gt; runscript -Raw=&quot;./uac -p ir_triage /tmp/uac&quot; -Timeout=9999
+/tmp/uac/uac-2.6.0&gt; runscript -Raw=```./uac -p ir_triage /tmp/uac``` -Timeout=9999
 </code></pre>
 <p>4. Upload the output and log files to the CrowdStrike cloud using the <code>get</code> command.</p>
 <pre><code class="language-text">/tmp/uac/uac-2.6.0&gt; get &quot;/tmp/uac/uac-hostname-os-20230101120101.tar.gz&quot;
