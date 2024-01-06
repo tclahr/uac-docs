@@ -2,7 +2,7 @@
 
 UAC is a Live Response collection script for Incident Response that makes use of native binaries and tools to automate the collection of AIX, Android, ESXi, FreeBSD, Linux, macOS, NetBSD, NetScaler, OpenBSD and Solaris systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.
 
-UAC reads artifacts files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.
+UAC reads artifact files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.
 
 The source code is available from the [project page](https://github.com/tclahr/uac).
 
@@ -10,15 +10,15 @@ The source code is available from the [project page](https://github.com/tclahr/u
 
 ## Main features
 
-- Runs everywhere with no dependencies (no installation required).
+- Run everywhere with no dependencies (no installation required).
 - Customizable and extensible collections and artifacts.
-- Respects the order of volatility during artifacts collection.
-- Collects information from processes running without a binary on disk.
-- Hashes running processes and executable files.
-- Extracts information from files and directories to create a bodyfile (including enhanced file attributes for ext4).
-- Collects user and system configuration files and logs.
-- Collects artifacts from applications.
-- Acquires volatile memory from Linux systems using different methods and tools.
+- Respect the order of volatility during artifact collection.
+- Collect information from processes running without a binary on disk.
+- Hash running processes and executable files.
+- Extract information from files and directories to create a bodyfile (including enhanced file attributes for ext4).
+- Collect user and system configuration files and logs.
+- Collect artifacts from applications.
+- Acquire volatile memory from Linux systems using different methods and tools.
 
 ## Supported operating systems
 
@@ -57,7 +57,7 @@ Profiling Arguments:
                     to list available profiles.
   -a, --artifacts ARTIFACTS
                     Specify the artifacts to be collected during the collection.
-                    The expression is a comma separated string where each element
+                    The expression is a comma-separated string where each element
                     is an artifact file. Each element can be prepended with an 
                     exclamation mark to exclude the artifact.
                     Special characters such as ! and * must be escaped with a
@@ -67,15 +67,6 @@ Profiling Arguments:
 
 Positional Arguments:
   DESTINATION       Specify the directory the output file should be copied to.
-
-Output File Arguments:
-  -o  --output-filename FILENAME
-                    Output filename (without extension).
-                    Default: uac-%hostname%-%os%-%timestamp%
-  -z  --zip         Create a password-protected zip file.
-                    Default password: infected
-      --zip-password PASSWORD
-                    Set a custom password.
 
 Collection Arguments:
   -m, --mount-point MOUNT_POINT
@@ -193,28 +184,6 @@ Examples:
 
 The directory where the output and acquisition log files should be copied to.
 
-### Output File Arguments
-
-**-o, --output-filename**
-
-Output filename (without extension). Default: uac-%hostname%-%os%-%timestamp%
-
-The following variables are supported:
-
-|Variable|Replacement|
-|---|---|
-|%hostname%|Hostname of the target system|
-|%os%|Operating system of the target system|
-|%timestamp%|Timestamp (YYYYMMDDhhmmss)|
-
-**-z, --zip**
-
-Create a password-protected zip file. Default password: infected
-
-**--zip-password**
-
-Set a custom password.
-
 ### Collection Arguments
 
 **-m, --mount-point**
@@ -229,7 +198,7 @@ Accepted values: aix, android, esxi, freebsd, linux, macos, netbsd, netscaler, o
 
 **-u, --run-as-non-root**
 
-Disable root user check. Note that artifacts collection may be limited.
+Disable root user check. Note that artifact collection may be limited.
 
 **--hostname**
 
@@ -439,7 +408,7 @@ For example:
 
 ### Debug mode
 
-Debug mode ```--debug``` may be useful if you are trying to find the source for an error. When debug mode is on, UAC will use ```set -x``` to generate debugging messages, and store them in ```uac.log.stderr``` file.
+Debug mode ```--debug``` may be useful if you are trying to find the source for an error. When debug mode is on, UAC will use ```set -x``` to generate debugging messages and store them in ```uac.log.stderr``` file.
 
 ### File an issue on Github
 
