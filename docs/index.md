@@ -2,7 +2,7 @@
 
 UAC is a Live Response collection script for Incident Response that makes use of native binaries and tools to automate the collection of AIX, Android, ESXi, FreeBSD, Linux, macOS, NetBSD, NetScaler, OpenBSD and Solaris systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.
 
-UAC reads artifacts files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.
+UAC reads artifact files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.
 
 The source code is available from the [project page](https://github.com/tclahr/uac).
 
@@ -10,15 +10,15 @@ The source code is available from the [project page](https://github.com/tclahr/u
 
 ## Main features
 
-- Runs everywhere with no dependencies (no installation required).
+- Run everywhere with no dependencies (no installation required).
 - Customizable and extensible collections and artifacts.
-- Respects the order of volatility during artifacts collection.
-- Collects information from processes running without a binary on disk.
-- Hashes running processes and executable files.
-- Extracts information from files and directories to create a bodyfile (including enhanced file attributes for ext4).
-- Collects user and system configuration files and logs.
-- Collects artifacts from applications.
-- Acquires volatile memory from Linux systems using different methods and tools.
+- Respect the order of volatility during artifact collection.
+- Collect information from processes running without a binary on disk.
+- Hash running processes and executable files.
+- Extract information from files and directories to create a bodyfile (including enhanced file attributes for ext4).
+- Collect user and system configuration files and logs.
+- Collect artifacts from applications.
+- Acquire volatile memory from Linux systems using different methods and tools.
 
 ## Supported operating systems
 
@@ -43,19 +43,8 @@ UAC runs on any Unix-like system (regardless of the processor architecture). All
 UAC is a command line tool, and as such, has several options that can be used to interact with it. It is recommended to run UAC from an external device/usb/network share to avoid overwriting evidence.
 
 <pre class="code">
-Usage: ./uac [-h] [-V] [--debug] {-p PROFILE | -a ARTIFACTS} DESTINATION
-             [-m MOUNT_POINT] [-s OPERATING_SYSTEM] [-u] [--temp_dir PATH]
-             [--date-range-start YYYY-MM-DD] [--date-range-start YYYY-MM-DD]
-             [--case-number CASE_NUMBER] [--description DESCRIPTION]
-             [--evidence-number EVIDENCE_NUMBER] [--examiner EXAMINER]
-             [--notes NOTES] [--hostname HOSTNAME] [--stfp SERVER] 
-             [--sftp-port PORT] [--sftp-identity-file FILE]
-             [--s3-presigned-url URL] [--s3-presigned-url-log-file URL]
-             [--azure-storage-sas-url URL] [--azure-storage-sas-url-log-file URL]
-             [--ibm-cos-url URL] [--ibm-cos-url-log-file URL]
-             [--ibm-cloud-api-key KEY]
-             [--delete-local-on-successful-transfer] [--debug]
-   or: $0 --validate-artifacts-file FILE
+Usage: ./uac {-p PROFILE | -a ARTIFACTS} DESTINATION [OPTIONS]
+   or: ./uac --validate-artifacts-file FILE
 
 Optional Arguments:
   -h, --help        Display this help and exit.
@@ -68,7 +57,7 @@ Profiling Arguments:
                     to list available profiles.
   -a, --artifacts ARTIFACTS
                     Specify the artifacts to be collected during the collection.
-                    The expression is a comma separated string where each element
+                    The expression is a comma-separated string where each element
                     is an artifact file. Each element can be prepended with an 
                     exclamation mark to exclude the artifact.
                     Special characters such as ! and * must be escaped with a
@@ -121,7 +110,7 @@ Remote Transfer Arguments:
       --sftp-port PORT
                     Remote SFTP server port (default: 22).
       --sftp-identity-file FILE
-                    File from which the identity (private key) for public-key
+                    File from which the identity (private key) for public key
                     authentication is read.
       --s3-presigned-url URL
                     Transfer output file to AWS S3 using a pre-signed URL.
@@ -195,7 +184,7 @@ Examples:
 
 The directory where the output and acquisition log files should be copied to.
 
-### Collection options
+### Collection Arguments
 
 **-m, --mount-point**
 
@@ -209,7 +198,7 @@ Accepted values: aix, android, esxi, freebsd, linux, macos, netbsd, netscaler, o
 
 **-u, --run-as-non-root**
 
-Disable root user check. Note that artifacts collection may be limited.
+Disable root user check. Note that artifact collection may be limited.
 
 **--hostname**
 
@@ -219,7 +208,7 @@ The target system hostname to be used as part of the output file name. By defaul
 
 The directory UAC will use to store temporary data.
 
-### Filter options
+### Filter Arguments
 
 **--date-range-start**
 
@@ -229,7 +218,7 @@ Only collects files that were last modified/accessed/changed after the given dat
 
 Only collects files that were last modified/accessed/changed before the given date. Value needs to be in YYYY-MM-DD format.
 
-### Case information options
+### Case information Arguments
 
 **--case-number**
 
@@ -251,7 +240,7 @@ The examiner's name.
 
 The case notes.
 
-### SFTP options
+### SFTP Arguments
 
 **--sftp**
 
@@ -265,7 +254,7 @@ SFTP server port. Default is 22.
 
 File from which the identity (private key) for public-key authentication is read.
 
-### S3 options
+### S3 Arguments
 
 **--s3-presigned-url**
 
@@ -285,7 +274,7 @@ Example:
 
 ```https://uac-test.s3.amazonaws.com/uac-output.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220924T135105Z&X-Amz-Expires=360000&X-Amz-SignedHeaders=host&X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795```
 
-### Azure Storage options
+### Azure Storage Arguments
 
 **--azure-storage-sas-url**
 
@@ -305,7 +294,7 @@ Example:
 
 ```https://uac-test.blob.core.windows.net/uac-container/uac-output.log?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D```
 
-### IBM Cloud Object Storage options
+### IBM Cloud Object Storage Arguments
 
 **--ibm-cos-url**
 
@@ -333,13 +322,13 @@ Example:
 
 ```eyJraWQiOiIyMDIyMDkxMzA4MjciLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwiaWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwicmVhbG1pZCI6IklCTWlkIiwianRpIjoiYWVhMDE0MGYtZGM2Ni00MzE0LWJhMjMtZTIxOTAzZmQ3Y2ZhIiwiaWRlbnRpZmllciI6IjA2MDAwMUtVUkMiLCJnaXZlbl9uYW1lIjoiVGhpYWdvIiwiZmFtaWx5X25hbWUiOiJDYW5ve``` (truncated)
 
-### Diagnostic options
+### Diagnostic Arguments
 
 **--debug**
 
 Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored in the ```uac.log.stderr``` file.
 
-### Other options
+### Other Arguments
 
 **--delete-local-on-successful-transfer**
 
@@ -419,7 +408,7 @@ For example:
 
 ### Debug mode
 
-Debug mode ```--debug``` may be useful if you are trying to find the source for an error. When debug mode is on, UAC will use ```set -x``` to generate debugging messages, and store them in ```uac.log.stderr``` file.
+Debug mode ```--debug``` may be useful if you are trying to find the source for an error. When debug mode is on, UAC will use ```set -x``` to generate debugging messages and store them in ```uac.log.stderr``` file.
 
 ### File an issue on Github
 

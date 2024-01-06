@@ -15,14 +15,14 @@ In the instructions below the UAC package (i.e. uac-2.6.0.tar.gz) was stored in 
 
 ```text
 /tmp/uac> put "uac-2.6.0.tar.gz"
-/tmp/uac> runscript -Raw="tar -zxf uac-2.6.0.tar.gz" -Timeout=60
+/tmp/uac> runscript -Raw=```tar -zxf uac-2.6.0.tar.gz``` -Timeout=60
 ```
 
 3\. Change the working directory and run the collection. Note that CrowdStrike Falcon RTR session times out after 10 minutes. Make sure to keep the Falcon RTR session active.
 
 ```text
 /tmp/uac> cd uac-2.6.0
-/tmp/uac/uac-2.6.0> runscript -Raw="./uac -p ir_triage /tmp/uac" -Timeout=9999
+/tmp/uac/uac-2.6.0> runscript -Raw=```./uac -p ir_triage /tmp/uac``` -Timeout=9999
 ```
 
 4\. Upload the output and log files to the CrowdStrike cloud using the ```get``` command.
