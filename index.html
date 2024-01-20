@@ -367,7 +367,7 @@ Validation Arguments:
 <p><code>eyJraWQiOiIyMDIyMDkxMzA4MjciLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwiaWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwicmVhbG1pZCI6IklCTWlkIiwianRpIjoiYWVhMDE0MGYtZGM2Ni00MzE0LWJhMjMtZTIxOTAzZmQ3Y2ZhIiwiaWRlbnRpZmllciI6IjA2MDAwMUtVUkMiLCJnaXZlbl9uYW1lIjoiVGhpYWdvIiwiZmFtaWx5X25hbWUiOiJDYW5ve</code> (truncated)</p>
 <h3 id="diagnostic-arguments">Diagnostic Arguments</h3>
 <p><strong>--debug</strong></p>
-<p>Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored in the <code>uac.log.stderr</code> file.</p>
+<p>Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored in the <code>uac.log.stderr</code> file. The uac-data.tmp directory created in the destination directory will not be removed. This is the location where temporary and debugging data is stored during execution.</p>
 <h3 id="other-arguments">Other Arguments</h3>
 <p><strong>--delete-local-on-successful-transfer</strong></p>
 <p>Delete the local output and acquisition log files if they were successfully transferred to a remote destination such as an SFTP server or S3.</p>
