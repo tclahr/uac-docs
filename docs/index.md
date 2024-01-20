@@ -326,7 +326,7 @@ Example:
 
 **--debug**
 
-Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored in the ```uac.log.stderr``` file.
+Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored in the ```uac.log.stderr``` file. The uac-data.tmp directory created in the destination directory will not be removed. This is the location where temporary and debugging data is stored during execution.
 
 ### Other Arguments
 
