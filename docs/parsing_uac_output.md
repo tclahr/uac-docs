@@ -1,8 +1,8 @@
-# Super Timeline creation
+# Parsing UAC output
 
 ## Using Plaso
 
-Plaso is a python-based backend engine that powers log2timeline. Log2timeline is a tool designed to extract timestamps and forensic artifacts from a computer system to facilitate analysis. It creates what we refer to as a "Super Timeline". If you haven't watched it already, there is a great YouTube video by Richard Davis of 13cubed that I suggest you start with.
+Plaso is a Python-based backend engine that powers log2timeline. Log2timeline is a tool designed to extract timestamps and forensic artifacts from a computer system to facilitate analysis. It creates what we refer to as a "Super Timeline". If you haven't watched it already, there is a great YouTube video by Richard Davis of 13cubed that I suggest you start with.
 
 For more information about Plaso please refer to the [official documentation page](https://plaso.readthedocs.io).
 
@@ -19,7 +19,7 @@ docker pull log2timeline/plaso
 First start the extraction with log2timeline. Your UAC output file should be present on the host, and not in the container (which is the default scenario), you’ll have to set up a bridge between the two. For example, if you store your current UAC output file to analyze in ```/data/uac-testvm-linux-20220204120054.tar.gz```, you could tell log2timeline to generate the Plaso storage file as ```/data/uac-testvm-linux-20220204120054.plaso``` this way:
 
 ```shell
-docker run -v /data:/data log2timeline/plaso:latest log2timeline --process_archives --storage-file /data/uac-testvm-linux-20220204120054.plaso /data/uac-testvm-linux-20220204120054.tar.gz
+docker run -v /data:/data log2timeline/plaso:latest log2timeline --storage-file /data/uac-testvm-linux-20220204120054.plaso /data/uac-testvm-linux-20220204120054.tar.gz
 ```
 
 This way your Plaso file will also be stored on the host filesystem.
@@ -44,22 +44,12 @@ It is strongly recommended that you download and install the Bodyfile custom art
 
 ### Parsing UAC output file
 
-Load the output file as a Linux or macOS disk image.
+1. In the EVIDENCE SOURCES, load the UAC output file (tar.gz or zip) as a Linux or macOS disk image.
 
-![screenshot](img/super_timeline_magnet_axiom_01.png)
+2. In the ARTIFACT DETAILS, click CUSTOMIZE COMPUTER ARTIFACTS. Make sure to select the Bodyfile custom artifact in the CUSTOM ARTIFACTS category.
 
-![screenshot](img/super_timeline_magnet_axiom_02.png)
+3. In the PARSE AND CARVE ARTIFACTS, make sure "Parse and carve selected artifacts" is selected.
 
-Make sure the Bodyfle custom artifact is enabled.
+## Using Cyber Triage
 
-![screenshot](img/super_timeline_magnet_axiom_03.png)
-
-### Analyzing the results with Magnet AXIOM Examine
-
-#### Parsed artifacts
-
-![screenshot](img/super_timeline_magnet_axiom_04.png)
-
-#### Timeline
-
-![screenshot](img/super_timeline_magnet_axiom_05.png)
+Please check the blog post [Collecting Linux DFIR Artifacts with UAC](https://www.cybertriage.com/blog/collecting-linux-dfir-artifacts-with-uac/).
