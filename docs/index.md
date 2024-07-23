@@ -10,7 +10,7 @@ UAC reads YAML files on the fly and, based on their contents, collects relevant 
 
 The source code is available on the [project](https://github.com/tclahr/uac) page](https://github.com/tclahr/uac).
 
-[![uac_collection](img/uac_collection.gif)](#)
+[![uac_collection](img/uac_3_collection.gif)](#)
 
 ## Main features
 
