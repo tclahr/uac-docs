@@ -2,16 +2,21 @@ site_name: UAC Documentation
 site_url: https://github.com/tclahr/uac
 nav:
   - 'BASICS':
-    - 'Getting started': index.md
+    - 'Getting Started': index.md
   - 'DEFINITIONS':
-    - 'Profile file': profile_file.md
-    - 'Artifacts file': artifacts_file.md
-    - 'Collectors': collectors.md
-    - 'Exposed variables': exposed_vars.md
-  - 'OUTPUT FILE':
-    - 'Output file format': output_file.md
+    - 'Profiles': profiles.md
+    - 'Artifacts': artifacts.md
+    - 'Multi-line Command': multi_line_command.md
+    - 'Exposed Variables': exposed_vars.md
+    - 'Exposed Functions': exposed_functions.md
+  - 'CONFIG':
+    - 'uac.conf': config_file.md
+  - 'OUTPUT':
+    - 'Output Formats': output_formats.md
+  - 'LOG':
+    - 'Log Files': log_files.md
   - 'OTHER':
-    - 'Super Timeline creation': super_timeline.md
+    - 'Parsing UAC output': parsing_uac_output.md
     - 'Using UAC with CrowdStrike Falcon Real Time Response': using_uac_with_cs_falcon_rtr.md
 theme: readthedocs
 extra_css: [extra.css]
