@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/artifacts/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Artifacts - UAC Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Artifacts";
+        var mkdocs_page_input_path = "artifacts.md";
+        var mkdocs_page_url = "/tclahr/uac/artifacts/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> UAC Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">BASICS</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="..">Getting Started</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">DEFINITIONS</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../profiles/">Profiles</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Artifacts</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#artifacts">artifacts</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#collector">collector</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#command">command</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#find-based-collectors">find based collectors</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#find">find</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#hash">hash</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#stat">stat</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#file">file</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#command_1">command</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#compress_output_file">compress_output_file</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#condition">condition</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#description">description</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#exclude_file_system">exclude_file_system</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#exclude_name_pattern">exclude_name_pattern</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#exclude_nologin_users">exclude_nologin_users</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#exclude_path_pattern">exclude_path_pattern</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#file_type">file_type</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#foreach">foreach</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ignore_date_range">ignore_date_range</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#is_file_list">is_file_list</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#max_depth">max_depth</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#max_file_size">max_file_size</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#min_file_size">min_file_size</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#name_pattern">name_pattern</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output_directory">output_directory</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#output_file">output_file</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#path">path</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#path_pattern">path_pattern</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#permissions">permissions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#supported_os">supported_os</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#version">version</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../multi_line_command/">Multi-line Command</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exposed_vars/">Exposed Variables</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exposed_functions/">Exposed Functions</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CONFIG</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">uac.conf</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">OUTPUT</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../output_formats/">Output Formats</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">LOG</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../log_files/">Log Files</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">OTHER</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../parsing_uac_output/">Parsing UAC output</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">UAC Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">DEFINITIONS</li>
+      <li class="breadcrumb-item active">Artifacts</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="artifacts-definition">Artifacts definition</h1>
+<p>Artifacts define parameters for a collector to gather data.</p>
+<p>UAC reads the YAML files dynamically and, based on their contents, uses one of the five available <a href="#collector">collectors</a> to collect the relevant artifacts.</p>
+<p>The example below contains two sets of rules: the first set uses the <a href="#collector">hash</a> collector, and the second set uses the <a href="#collector">command</a> collector to gather the artifacts.</p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: Hash running processes.
+    supported_os: [aix]
+    collector: hash
+    path: /proc/[0-9]*/object/a.out
+    output_directory: /live_response/process
+    output_file: hash_running_processes
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [aix, freebsd, linux, macos, netbsd, openbsd, solaris]
+    collector: command
+    command: ps auxwww
+    output_directory: /live_response/process
+    output_file: ps_auxwww.txt
+</code></pre>
+<p>It is common practice to group all artifacts related to the same topic within a single YAML file. This approach allows for more granular artifact collection based on the specific case you are working on.</p>
+<p>An artifact has one required field at the top of the file <a href="#version">version</a>, followed by a set of rules that will be used by one of the <a href="#collector">collectors</a> to collect the desired data.</p>
+<h2 id="artifacts">artifacts</h2>
+<p><span class="required">Required</span></p>
+<p>Set of rules (sequence of mappings) that define what data will be collected. </p>
+<p>An artifact rule must include three mandatory fields: <a href="#description">description</a>, <a href="#supported_os">supported_os</a>, and <a href="#collector">collector</a>, along with additional properties depending on the chosen collector.</p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    ... # additional options depending on the collector
+  -
+    description: Hash files that contain at least +x flag set for owner.
+    supported_os: [all]
+    collector: hash
+    ... # additional options depending on the collector
+  -
+    description: Collect /var/log logs.
+    supported_os: [all]
+    collector: file
+    ... # additional options depending on the collector
+</code></pre>
+<h2 id="collector">collector</h2>
+<p><span class="required">Required</span></p>
+<p>UAC uses collectors to gather data, with each collector serving a specific function and requiring its options.</p>
+<h3 id="command">command</h3>
+<p>Use this collector to run commands and store the output into an output file. In a nutshell, UAC will use <code>eval</code> to run the command and redirect the stdout to the output file. The stderr will be captured and added to <a href="../log_files/#uaclog">uac.log</a> file as a log record.</p>
+<p>Required fields:</p>
+<ul>
+<li><a href="#command">command</a></li>
+<li><a href="#output_directory">output_directory</a></li>
+</ul>
+<p>Optional fields:</p>
+<ul>
+<li><a href="#compress_output_file">compress_output_file</a></li>
+<li><a href="#condition">condition</a></li>
+<li><a href="#exclude_nologin_users">exclude_nologin_users</a></li>
+<li><a href="#foreach">foreach</a></li>
+<li><a href="#output_file">output_file</a></li>
+</ul>
+<h3 id="find-based-collectors">find based collectors</h3>
+<p>These collectors use the <code>find</code> tool to search for files and directories before collecting or processing any data.</p>
+<p>As an example, the artifact below... </p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: Collect nginx logs.
+    supported_os: [aix, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris]
+    collector: file
+    path: /var/log
+    exclude_path_pattern: [&quot;/sys&quot;, &quot;/proc&quot;]
+    name_pattern: [&quot;*access_log*&quot;, &quot;*access.log*&quot;, &quot;*error_log*&quot;, &quot;*error.log*&quot;]
+    max_depth: 5
+    max_file_size: 1073741824 # 1GB
+</code></pre>
+<p>...will become this:</p>
+<pre><code class="language-shell">find /var/log -maxdepth 5 \( -path &quot;/sys&quot; -o -path &quot;/proc&quot; \) -prune -o -size -1073741824c  \( -name &quot;*access_log*&quot; -o -name &quot;*access.log*&quot; -o -name &quot;*error_log*&quot; -o -name &quot;*error.log*&quot; \) -print
+</code></pre>
+<p>Since the <code>find</code> tool varies between operating systems, UAC will determine which options are supported by the <code>find</code> tool on the target system to build the correct find command at runtime. UAC can also use a Perl-based implementation of the find command provided in the tools/find_pl directory.</p>
+<p>For example, if the artifact above is executed on a system where the <code>find</code> tool does not support the <code>-maxdepth</code> and <code>-path</code> options, and perl is also not available, the find command will be:</p>
+<pre><code class="language-shell">find /var/log -size -1073741824c  \( -name &quot;*access_log*&quot; -o -name &quot;*access.log*&quot; -o -name &quot;*error_log*&quot; -o -name &quot;*error.log*&quot; \) -print
+</code></pre>
+<p>Since the Perl-based implementation of the find command supports most known options, the same example will result in the following command:</p>
+<pre><code class="language-shell">find_pl /var/log -maxdepth 5 \( -path &quot;/sys&quot; -o -path &quot;/proc&quot; \) -prune -o -size -1073741824c  \( -name &quot;*access_log*&quot; -o -name &quot;*access.log*&quot; -o -name &quot;*error_log*&quot; -o -name &quot;*error.log*&quot; \) -print
+</code></pre>
+<p>This is done to prevent the <code>find</code> command from failing during the collection due to an invalid option.</p>
+<h4 id="find">find</h4>
+<p>Use this collector to find files and directories and store the output into a text file.</p>
+<p>Required fields:</p>
+<ul>
+<li><a href="#path">path</a></li>
+<li><a href="#output_directory">output_directory</a></li>
+<li><a href="#output_file">output_file</a></li>
+</ul>
+<p>Optional fields:</p>
+<ul>
+<li><a href="#condition">condition</a></li>
+<li><a href="#exclude_file_system">exclude_file_system</a></li>
+<li><a href="#exclude_name_pattern">exclude_name_pattern</a></li>
+<li><a href="#exclude_nologin_users">exclude_nologin_users</a></li>
+<li><a href="#exclude_path_pattern">exclude_path_pattern</a></li>
+<li><a href="#file_type">file_type</a></li>
+<li><a href="#ignore_date_range">ignore_date_range</a></li>
+<li><a href="#max_depth">max_depth</a></li>
+<li><a href="#max_file_size">max_file_size</a></li>
+<li><a href="#min_file_size">min_file_size</a></li>
+<li><a href="#name_pattern">name_pattern</a></li>
+<li><a href="#path_pattern">path_pattern</a></li>
+<li><a href="#permissions">permissions</a></li>
+</ul>
+<h4 id="hash">hash</h4>
+<p>Use this collector to hash files and store the output into a text file. The algorithms are defined in the <a href="../config_file/#hash_algorithm">uac.conf</a> file.</p>
+<p>Required fields:</p>
+<ul>
+<li><a href="#path">path</a></li>
+<li><a href="#output_directory">output_directory</a></li>
+<li><a href="#output_file">output_file</a></li>
+</ul>
+<p>Optional fields:</p>
+<ul>
+<li><a href="#condition">condition</a></li>
+<li><a href="#exclude_file_system">exclude_file_system</a></li>
+<li><a href="#exclude_name_pattern">exclude_name_pattern</a></li>
+<li><a href="#exclude_nologin_users">exclude_nologin_users</a></li>
+<li><a href="#exclude_path_pattern">exclude_path_pattern</a></li>
+<li><a href="#file_type">file_type</a></li>
+<li><a href="#ignore_date_range">ignore_date_range</a></li>
+<li><a href="#is_file_list">is_file_list</a></li>
+<li><a href="#max_depth">max_depth</a></li>
+<li><a href="#max_file_size">max_file_size</a></li>
+<li><a href="#min_file_size">min_file_size</a></li>
+<li><a href="#name_pattern">name_pattern</a></li>
+<li><a href="#path_pattern">path_pattern</a></li>
+<li><a href="#permissions">permissions</a></li>
+</ul>
+<h4 id="stat">stat</h4>
+<p>Use this collector to extract information from files and directories to create a <a href="https://wiki.sleuthkit.org/index.php?title=Body_file">body file</a>.</p>
+<p>Some systems do not have the <code>stat</code> tool available, but do have Perl (e.g., AIX). In this case, UAC will use a Perl-based version (<code>stat_pl</code>) to extract information from files and directories.</p>
+<p>Required fields:</p>
+<ul>
+<li><a href="#path">path</a></li>
+<li><a href="#output_directory">output_directory</a></li>
+<li><a href="#output_file">output_file</a></li>
+</ul>
+<p>Optional fields:</p>
+<ul>
+<li><a href="#condition">condition</a></li>
+<li><a href="#exclude_file_system">exclude_file_system</a></li>
+<li><a href="#exclude_name_pattern">exclude_name_pattern</a></li>
+<li><a href="#exclude_nologin_users">exclude_nologin_users</a></li>
+<li><a href="#exclude_path_pattern">exclude_path_pattern</a></li>
+<li><a href="#file_type">file_type</a></li>
+<li><a href="#ignore_date_range">ignore_date_range</a></li>
+<li><a href="#is_file_list">is_file_list</a></li>
+<li><a href="#max_depth">max_depth</a></li>
+<li><a href="#max_file_size">max_file_size</a></li>
+<li><a href="#min_file_size">min_file_size</a></li>
+<li><a href="#name_pattern">name_pattern</a></li>
+<li><a href="#path_pattern">path_pattern</a></li>
+<li><a href="#permissions">permissions</a></li>
+</ul>
+<h4 id="file">file</h4>
+<p>Use this collector to collect files and directories (in their raw format). Collected files will be stored in the <code>[root]</code> directory within the output file.</p>
+<p><img alt="screenshot" src="../img/artifacts_md_file_collector.png" /></p>
+<p>Required fields:</p>
+<ul>
+<li><a href="#path">path</a></li>
+</ul>
+<p>Optional fields:</p>
+<ul>
+<li><a href="#condition">condition</a></li>
+<li><a href="#exclude_file_system">exclude_file_system</a></li>
+<li><a href="#exclude_name_pattern">exclude_name_pattern</a></li>
+<li><a href="#exclude_nologin_users">exclude_nologin_users</a></li>
+<li><a href="#exclude_path_pattern">exclude_path_pattern</a></li>
+<li><a href="#file_type">file_type</a></li>
+<li><a href="#ignore_date_range">ignore_date_range</a></li>
+<li><a href="#is_file_list">is_file_list</a></li>
+<li><a href="#max_depth">max_depth</a></li>
+<li><a href="#max_file_size">max_file_size</a></li>
+<li><a href="#min_file_size">min_file_size</a></li>
+<li><a href="#name_pattern">name_pattern</a></li>
+<li><a href="#path_pattern">path_pattern</a></li>
+<li><a href="#permissions">permissions</a></li>
+</ul>
+<h2 id="command_1">command</h2>
+<p><span class="required">Required by: command</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>one or multiple shell commands</em></p>
+<p>The command will be executed on the target system, and the output will be collected.</p>
+<p>You do not need to specify the path to the executable as it is expected to be in the PATH; only the executable's name and parameters are required.</p>
+<p>UAC can also run executables located in the <code>bin</code> directory. In this case, the path to the executable is still not required, as the <code>bin</code> directory is automatically added to PATH when UAC runs. For more information, refer to the <code>bin/README.md</code> file.</p>
+<p>The example below demonstrates how to collect the output from the <code>ps -ef</code> command:</p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    command: ps -ef
+    output_directory: /live_response/process
+    output_file: ps_-ef.txt
+</code></pre>
+<h2 id="compress_output_file">compress_output_file</h2>
+<p><span class="optional">Optional for: command</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
+<p>If this option is set to <code>true</code>, the output file will be compressed using <code>gzip</code> (when gzip is available).</p>
+<p>The example below will result in a compressed <code>ps_-ef.txt.gz</code> file.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/process
+artifacts:
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    command: ps -ef
+    output_file: ps_-ef.txt
+    compress_output_file: true
+</code></pre>
+<p>Note that <code>compress_output_file</code> only applies to files specified in the <code>output_file</code> key-value pair.</p>
+<h2 id="condition">condition</h2>
+<p><span class="optional">Optional for: command, file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>one or multiple shell commands</em></p>
+<p>The collection will only run if the condition returns true. This feature is very useful for preventing UAC from executing numerous commands if a specific condition does not apply to the target system.</p>
+<p>In the example below, the command will only be executed if the condition <code>ls /proc/$$</code> returns true.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/process
+artifacts:
+  -
+    description: Collect running processes executable path.
+    supported_os: [freebsd]
+    condition: ls /proc/$$
+    collector: command
+    command: ls -l /proc/[0-9]*/file
+    output_file: running_processes_full_paths.txt
+</code></pre>
+<p>You can prefix the command with an exclamation mark (!) to perform an 'if not' condition.</p>
+<p>In the example below, the command will only be executed if the condition <code>ls /proc/$$</code> returns false.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/process
+artifacts:
+  -
+    description: Collect running processes executable path.
+    supported_os: [freebsd]
+    condition: ! ls /proc/$$
+    collector: command
+    command: ps -eo args | grep ^/ | awk '{print $1}' | sort -u
+    output_file: running_processes_full_paths.txt
+</code></pre>
+<p>The condition key-pair value can also be used as a global option, placed before the <code>artifacts</code> mapping. In this case, the collection will only proceed if the global condition returns true.</p>
+<p>In the example below, the data will only be collected if the global condition returns true.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/process
+condition: ls /proc/$$
+artifacts:
+  -
+    description: Hash running processes.
+    supported_os: [linux, netbsd]
+    collector: hash
+    path: /proc/[0-9]*/exe
+    output_file: hash_running_processes
+  -
+    description: Hash running processes.
+    supported_os: [freebsd]
+    collector: hash
+    path: /proc/[0-9]*/file
+    output_file: hash_running_processes
+</code></pre>
+<h2 id="description">description</h2>
+<p><span class="required">Required</span></p>
+<p>Description of what will be collected. No line breaks are supported.</p>
+<h2 id="exclude_file_system">exclude_file_system</h2>
+<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>array of file systems</em></p>
+<p>Use this option to exclude file systems from the collection. UAC will retrieve the list of existing mountpoints (paths) at runtime and exclude them from the collection.</p>
+<p>The file system types that are supported depend on the target computer's running kernel. <em>Note that exclude_file_system will be ignored when path_pattern is used.</em></p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all files excluding any files located in procfs, nfs and devfs file systems.
+    supported_os: [all]
+    collector: find
+    path: /
+    exclude_file_system: [procfs, nfs, devfs]
+    output_file: exclude_procfs_nfs_devfs.txt
+</code></pre>
+<h2 id="exclude_name_pattern">exclude_name_pattern</h2>
+<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>array of paths</em></p>
+<p>Use this option to exclude files from the collection. This option works the same way as find's -name -prune option.</p>
+<p>Since the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
+<p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search /etc excluding passwd and shadow* files.
+    supported_os: [all]
+    collector: find
+    path: /etc
+    exclude_name_pattern: [&quot;passwd&quot;, &quot;shadow*&quot;]
+    output_file: etc_excluding_passwd_shadow.txt
+</code></pre>
+<h2 id="exclude_nologin_users">exclude_nologin_users</h2>
+<p><span class="optional">Optional for: command, file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
+<p>Use this option to search for artifacts only from users with a valid shell. Any user with no shell will be skipped from the collection.</p>
+<p>By default, UAC will always search for artifacts from all users.</p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: Run 'ls -lRa' on all home directories for users that have a valid shell only.
+    supported_os: [all]
+    collector: command
+    command: ls -lRa /%user_home%/
+    exclude_nologin_users: true
+    output_directory: /live_response/%user%
+    output_file: ls_-lRa_%user%.txt
+</code></pre>
+<h2 id="exclude_path_pattern">exclude_path_pattern</h2>
+<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>array of paths</em></p>
+<p>Use this option to exclude paths from the collection. This option works the same way as find's -path -prune option.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
+<p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all excluding /etc and /var.
+    supported_os: [all]
+    collector: find
+    path: /
+    exclude_path_pattern: [&quot;/dev&quot;, &quot;/var&quot;]
+    output_file: all_excluding_etc_var.txt
+</code></pre>
+<h2 id="file_type">file_type</h2>
+<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>array of file types</em></p>
+<p>Use this option to specify the type of file to search for, such as directories (d), regular files (f), symbolic links (l), and other file types. This option works the same way as find's -type option.</p>
+<p>File is of type:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>f</td>
+<td>regular file</td>
+</tr>
+<tr>
+<td>d</td>
+<td>directory</td>
+</tr>
+<tr>
+<td>l</td>
+<td>symbolic link</td>
+</tr>
+<tr>
+<td>p</td>
+<td>named pipe (FIFO)</td>
+</tr>
+<tr>
+<td>s</td>
+<td>socket</td>
+</tr>
+<tr>
+<td>b</td>
+<td>block special</td>
+</tr>
+<tr>
+<td>c</td>
+<td>character special</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search files only.
+    supported_os: [all]
+    collector: find
+    path: /
+    file_type: [f]
+    output_file: files_only.txt
+  -
+    description: Search directories only.
+    supported_os: [all]
+    collector: find
+    path: /
+    file_type: [f, d, l]
+    output_file: directories_only.txt
+</code></pre>
+<h2 id="foreach">foreach</h2>
+<p><span class="optional">Optional for: command</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>one or multiple shell commands</em></p>
+<p>The command will be executed, and its output lines will be used as input by the <a href="#command">command</a> key-value pair.</p>
+<p>The logic behind it is:</p>
+<pre><code>for (each line returned by foreach); do
+  command
+done
+</code></pre>
+<p>The <code>%line%</code> variable has to be used and will be replaced by each line returned by the execution of the <code>foreach</code> command at runtime. The <code>%line%</code> variable can also be used on <code>output_directory</code> and <code>output_file</code> key-value pairs.</p>
+<p>Let's suppose you need to collect container logs, and you don't know the container IDs. First, you need to retrieve all the IDs: <code>docker container ps -all | sed 1d | awk '{print $1}'</code></p>
+<p>The <code>%line%</code> variable will be replaced by each output line generated by the command (which are container IDs in the example above).</p>
+<p>This implies that if you have 10 containers, the command <code>docker container logs %line%</code> will be executed 10 times, once for each container ID.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: Fetch the logs of all containers.
+    supported_os: [linux]
+    collector: command
+    foreach: docker container ps -all | sed 1d | awk '{print $1}'
+    command: docker container logs %line%
+    output_directory: /live_response/containers/%line%
+    output_file: docker_container_logs_%line%.txt
+</code></pre>
+<h2 id="ignore_date_range">ignore_date_range</h2>
+<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
+<p>Use this option to collect files ignoring the date set using both --start-date and --end-date command line options.</p>
+<p>This is useful when you want to set a date range for your collection, but want to collect some files regardless of their last accessed, modified and changed dates.</p>
+<p>For example, search for all files and subdirectories from /etc regardless of their last accessed, modified and changed dates, even if a date range was set using --start-date and --end-date command line options.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search /etc regardless date range set by --start-date and --end-date.
+    supported_os: [all]
+    collector: find
+    path: /etc
+    ignore_date_range: true
+    output_file: ignore_date_range.txt
+</code></pre>
+<h2 id="is_file_list">is_file_list</h2>
+<p><span class="optional">Optional for: file, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
+<p>If set to true, the <code>path</code> option will refer to a file list containing one path per line. This is useful when you need to hash/stat/collect files based on a file list.</p>
+<pre><code class="language-yaml">artifacts:
+  -
+    description: Hash files based on a file list located in /%uac_directory%/my_file_list.txt.
+    supported_os: [all]
+    collector: hash
+    path: /%uac_directory%/my_file_list.txt
+    is_file_list: true
+    output_file: hash_my_file_list.txt
+</code></pre>
+<h2 id="max_depth">max_depth</h2>
+<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>non-negative integer</em></p>
+<p>Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only applying the tests and actions to the starting-points themselves. This option works the same way as find's -maxdepth option.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Descend at most 5 levels of directories below /.
+    supported_os: [all]
+    collector: find
+    path: /
+    max_depth: 5
+    output_file: max_5_levels.txt
+</code></pre>
+<h2 id="max_file_size">max_file_size</h2>
+<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>non-negative integer</em></p>
+<p>The maximum size of a file to search (in bytes). Any files bigger than this will be ignored. This option works the same way as find's -size option.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all files smaller than 1048576 bytes.
+    supported_os: [all]
+    collector: find
+    path: /
+    file_type: f
+    max_file_size: 1048576
+    output_file: smaller_than.txt
+</code></pre>
+<h2 id="min_file_size">min_file_size</h2>
+<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>non-negative integer</em></p>
+<p>The minimum size of a file to search (in bytes). Any files smaller than this will be ignored. This option works the same way as find's -size option.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all files bigger than 1048576 bytes.
+    supported_os: [all]
+    collector: find
+    path: /
+    file_type: f
+    min_file_size: 1048576
+    output_file: bigger_than.txt
+</code></pre>
+<h2 id="name_pattern">name_pattern</h2>
+<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>array of paths</em></p>
+<p>Return the full file path if one of the name_pattern values matches the file name. This option works the same way as find's -name option.</p>
+<p>Since the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all wtmp and utmp files.
+    supported_os: [all]
+    collector: find
+    path: /var
+    name_pattern: [&quot;wtmp&quot;, &quot;btmp&quot;]
+    output_file: wtmp_btmp.txt
+</code></pre>
+<p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all HTML and TXT files.
+    supported_os: [all]
+    collector: find
+    path: /
+    name_pattern: [&quot;*.html&quot;, &quot;*.txt&quot;]
+    output_file: all_html_txt.txt
+</code></pre>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all .log and .Log (capital L) files.
+    supported_os: [all]
+    collector: find
+    path: /var/log
+    name_pattern: [&quot;*.[Ll]og&quot;]
+    output_file: all_log_files.txt
+</code></pre>
+<h2 id="output_directory">output_directory</h2>
+<p><span class="required">Required by: command, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>path</em></p>
+<p>Specify the directory within the output file where the collected data will be stored.</p>
+<p>In the example below, <code>ls_tmp.txt</code> will stored in <code>my_custom_artifacts</code> directory within the output file.</p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: My first artifact.
+    supported_os: [all]
+    collector: command
+    command: ls /tmp
+    output_directory: /my_custom_artifacts
+    output_file: ls_tmp.txt
+</code></pre>
+<p>Output file contents:</p>
+<p><img alt="screenshot" src="../img/artifacts_md_output_directory.png" /></p>
+<p>The output_directory key-pair value can also be used as a global option, placed before the <code>artifacts</code> mapping. In this case, any rules that do not have a specified <code>output_directory</code> will use the global setting.</p>
+<p>In the example below, <code>ps.txt</code> will be stored in <code>live_response/process</code> directory, but <code>ps_auxwww.txt</code> will be stored in <code>my_global_dir</code> directory.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /my_global_dir
+artifacts:
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    command: ps
+    output_directory: /live_response/process
+    output_file: ps.txt
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    command: ps auxwww
+    output_file: ps_auxwww.txt
+</code></pre>
+<h2 id="output_file">output_file</h2>
+<p><span class="optional">Optional for: command, find, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>file name</em></p>
+<p>Specify the output file name where the collected data will be stored.</p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    command: ps
+    output_directory: /live_response/process
+    output_file: ps.txt
+</code></pre>
+<p>If no <code>output_file</code> is specified, all data in the <code>output_directory</code> will be archived into the output file.</p>
+<p>In the example below, <code>avml.raw</code> will be placed in the <code>memory_dump</code> directory.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /memory_dump
+artifacts:
+  -
+    description: Capture a memory image.
+    supported_os: [linux]
+    collector: command
+    command: avml avml.raw
+</code></pre>
+<p>UAC never overwrites output files; data is always appended.</p>
+<p>In the example below, both <code>ps</code> and <code>ps auxwww</code> outputs will be stored in the same <code>same_file.txt</code> file.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/process
+artifacts:
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    command: ps
+    output_file: same_file.txt
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    command: ps auxwww
+    output_file: same_file.txt
+</code></pre>
+<h2 id="path">path</h2>
+<p><span class="required">Required by: find, file, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>path</em></p>
+<p>The starting point from where the artifact will be searched for. UAC will recurse into subdirectories unless otherwise prevented by <code>max_depth</code> option.</p>
+<p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
+<p>Every artifact should be treated as if it originates from the / (root) mount point. The root mount point will be replaced by UAC at runtime if a mount point is defined with the <code>--mount-point</code> command-line option.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all cmdline files within /proc/*/
+    supported_os: [all]
+    collector: find
+    path: /proc/*/cmdline
+    output_file: list_of_cmdline_files.txt
+</code></pre>
+<p>Remember to use quotation marks when specifying paths with spaces or special characters.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search for TCC.db file.
+    supported_os: [all]
+    collector: find
+    path: /Library/&quot;Application Support&quot;/com.apple.TCC/TCC.db
+    output_file: path_with_spaces.txt
+</code></pre>
+<h2 id="path_pattern">path_pattern</h2>
+<p><span class="optional">Optional for: find, file, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>array of paths</em></p>
+<p>Return the full file path if one of the path_pattern values matches the file path. This option works the same way as find's -path option.</p>
+<p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
+<p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
+<p>The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:</p>
+<ul>
+<li>/home/user/.config<span style="color: red;">/discord/Cache/</span>00bcecbd2455cb22_0</li>
+<li>/home/user/.var/app/com.discordapp.Discord/config<span style="color: red;">/discord/Cache/</span>index</li>
+<li>/home/user/snap/discord/current/.config<span style="color: red;">/discord/Cache/</span>ac0fa118bdaaa62e_0</li>
+</ul>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Find Discord cache files.
+    supported_os: [all]
+    collector: find
+    path: /%user_home%
+    path_pattern: [&quot;*/discord/Cache/*&quot;]
+    output_file: discord_cache.txt
+</code></pre>
+<h2 id="permissions">permissions</h2>
+<p><span class="optional">Optional for: find, file, hash and stat</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>array of permissions</em></p>
+<p>Use this option to search for files and directories based on their permissions. This option works the same way as find's -perm option.</p>
+<p>Please note that symbolic mode is not supported (e.g: -g=w).</p>
+<p>Permissions can be used as follows:</p>
+<ul>
+<li>File's permission bits are exactly <code>mode</code> (octal).</li>
+</ul>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search files that have permissions set to 755 or 644.
+    supported_os: [all]
+    collector: find
+    path: /
+    file_type: f
+    permissions: [755, 644]
+    output_file: all_755_and_644_permissions.txt
+</code></pre>
+<ul>
+<li>All of the permission bits <code>mode</code> (octal) are set for the file.</li>
+</ul>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search for files that have SUID bit set.
+    supported_os: [all]
+    collector: find
+    path: /
+    file_type: f
+    permissions: [-4000]
+    output_file: suid_files.txt
+</code></pre>
+<h2 id="supported_os">supported_os</h2>
+<p><span class="required">Required</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>array of operating systems</em></p>
+<p>List of operating systems that the artifact applies to. Use <code>all</code> whether the artifact applies to all operating systems.</p>
+<p>The currently supported operating systems are (case sensitive):</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aix</td>
+<td>Artifact applies to AIX systems.</td>
+</tr>
+<tr>
+<td>esxi</td>
+<td>Artifact applies to ESXi systems.</td>
+</tr>
+<tr>
+<td>freebsd</td>
+<td>Artifact applies to FreeBSD systems.</td>
+</tr>
+<tr>
+<td>linux</td>
+<td>Artifact applies to Linux systems.</td>
+</tr>
+<tr>
+<td>macos</td>
+<td>Artifact applies to macOS systems.</td>
+</tr>
+<tr>
+<td>netbsd</td>
+<td>Artifact applies to NetBSD systems.</td>
+</tr>
+<tr>
+<td>netscaler</td>
+<td>Artifact applies to NetScaler systems.</td>
+</tr>
+<tr>
+<td>openbsd</td>
+<td>Artifact applies to OpenBSD systems.</td>
+</tr>
+<tr>
+<td>solaris</td>
+<td>Artifact applies to Solaris systems.</td>
+</tr>
+</tbody>
+</table>
+<p>Examples:</p>
+<p>Artifact applies to all supported operating systems:</p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: Artifact description.
+    supported_os: [all]
+    collector: hash
+    ... # additional options depending on the collector
+</code></pre>
+<p>Artifact applies to Aix, FreeBSD and Solaris systems only:</p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: Artifact description.
+    supported_os: [aix, freebsd, solaris]
+    collector: stat
+    ... # additional options depending on the collector
+</code></pre>
+<h2 id="version">version</h2>
+<p><span class="required">Required</span></p>
+<p>The artifact file version. It needs to be updated every time the YAML file is changed.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../profiles/" class="btn btn-neutral float-left" title="Profiles"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../multi_line_command/" class="btn btn-neutral float-right" title="Multi-line Command">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../profiles/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../multi_line_command/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

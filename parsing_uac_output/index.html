@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/parsing_uac_output/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Parsing UAC output - UAC Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Parsing UAC output";
+        var mkdocs_page_input_path = "parsing_uac_output.md";
+        var mkdocs_page_url = "/tclahr/uac/parsing_uac_output/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> UAC Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">BASICS</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="..">Getting Started</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">DEFINITIONS</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../profiles/">Profiles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../artifacts/">Artifacts</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../multi_line_command/">Multi-line Command</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exposed_vars/">Exposed Variables</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../exposed_functions/">Exposed Functions</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CONFIG</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">uac.conf</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">OUTPUT</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../output_formats/">Output Formats</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">LOG</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../log_files/">Log Files</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">OTHER</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Parsing UAC output</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#using-plaso">Using Plaso</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#plaso-in-a-docker-container">Plaso in a docker container</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#obtaining-a-plaso-docker-image">Obtaining a Plaso docker image</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#parsing-uac-output-file">Parsing UAC output file</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#run-analysis-with-psort">Run analysis with psort</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-magnet-axiom">Using Magnet AXIOM</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#bodyfile-custom-artifact">Bodyfile custom artifact</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#parsing-uac-output-file_1">Parsing UAC output file</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-cyber-triage">Using Cyber Triage</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">UAC Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">OTHER</li>
+      <li class="breadcrumb-item active">Parsing UAC output</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="parsing-uac-output">Parsing UAC output</h1>
+<h2 id="using-plaso">Using Plaso</h2>
+<p>Plaso is a Python-based backend engine that powers log2timeline. Log2timeline is a tool designed to extract timestamps and forensic artifacts from a computer system to facilitate analysis. It creates what we refer to as a "Super Timeline". If you haven't watched it already, there is a great YouTube video by Richard Davis of 13cubed that I suggest you start with.</p>
+<p>For more information about Plaso please refer to the <a href="https://plaso.readthedocs.io">official documentation page</a>.</p>
+<h3 id="plaso-in-a-docker-container">Plaso in a docker container</h3>
+<h4 id="obtaining-a-plaso-docker-image">Obtaining a Plaso docker image</h4>
+<pre><code class="language-shell">docker pull log2timeline/plaso
+</code></pre>
+<h4 id="parsing-uac-output-file">Parsing UAC output file</h4>
+<p>First start the extraction with log2timeline. Your UAC output file should be present on the host, and not in the container (which is the default scenario), you’ll have to set up a bridge between the two. For example, if you store your current UAC output file to analyze in <code>/data/uac-testvm-linux-20220204120054.tar.gz</code>, you could tell log2timeline to generate the Plaso storage file as <code>/data/uac-testvm-linux-20220204120054.plaso</code> this way:</p>
+<pre><code class="language-shell">docker run -v /data:/data log2timeline/plaso:latest log2timeline --storage-file /data/uac-testvm-linux-20220204120054.plaso /data/uac-testvm-linux-20220204120054.tar.gz
+</code></pre>
+<p>This way your Plaso file will also be stored on the host filesystem.</p>
+<h4 id="run-analysis-with-psort">Run analysis with psort</h4>
+<p>The <code>/data/uac-testvm-linux-20220204120054.plaso</code> file is the database file created by log2timeline, which can be exported to a CSV file (which can be read using ie. Eric Zimmermans <a href="https://ericzimmerman.github.io">timeline explorer</a>).</p>
+<p>You need to run psort to create a complete timeline of everything.</p>
+<pre><code class="language-shell">docker run -v /data:/data log2timeline/plaso:latest psort.py -o l2tcsv /data/uac-testvm-linux-20220204120054.plaso -w /data/uac-testvm-linux-20220204120054.csv
+</code></pre>
+<h2 id="using-magnet-axiom">Using Magnet AXIOM</h2>
+<p>You can also use Magnet AXIOM to extract timestamps and forensic artifacts from UAC's output file to create Super Timelines.</p>
+<h3 id="bodyfile-custom-artifact">Bodyfile custom artifact</h3>
+<p>It is strongly recommended that you download and install the Bodyfile custom artifact before processing UAC's output file in Magnet AXIOM. This custom artifact parses the bodyfile.txt file generated by UAC. The custom artifact can be downloaded from Magnet Forensics <a href="https://artifacts.magnetforensics.com">Artifact Exchange page</a> or from <a href="../magnet/Bodyfile.py">here</a>.</p>
+<h3 id="parsing-uac-output-file_1">Parsing UAC output file</h3>
+<ol>
+<li>
+<p>In the EVIDENCE SOURCES, load the UAC output file (tar.gz or zip) as a Linux or macOS disk image.</p>
+</li>
+<li>
+<p>In the ARTIFACT DETAILS, click CUSTOMIZE COMPUTER ARTIFACTS. Make sure to select the Bodyfile custom artifact in the CUSTOM ARTIFACTS category.</p>
+</li>
+<li>
+<p>In the PARSE AND CARVE ARTIFACTS, make sure "Parse and carve selected artifacts" is selected.</p>
+</li>
+</ol>
+<h2 id="using-cyber-triage">Using Cyber Triage</h2>
+<p>Please check the blog post <a href="https://www.cybertriage.com/blog/collecting-linux-dfir-artifacts-with-uac/">Collecting Linux DFIR Artifacts with UAC</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../log_files/" class="btn btn-neutral float-left" title="Log Files"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../using_uac_with_cs_falcon_rtr/" class="btn btn-neutral float-right" title="Using UAC with CrowdStrike Falcon Real Time Response">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../log_files/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../using_uac_with_cs_falcon_rtr/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

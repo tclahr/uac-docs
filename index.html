@@ -5,25 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/" />
       <link rel="shortcut icon" href="img/favicon.ico" />
-    <title>Getting started - UAC Documentation</title>
+    <title>Getting Started - UAC Documentation</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
         <link href="extra.css" rel="stylesheet" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Getting started";
+        var mkdocs_page_name = "Getting Started";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = "/tclahr/uac/";
       </script>
     
-    <script src="js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -43,47 +42,47 @@
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption"><span class="caption-text">BASICS</span></p>
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href=".">Getting started</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Getting Started</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#main-features">Main features</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#supported-operating-systems">Supported operating systems</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#command-line-options">Command line options</a>
-    </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-uac">Using UAC</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#command-line-options">Command line options</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#command-line-options_1">Command line options</a>
+    <li class="toctree-l3"><a class="reference internal" href="#optional-arguments">Optional Arguments</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#profiling-arguments">Profiling Arguments</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#positional-arguments">Positional Arguments</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#output-arguments">Output Arguments</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#collection-arguments">Collection Arguments</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#filter-arguments">Filter Arguments</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#case-information-arguments">Case information Arguments</a>
+    <li class="toctree-l3"><a class="reference internal" href="#informational-arguments">Informational Arguments</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#sftp-arguments">SFTP Arguments</a>
+    <li class="toctree-l3"><a class="reference internal" href="#remote-transfer-arguments">Remote Transfer Arguments</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#s3-arguments">S3 Arguments</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#azure-storage-arguments">Azure Storage Arguments</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#ibm-cloud-object-storage-arguments">IBM Cloud Object Storage Arguments</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#diagnostic-arguments">Diagnostic Arguments</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#other-arguments">Other Arguments</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#examples">Examples</a>
+    <li class="toctree-l3"><a class="reference internal" href="#validation-arguments">Validation Arguments</a>
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#validating-custom-artifacts-files">Validating custom artifacts files</a>
+    <li class="toctree-l2"><a class="reference internal" href="#validating-custom-artifacts">Validating custom artifacts</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#validating-custom-profiles">Validating custom profiles</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-your-binary-files">Using your binary files</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#troubleshooting-and-support">Troubleshooting and support</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#debug-mode">Debug mode</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#trace-messages">Trace messages</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#file-an-issue-on-github">File an issue on Github</a>
     </li>
@@ -100,23 +99,35 @@
               </ul>
               <p class="caption"><span class="caption-text">DEFINITIONS</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="profile_file/">Profile file</a>
+                  <li class="toctree-l1"><a class="reference internal" href="profiles/">Profiles</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="artifacts_file/">Artifacts file</a>
+                  <li class="toctree-l1"><a class="reference internal" href="artifacts/">Artifacts</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="collectors/">Collectors</a>
+                  <li class="toctree-l1"><a class="reference internal" href="multi_line_command/">Multi-line Command</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="exposed_vars/">Exposed variables</a>
+                  <li class="toctree-l1"><a class="reference internal" href="exposed_vars/">Exposed Variables</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="exposed_functions/">Exposed Functions</a>
                   </li>
               </ul>
-              <p class="caption"><span class="caption-text">OUTPUT FILE</span></p>
+              <p class="caption"><span class="caption-text">CONFIG</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="output_file/">Output file format</a>
+                  <li class="toctree-l1"><a class="reference internal" href="config_file/">uac.conf</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">OUTPUT</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="output_formats/">Output Formats</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">LOG</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="log_files/">Log Files</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OTHER</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="super_timeline/">Super Timeline creation</a>
+                  <li class="toctree-l1"><a class="reference internal" href="parsing_uac_output/">Parsing UAC output</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
                   </li>
@@ -134,9 +145,9 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
-          <li>BASICS &raquo;</li>
-      <li>Getting started</li>
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">BASICS</li>
+      <li class="breadcrumb-item active">Getting Started</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -145,84 +156,137 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="welcome-to-the-unix-like-artifacts-collector-documentation">Welcome to the Unix-like Artifacts Collector documentation</h1>
-<p>UAC is a Live Response collection script for Incident Response that makes use of native binaries and tools to automate the collection of AIX, Android, ESXi, FreeBSD, Linux, macOS, NetBSD, NetScaler, OpenBSD and Solaris systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.</p>
-<p>UAC reads artifact files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.</p>
-<p>The source code is available from the <a href="https://github.com/tclahr/uac">project page</a>.</p>
-<p><a href="#"><img alt="uac_collection" src="img/uac_collection.gif" /></a></p>
+                <p align="center">
+    <img src="img/uac-dark.svg" alt="logo" width="120px">
+</p>
+
+<h1 id="welcome-to-the-unix-like-artifacts-collector-documentation">Welcome to the Unix-like Artifacts Collector documentation</h1>
+<p>UAC is a Live Response collection script for Incident Response that makes use of native binaries and tools to automate the collection of AIX, ESXi, FreeBSD, Linux, macOS, NetBSD, NetScaler, OpenBSD and Solaris systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.</p>
+<p>UAC reads YAML files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.</p>
+<p>The source code is available on the <a href="https://github.com/tclahr/uac">project</a> page](https://github.com/tclahr/uac).</p>
+<p><a href="#"><img alt="uac_collection" src="img/uac_3_collection.gif" /></a></p>
 <h2 id="main-features">Main features</h2>
 <ul>
 <li>Run everywhere with no dependencies (no installation required).</li>
 <li>Customizable and extensible collections and artifacts.</li>
 <li>Respect the order of volatility during artifact collection.</li>
-<li>Collect information from processes running without a binary on disk.</li>
+<li>Collect information about current running processes (including processes without a binary on disk).</li>
 <li>Hash running processes and executable files.</li>
-<li>Extract information from files and directories to create a bodyfile (including enhanced file attributes for ext4).</li>
-<li>Collect user and system configuration files and logs.</li>
-<li>Collect artifacts from applications.</li>
+<li>Extract files and directories status to create a bodyfile.</li>
+<li>Collect system and user-specific data, configuration files and logs.</li>
 <li>Acquire volatile memory from Linux systems using different methods and tools.</li>
 </ul>
 <h2 id="supported-operating-systems">Supported operating systems</h2>
-<p>UAC runs on any Unix-like system (regardless of the processor architecture). All UAC needs is shell :)</p>
-<p><a href="#"><img alt="AIX" src="https://img.shields.io/static/v1?label=&amp;message=AIX&amp;color=brightgreen&amp;style=for-the-badge" /></a>
-<a href="#"><img alt="Android" src="https://img.shields.io/static/v1?label=&amp;message=Android&amp;color=green&amp;style=for-the-badge" /></a>
-<a href="#"><img alt="ESXi" src="https://img.shields.io/static/v1?label=&amp;message=ESXi&amp;color=blue&amp;style=for-the-badge" /></a>
-<a href="#"><img alt="FreeBSD" src="https://img.shields.io/static/v1?label=&amp;message=FreeBSD&amp;color=red&amp;style=for-the-badge" /></a>
-<a href="#"><img alt="Linux" src="https://img.shields.io/static/v1?label=&amp;message=Linux&amp;color=lightgray&amp;style=for-the-badge" /></a>
-<a href="#"><img alt="macOS" src="https://img.shields.io/static/v1?label=&amp;message=macOS&amp;color=blueviolet&amp;style=for-the-badge" /></a>
-<a href="#"><img alt="NetBSD" src="https://img.shields.io/static/v1?label=&amp;message=NetBSD&amp;color=orange&amp;style=for-the-badge" /></a></p>
-<p><a href="#"><img alt="NetScaler" src="https://img.shields.io/static/v1?label=&amp;message=NetScaler&amp;color=blue&amp;style=for-the-badge" /></a>
-<a href="#"><img alt="OpenBSD" src="https://img.shields.io/static/v1?label=&amp;message=OpenBSD&amp;color=yellow&amp;style=for-the-badge" /></a>
-<a href="#"><img alt="Solaris" src="https://img.shields.io/static/v1?label=&amp;message=Solaris&amp;color=lightblue&amp;style=for-the-badge" /></a></p>
+<p>UAC runs on any Unix-like system, regardless of the processor architecture. All UAC needs is shell :)</p>
+<ul>
+<li>AIX</li>
+<li>ESXi</li>
+<li>FreeBSD</li>
+<li>Linux</li>
+<li>macOS</li>
+<li>NetBSD</li>
+<li>NetScaler</li>
+<li>OpenBSD</li>
+<li>Solaris</li>
+</ul>
 <p><em>Note that UAC even runs on systems like Network Attached Storage (NAS) devices, Network devices such as OpenWrt, and IoT devices.</em></p>
+<h2 id="using-uac">Using UAC</h2>
+<p>UAC does not need to be installed on the target system. Simply download the latest version from the <a href="https://github.com/tclahr/uac/releases">releases page</a>, uncompress it, and launch. It's that simple!</p>
+<blockquote>
+<p><strong>Full Disk Access</strong> permission is a privacy feature introduced in macOS Mojave (10.14) that prevents some applications from accessing important data, such as Mail, Messages, and Safari files. So it is strongly recommended that you manually <a href="https://support.apple.com/guide/mac-help/allow-access-to-system-configuration-files-mchlccb25729/mac">grant permission for Terminal application</a> before running UAC from the terminal, or <a href="https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac">grant permission for remote users</a> before running UAC via ssh.</p>
+</blockquote>
+<p>To execute a collection, you must supply at least a <a href="profiles/">profile</a> and/or a list of <a href="artifacts/">artifacts</a>, and specify the destination directory. Any additional parameters are optional.</p>
+<p>Examples:</p>
+<p>Collect all artifacts based on the ir_triage profile, and save the output file to /tmp.</p>
+<pre><code class="language-shell">./uac -p ir_triage /tmp
+</code></pre>
+<p>Collect all artifacts located in the artifacts/live_response directory, and save the output file to /tmp.</p>
+<pre><code class="language-shell">./uac -a ./artifacts/live_response/\* /tmp
+</code></pre>
+<p>Collect all artifacts based on the ir_triage profile, along with all artifacts located in the /my_custom_artifacts directory, and save the output file to /mnt/sda1.</p>
+<pre><code class="language-shell">./uac -p ir_triage -a /my_custom_artifacts/\* /mnt/sda1
+</code></pre>
+<p>Collect a memory dump and all artifacts based on the full profile.</p>
+<pre><code class="language-shell">./uac -a ./artifacts/memory_dump/avml.yaml -p full /tmp
+</code></pre>
+<p>Collect all artifacts based on the ir_triage profile excluding the bodyfile.yaml artifact.</p>
+<pre><code class="language-shell">./uac -p ir_triage -a \!artifacts/bodyfile/bodyfile.yaml /tmp
+</code></pre>
 <h2 id="command-line-options">Command line options</h2>
 <p>UAC is a command line tool, and as such, has several options that can be used to interact with it. It is recommended to run UAC from an external device/usb/network share to avoid overwriting evidence.</p>
 <pre class="code">
-Usage: ./uac {-p PROFILE | -a ARTIFACTS} DESTINATION [OPTIONS]
-   or: ./uac --validate-artifacts-file FILE
+Usage: ./uac [-h] [-V] [--debug] {-p PROFILE | -a ARTIFACT} DESTINATION 
+
+   or: ./uac --validate-artifact FILE
+   or: ./uac --validate-profile FILE
 
 Optional Arguments:
   -h, --help        Display this help and exit.
-  -V, --version     Output version information and exit.
+  -v, --verbose     Increases the verbosity level.
       --debug       Enable debug mode.
+      --trace       Enable trace messages.
+  -V, --version     Output version information and exit.
 
 Profiling Arguments:
-  -p, --profile PROFILE
-                    Specify the collection profile name. Use '--profile list'
-                    to list available profiles.
-  -a, --artifacts ARTIFACTS
-                    Specify the artifacts to be collected during the collection.
-                    The expression is a comma-separated string where each element
-                    is an artifact file. Each element can be prepended with an 
-                    exclamation mark to exclude the artifact.
+  -p, --profile   PROFILE
+                    Specify the collection profile name or path.
+                    Use '--profile list' to list all available profiles.
+  -a, --artifacts ARTIFACT
+                    Specify the artifact(s) to be collected during the collection.
+                    The expression is a comma separated string where each element
+                    is an artifact. You can exclude individual artifacts by
+                    prefixing them with an exclamation mark (!).
                     Special characters such as ! and * must be escaped with a
                     backslash.
                     Examples: --artifacts files/logs/\*,\!files/logs/var_log.yaml
-                    Use '--artifacts list' to list available artifacts.
+                    Use '--artifacts list [OPERATING_SYSTEM]' to list available 
+                    artifacts (default: all).
 
 Positional Arguments:
   DESTINATION       Specify the directory the output file should be copied to.
 
+Output Arguments:
+  -o, --output-base-name BASENAME
+                    Specify the base name of the output file (without extension).
+                    Default: uac-%hostname%-%os%-%timestamp%
+  -f, --output-format FORMAT
+                    Specify the output format.
+                    Compression will be enabled if gzip is available.
+                    Options: none, tar, zip (default: tar)
+  -P, --output-password PASSWORD
+                    Specify the password to be used to encrypt the contents
+                    of the archive file.
+                    Applies to zip output format only.
+
 Collection Arguments:
+  -c, --config      FILE
+                    Load the config from a specific file.
   -m, --mount-point MOUNT_POINT
                     Specify the mount point (default: /).
   -s, --operating-system OPERATING_SYSTEM
                     Specify the operating system.
-                    Options: aix, android, esxi, freebsd, linux, macos, netbsd
+                    Options: aix, esxi, freebsd, linux, macos, netbsd
                              netscaler, openbsd, solaris
+  -H, --hash-collected
+                    Hash all collected files.
+  -t, --max-threads THREADS
+                    Specify the number of files that will be processed in
+                    parallel by the hash and stat collectors (default: 2).
+                    Use '--max-threads list' to list the number of processing
+                    units available on the system.
   -u, --run-as-non-root
                     Disable root user check.
                     Note that data collection may be limited.
-      --hostname HOSTNAME
+      --hostname  HOSTNAME
                     Specify the target system hostname.
-      --temp-dir PATH   
+      --temp-dir  PATH   
                     Write all temporary data to this directory.
 
 Filter Arguments:
-      --date-range-start YYYY-MM-DD
+      --start-date YYYY-MM-DD
                     Only collects files that were last modified/accessed/changed
                     after the given date.
-      --date-range-end YYYY-MM-DD
+      --end-date  YYYY-MM-DD
                     Only collects files that were last modified/accessed/changed
                     before the given date.
 
@@ -233,188 +297,267 @@ Informational Arguments:
                     Specify the description.
       --evidence-number EVIDENCE_NUMBER
                     Specify the evidence number.
-      --examiner EXAMINER
+      --examiner  EXAMINER
                     Specify the examiner name.
-      --notes NOTES
+      --notes     NOTES
                     Specify the notes.
 
 Remote Transfer Arguments:
       --sftp SERVER
-                    Transfer output file to remote SFTP server.
+                    Transfer the output file to remote SFTP server.
                     SERVER must be specified in the form [user@]host:[path]
       --sftp-port PORT
                     Remote SFTP server port (default: 22).
       --sftp-identity-file FILE
                     File from which the identity (private key) for public key
                     authentication is read.
-      --s3-presigned-url URL
-                    Transfer output file to AWS S3 using a pre-signed URL.
-      --s3-presigned-url-log-file URL
-                    Transfer log file to AWS S3 using a pre-signed URL.
+      --sftp-ssh-options
+                    Comma separated ssh options.
+      --s3-provider
+                    Transfer the output and log files to S3 service.
+                    Options: amazon, google, ibm
+      --s3-region
+                    S3 region name (default: us-east-1 [amazon], us-south [ibm]).
+      --s3-bucket
+                    S3 bucket/cloud object storage name.
+      --s3-access-key
+                    The access key for the bucket/cloud object storage.
+      --s3-secret-key
+                    The secret access key for the bucket/cloud object storage.
+      --s3-token
+                    The session/bearer token for the bucket/cloud object storage.
+      --aws-s3-presigned-url URL
+                    Transfer the output file to AWS S3 using a pre-signed URL.
+      --aws-s3-presigned-url-log-file URL
+                    Transfer the log file to AWS S3 using a pre-signed URL.
       --azure-storage-sas-url URL
-                    Transfer output file to Azure Storage using a SAS URL.
+                    Transfer the output file to Azure Storage using a SAS URL.
       --azure-storage-sas-url-log-file URL
-                    Transfer log file to Azure Storage using a SAS URL.
-      --ibm-cos-url URL
-                    Transfer output file to IBM Cloud Object Storage.
-      --ibm-cos-url-log-file URL
-                    Transfer log file to IBM Cloud Object Storage.
-      --ibm-cloud-api-key KEY
-                    IBM Cloud API key / Bearer token.
+                    Transfer the log file to Azure Storage using a SAS URL.
       --delete-local-on-successful-transfer
                     Delete local output and log files on successful transfer.
 
 Validation Arguments:
-      --validate-artifacts-file FILE
-                    Validate artifacts file.
+      --validate-artifact FILE
+                    Validate artifact.
+      --validate-profile FILE
+                    Validate profile.
+
 </pre>
 
-<h2 id="using-uac">Using UAC</h2>
-<p>UAC does not need to be installed on the target system. You only need to download the latest version from the <a href="https://github.com/tclahr/uac/releases">releases page</a>, uncompress and run it. As simple as that!</p>
-<p>A <a href="profile_file/">profile</a> name and/or a list of <a href="artifacts_file/">artifacts</a>, and the destination directory need to be provided to run a collection. The remaining parameters are optional.</p>
-<p>You can use as many --artifacts (-a) and --profile (-p) as you want to build an even more customized collection. Artifacts will be collected in the order they were provided in the command line. Note that duplicated artifacts will be collected only once.</p>
-<blockquote>
-<p><strong>Full Disk Access</strong> permission is a privacy feature introduced in macOS Mojave (10.14) that prevents some applications from accessing important data, such as Mail, Messages, and Safari files. So it is strongly recommended that you manually <a href="https://support.apple.com/guide/mac-help/allow-access-to-system-configuration-files-mchlccb25729/mac">grant permission for Terminal application</a> before running UAC from the terminal, or <a href="https://support.apple.com/guide/mac-help/allow-a-remote-computer-to-access-your-mac-mchlp1066/mac">grant permission for remote users</a> before running UAC via ssh.</p>
-</blockquote>
-<h3 id="command-line-options_1">Command line options</h3>
+<h3 id="optional-arguments">Optional Arguments</h3>
+<p><strong>--help</strong></p>
+<p>Display the help and exit.</p>
+<p><strong>-v, --verbose</strong></p>
+<p>Increases the verbosity level. Enabling a higher verbosity level will result in the display of all executed commands.</p>
+<p><strong>--debug</strong></p>
+<p>Enable debug mode. Enabling debug mode will prevent the removal of the <code>uac-data.tmp</code> directory in the destination directory. This directory stores collected, temporary and debugging data during execution.</p>
+<p><strong>--trace</strong></p>
+<p>Enable <code>set -x</code>. Using <code>set -x</code> in a shell script enables command tracing by printing each command before execution, which helps in debugging and understanding the script's flow.</p>
+<p><strong>-V, --version</strong></p>
+<p>Output version information and exit.</p>
+<h3 id="profiling-arguments">Profiling Arguments</h3>
 <p><strong>-p, --profile</strong></p>
-<p>Specify the collection profile name. Profiles are used to define the list of artifacts that will be collected during the execution. They are YAML files located in the <code>profiles</code> directory.</p>
-<p>Use '--profile list' to list available profiles.</p>
+<p>Specify the collection profile name. Profiles are used to define the list of artifacts that will be used during the execution. They are YAML files located in the <code>profiles</code> directory.</p>
+<p>Feel free to utilize multiple profiles to craft a highly tailored collection. Profiles will be processed in the sequence they are listed in the command line. It's important to note that duplicate artifacts will be gathered just once.</p>
+<p>Use <code>--profile list</code> to list available profiles.</p>
 <p>Examples:</p>
-<pre><code class="language-shell">-p ir_triage
+<pre><code class="language-shell">./uac -p ir_triage DESTINATION
 </code></pre>
-<pre><code class="language-shell">-p ir_triage -p my_custom_profile
+<pre><code class="language-shell">./uac -p ir_triage -p offline DESTINATION
+</code></pre>
+<p>You also have the option to supply a file path to a custom profile located outside the <code>profiles</code> directory.</p>
+<p>Example:</p>
+<pre><code class="language-shell">./uac -p /home/user/my_custom_profile.yaml DESTINATION_DIR
 </code></pre>
 <p><strong>-a, --artifacts</strong></p>
-<p>Specify the artifacts to be collected during the collection. Artifacts are used to define parameters that will be used by a <a href="collectors/">collector</a> to collect data. They are YAML files located in the <code>artifacts</code> directory.</p>
-<p>You can specify multiple artifacts at once by separating them with a comma (no spaces). Each element can be prepended with an exclamation mark to exclude the artifact. Special characters such as ! and * must be escaped with a backslash.</p>
-<p>Use '--artifacts list' to list available artifacts.</p>
+<p>Specify the artifacts to be used during the collection. Artifacts are used to define parameters that will be used by a <a href="artifacts/#collector">collector</a> to collect data. They are YAML files located in the <code>artifacts</code> directory.</p>
+<p>Feel free to utilize multiple artifacts to craft a highly tailored collection. Artifacts will be processed in the sequence they are listed in the command line. It's important to note that duplicate artifacts will be gathered just once.</p>
+<p>You have the option to specify multiple artifacts simultaneously by either separating them with a comma (without spaces) or by using -a/--artifacts multiple times.</p>
+<p>You can exclude individual artifacts by prefixing them with an exclamation mark (!). Note that in many shells, special characters like ! and * require escaping with a backslash.</p>
+<p>Use <code>--artifacts list</code> to list all available artifacts.</p>
+<p>Use <code>--artifacts list [OPERATING_SYSTEM]</code> to list all available artifacts for a specific operating system.</p>
 <p>Examples:</p>
-<pre><code class="language-shell">-a files/logs/\*,\!files/logs/var_log.yaml
+<pre><code class="language-shell">./uac -a files/logs/\*,\!files/logs/var_log.yaml DESTINATION
 </code></pre>
-<pre><code class="language-shell">-a artifacts/live_response/\* -a ./artifacts/files/logs/\* -a \!artifacts/files/logs/var_log.yaml
+<pre><code class="language-shell">./uac -a artifacts/live_response/\* -a ./artifacts/files/logs/\* -a \!files/logs/var_log.yaml DESTINATION
 </code></pre>
+<p>You also have the option to supply a file path to a custom artifact file located outside the <code>artifacts</code> directory.</p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac -a files/logs/\* -a /home/user/my_artifact_file.yaml DESTINATION
+</code></pre>
+<pre><code class="language-shell">./uac -a /home/user/my_artifacts/\* DESTINATION
+</code></pre>
+<h3 id="positional-arguments">Positional Arguments</h3>
 <p><strong>DESTINATION</strong></p>
 <p>The directory where the output and acquisition log files should be copied to.</p>
+<h3 id="output-arguments">Output Arguments</h3>
+<p><strong>-o, --output-base-name</strong></p>
+<p>Specify the base name of the output file (without extension). Default is <code>uac-%hostname%-%os%-%timestamp%</code></p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac -p ir_triage -o my_custom_output_file_name DESTINATION
+</code></pre>
+<pre><code class="language-shell">./uac -a ./artifacts/files/browsers/chrome.yaml -o uac-chrome-only-%hostname%-%timestamp% DESTINATION
+</code></pre>
+<p><strong>-f, --output-format</strong></p>
+<p>Specify the output format. Compression will be automatically enabled if <code>gzip</code> is available.</p>
+<p>Options: none, tar, zip (Default is <code>tar</code>)</p>
+<ul>
+<li>
+<p><strong>none</strong>: Collected data will not be archived or compressed. Instead, it will be copied directly to an output directory.</p>
+</li>
+<li>
+<p><strong>tar</strong>: Collected data will be archived (and compressed) into a tar file.</p>
+</li>
+<li>
+<p><strong>zip</strong>: Collected data will be archived and compressed into a zip file.</p>
+</li>
+</ul>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac -p full --output-format none DESTINATION
+</code></pre>
+<p><strong>-P, --output-password</strong></p>
+<p>Specify the password to be used to encrypt the contents of the archive file. Applies to zip output format only.</p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac -p ir_triage --output-format zip --output-password &quot;infected&quot; DESTINATION
+</code></pre>
 <h3 id="collection-arguments">Collection Arguments</h3>
+<p><strong>-c, --config</strong></p>
+<p>Load the config from a specific file.</p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac -p full -c /home/user/my_custom_uac_config.conf DESTINATION
+</code></pre>
 <p><strong>-m, --mount-point</strong></p>
-<p>The mount point where the files will be collected from. Default is /.</p>
+<p>The mount point where the files will be collected from. Default is <code>/</code></p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac -p offline -m /mnt/sda1 DESTINATION
+</code></pre>
 <p><strong>-s, --operating-system</strong></p>
-<p>This option can be used to force UAC to collect artifacts for a given operating system. By default, UAC will always try to identify the target operating system automatically.</p>
-<p>Accepted values: aix, android, esxi, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris</p>
+<p>This option allows you to force UAC to collect artifacts for a specific operating system. By default, UAC automatically attempts to identify the target operating system.</p>
+<p>Options: aix, esxi, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris</p>
+<p><strong>-H, --hash-collected</strong></p>
+<p>Enabling this option will cause UAC to hash all collected files and save the results in a hash file. To accomplish this, all collected data must first be copied to the destination directory. Therefore, ensure you have twice the free space available on the system: once for the collected data and once for the output file. Additionally, note that this process will increase the running time.</p>
+<p><strong>-t, --max-threads</strong></p>
+<p>This option allows you to specify the number of files that will be processed in parallel by the <code>hash</code> and <code>stat</code> collectors by setting the -P/--max-procs parameter of xargs at runtime. Note that this option will be ignored on systems where xargs does not support the -P/--max-procs parameter.</p>
+<p>Ideally, you want to set --max-threads to a number that matches or is slightly below the number of CPU threads available. This ensures you utilize reasonable processing power without overloading the system.</p>
+<p>Use <code>--max-threads list</code> to list all processing units/threads available on the system.</p>
 <p><strong>-u, --run-as-non-root</strong></p>
 <p>Disable root user check. Note that artifact collection may be limited.</p>
 <p><strong>--hostname</strong></p>
-<p>The target system hostname to be used as part of the output file name. By default, UAC will always try to identify the target system's hostname.</p>
+<p>Specify the hostname to be used as part of the output name when %hostname% is used in --output-base-name. By default, UAC automatically attempts to identify the target system's hostname.</p>
 <p><strong>--temp-dir</strong></p>
-<p>The directory UAC will use to store temporary data.</p>
+<p>The location where the <code>uac-data.tmp</code> directory will be created. This directory stores collected, temporary and debugging data during execution. By default, <code>uac-data.tmp</code> will be created within the DESTINATION directory.</p>
 <h3 id="filter-arguments">Filter Arguments</h3>
-<p><strong>--date-range-start</strong></p>
-<p>Only collects files that were last modified/accessed/changed after the given date. Value needs to be in YYYY-MM-DD format.</p>
-<p><strong>--date-range-end</strong></p>
-<p>Only collects files that were last modified/accessed/changed before the given date. Value needs to be in YYYY-MM-DD format.</p>
-<h3 id="case-information-arguments">Case information Arguments</h3>
+<p><strong>--start-date</strong></p>
+<p>Collect only the files that were last modified, accessed, or changed after a specific date. The date must be in the format: YYYY-MM-DD.</p>
+<p><strong>--end-date</strong></p>
+<p>Collect only the files that were last modified, accessed, or changed before a specific date. The date must be in the format: YYYY-MM-DD.</p>
+<h3 id="informational-arguments">Informational Arguments</h3>
 <p><strong>--case-number</strong></p>
-<p>The case number.</p>
+<p>Specify the case number.</p>
 <p><strong>--description</strong></p>
-<p>The case description.</p>
+<p>Specify the case description.</p>
 <p><strong>--evidence-number</strong></p>
-<p>The evidence number.</p>
+<p>Specify the evidence number.</p>
 <p><strong>--examiner</strong></p>
-<p>The examiner's name.</p>
+<p>Specify the examiner's name.</p>
 <p><strong>--notes</strong></p>
-<p>The case notes.</p>
-<h3 id="sftp-arguments">SFTP Arguments</h3>
+<p>Specify the case notes.</p>
+<h3 id="remote-transfer-arguments">Remote Transfer Arguments</h3>
 <p><strong>--sftp</strong></p>
-<p>SFTP server host/IP for transferring the output and acquisition log files. It must be specified in the form [user@]host:[path]</p>
+<p>SFTP server host/IP for transferring the output and acquisition log files. It also transfers collected data when <code>none</code> is used as the output format. It must be specified in the form <code>[user@]host:[path]</code></p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac -p full --sftp &quot;user@host:/remote_dir&quot; DESTINATION
+</code></pre>
 <p><strong>--sftp-port</strong></p>
-<p>SFTP server port. Default is 22.</p>
+<p>SFTP server port. Default is <code>22</code>.</p>
 <p><strong>--sftp-identity-file</strong></p>
 <p>File from which the identity (private key) for public-key authentication is read.</p>
-<h3 id="s3-arguments">S3 Arguments</h3>
-<p><strong>--s3-presigned-url</strong></p>
-<p>This allows for using a pre-signed URL to upload the output file to S3 (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.</p>
+<p><strong>--sftp-ssh-options</strong></p>
+<p>Comma-separated options that modify the behavior of the SSH client. These options are usually specified in the SSH client configuration file, but this argument allows you to specify them directly on the command line.</p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac -p ir_triage --sftp &quot;user@host:/remote_dir&quot; --sftp-ssh-options &quot;StrictHostKeyChecking=no,UserKnownHostsFile=/dev/null&quot; DESTINATION
+</code></pre>
+<p><strong>--s3-provider</strong></p>
+<p>Transfer the output and log file to a S3 bucket/cloud object storage.</p>
+<p>Options: amazon, google, ibm</p>
+<p><strong>--s3-region</strong></p>
+<p>S3 region name.</p>
+<p>Default: us-east-1 (amazon), us-south (ibm)</p>
+<p><strong>--s3-bucket</strong></p>
+<p>S3 bucket/cloud object storage name</p>
+<p><strong>--s3-access-key</strong></p>
+<p>The access key for the bucket/cloud object storage.</p>
+<p><strong>--s3-secret-key</strong></p>
+<p>The secret access key for the bucket/cloud object storage.</p>
+<pre><code class="language-shell">./uac -p ir_triage --s3-provider amazon --s3-region us-east-1 --s3-bucket uac-test --s3-access-key &quot;AKIAXKDAGGVYYXDZKAGH1&quot; --s3-secret-key &quot;plJqM2mFAu2lVBhpi5UrL+X+8hL+LOYOJryhp2s2&quot; DESTINATION
+</code></pre>
+<p><strong>--s3-token</strong></p>
+<p>The session/bearer token for the bucket/cloud object storage.</p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac -p ir_triage --s3-provider ibm --s3-region us-south --s3-bucket uac-test --s3-token &quot;eyJraWQiOiIyMDIyMDkxMzA4MjciLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwiaWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwicmVhbG1pZCI6IklCTWlkIiwianRpIjoiYWVhMDE0MGYtZGM2Ni00MzE0LWJhMjMtZTIxOTAzZmQ3Y2ZhIiwiaWRlbnRpZmllciI6IjA2MDAwMUtVUkMiLCJnaXZlbl9uYW1lIjoiVGhpYWdvIiwiZmFtaWx5X25hbWUiOiJDYW5ve&quot; DESTINATION
+</code></pre>
+<p><strong>--aws-s3-presigned-url</strong></p>
+<p>This allows for using a pre-signed URL to upload the output file to AWS S3. Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.</p>
 <p>Example:</p>
-<p><code>https://uac-test.s3.amazonaws.com/uac-output.tar.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20220924T135105Z&amp;X-Amz-Expires=360000&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795</code></p>
-<p>Please refer to <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html">AWS documentation page</a> for more information.</p>
-<p><strong>--s3-presigned-url-log-file</strong></p>
-<p>This allows for using a pre-signed URL to upload the acquisition log file to S3 (if curl is available). Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.</p>
+<pre><code class="language-shell">./uac -p full --aws-s3-presigned-url 'https://uac-test.s3.amazonaws.com/uac-output.tar.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20220924T135105Z&amp;X-Amz-Expires=360000&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' DESTINATION
+</code></pre>
+<p><strong>--aws-s3-presigned-url-log-file</strong></p>
+<p>This allows for using a pre-signed URL to upload the acquisition log file to AWS S3. Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.</p>
 <p>Example:</p>
-<p><code>https://uac-test.s3.amazonaws.com/uac-output.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20220924T135105Z&amp;X-Amz-Expires=360000&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795</code></p>
-<h3 id="azure-storage-arguments">Azure Storage Arguments</h3>
+<pre><code class="language-shell">./uac -p full --aws-s3-presigned-url 'https://uac-test.s3.amazonaws.com/uac-output.tar.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20220924T135105Z&amp;X-Amz-Expires=360000&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' --aws-s3-presigned-url-log-file 'https://uac-test.s3.amazonaws.com/uac-output.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20220924T135105Z&amp;X-Amz-Expires=360000&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' DESTINATION
+</code></pre>
 <p><strong>--azure-storage-sas-url</strong></p>
-<p>This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage (if curl is available). It is strongly recommended to use single quotes to enclose the URL.</p>
+<p>This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage. It is strongly recommended to use single quotes to enclose the URL.</p>
 <p>Example:</p>
-<p><code>https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D</code></p>
-<p>Please refer to <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview">Azure documentation page</a> for more information.</p>
+<pre><code class="language-shell">./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
+</code></pre>
 <p><strong>--azure-storage-sas-url-log-file</strong></p>
-<p>This allows for using a shared access signature (SAS) URL to upload the acquisition log file to Azure Storage (if curl is available). It is strongly recommended to use single quotes to enclose the URL.</p>
+<p>This allows for using a shared access signature (SAS) URL to upload the acquisition log to Azure Storage. It is strongly recommended to use single quotes to enclose the URL.</p>
 <p>Example:</p>
-<p><code>https://uac-test.blob.core.windows.net/uac-container/uac-output.log?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D</code></p>
-<h3 id="ibm-cloud-object-storage-arguments">IBM Cloud Object Storage Arguments</h3>
-<p><strong>--ibm-cos-url</strong></p>
-<p>This allows uploading the output file to IBM Cloud Object Storage (if curl is available). It is strongly recommended to use single quotes to enclose the URL.</p>
-<p>Example:</p>
-<p><code>https://s3.us-south.cloud-object-storage.appdomain.cloud/uac-test/uac-output.tar.gz</code></p>
-<p>Please refer to <a href="https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-curl">IBM Cloud documentation page</a> for more information.</p>
-<p><strong>--ibm-cos-url-log-file</strong></p>
-<p>This allows uploading the acquisition log file to IBM Cloud Object Storage (if curl is available). It is strongly recommended to use single quotes to enclose the URL.</p>
-<p>Example:</p>
-<p><code>https://s3.us-south.cloud-object-storage.appdomain.cloud/uac-test/uac-output.log</code></p>
-<p><strong>--ibm-cloud-api-key</strong></p>
-<p>IBM Cloud API key / Bearer token required to access the object storage.</p>
-<p>Example:</p>
-<p><code>eyJraWQiOiIyMDIyMDkxMzA4MjciLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwiaWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwicmVhbG1pZCI6IklCTWlkIiwianRpIjoiYWVhMDE0MGYtZGM2Ni00MzE0LWJhMjMtZTIxOTAzZmQ3Y2ZhIiwiaWRlbnRpZmllciI6IjA2MDAwMUtVUkMiLCJnaXZlbl9uYW1lIjoiVGhpYWdvIiwiZmFtaWx5X25hbWUiOiJDYW5ve</code> (truncated)</p>
-<h3 id="diagnostic-arguments">Diagnostic Arguments</h3>
-<p><strong>--debug</strong></p>
-<p>Enable debug mode. This will result in more details as to what UAC is doing in the background as it runs. The messages will be stored in the <code>uac.log.stderr</code> file. The uac-data.tmp directory created in the destination directory will not be removed. This is the location where temporary and debugging data is stored during execution.</p>
-<h3 id="other-arguments">Other Arguments</h3>
+<pre><code class="language-shell">./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' --azure-storage-sas-url-log-file 'https://uac-test.blob.core.windows.net/uac-container/uac-output.log?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
+</code></pre>
 <p><strong>--delete-local-on-successful-transfer</strong></p>
 <p>Delete the local output and acquisition log files if they were successfully transferred to a remote destination such as an SFTP server or S3.</p>
-<h3 id="examples">Examples</h3>
-<p>Common usage scenarios may include the following:</p>
-<p><strong>Collect all artifacts based on the <code>full</code> profile, and create the output file in <code>/tmp</code>.</strong></p>
-<pre><code class="language-shell">./uac -p full /tmp
+<h3 id="validation-arguments">Validation Arguments</h3>
+<p><strong>--validate-artifact</strong></p>
+<p>Validate whether the artifact YAML file contains any errors.</p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac --validate-artifact my_custom_artifact.yaml
 </code></pre>
-<p><strong>Collect all <code>live_response</code>, and the <code>bodyfile/bodyfile.yaml</code> artifact, and create the output file in the current directory.</strong></p>
-<pre><code class="language-shell">./uac -a live_response/\*,bodyfile/bodyfile.yaml .
+<p><strong>--validate-profile</strong></p>
+<p>Validate whether the profile YAML file contains any errors.</p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac --validate-profile my_custom_profile.yaml
 </code></pre>
-<p><strong>Collect all artifacts based on the <code>full</code> profile, but excludes the <code>bodyfile/bodyfile.yaml</code> artifact, and create the output file in <code>/tmp</code>.</strong></p>
-<pre><code class="language-shell">./uac -p full -a \!bodyfile/bodyfile.yaml /tmp
+<h2 id="validating-custom-artifacts">Validating custom artifacts</h2>
+<p>It is recommended that you validate your custom artifacts before running a collection. You can do it using the <code>--validate-artifact</code> option as shown below.</p>
+<pre><code class="language-shell">./uac --validate-artifact /path_to/my_custom_artifact.yaml
 </code></pre>
-<p><strong>Collect the memory dump, then all artifacts based on the <code>full</code> profile.</strong></p>
-<pre><code class="language-shell">./uac -a artifacts/memory_dump/avml.yaml -p full /tmp
-</code></pre>
-<p><strong>Collect the memory dump, then all artifacts based on the <code>ir_triage</code> profile excluding the <code>bodyfile/bodyfile.yaml</code> artifact.</strong></p>
-<pre><code class="language-shell">./uac -a ./artifacts/memory_dump/avml.yaml -p ir_triage -a \!artifacts/bodyfile/bodyfile.yaml /tmp
-</code></pre>
-<p><strong>Collect all artifacts based on the <code>full</code> profile, but limit the data collection based on the date range provided.</strong></p>
-<pre><code class="language-shell">./uac -p full /tmp --date-range-start 2021-05-01 --date-range-end 2021-08-31
-</code></pre>
-<p><strong>Collect all but live response artifacts from a Linux disk image mounted in <code>/mnt/ewf</code>.</strong></p>
-<pre><code class="language-shell">./uac -p full -a \!live_response/\* /tmp --mount-point /mnt/ewf --operating-system linux
-</code></pre>
-<h2 id="validating-custom-artifacts-files">Validating custom artifacts files</h2>
-<p>It is recommended that you validate your custom artifacts files before running a collection. You can do it using the <code>--validate-artifacts-file</code> option as shown below.</p>
-<pre><code class="language-shell">./uac --validate-artifacts-file ./artifacts/files/my_custom_artifact.yaml
+<h2 id="validating-custom-profiles">Validating custom profiles</h2>
+<p>It is recommended that you validate your custom profiles before running a collection. You can do it using the <code>--validate-profile</code> option as shown below.</p>
+<pre><code class="language-shell">./uac --validate-profile /path_to/my_custom_profile.yaml
 </code></pre>
 <h2 id="using-your-binary-files">Using your binary files</h2>
-<p>Place your validated binary files in the <code>[uac_directory]\bin</code> directory if you want them to be executed instead of the built-in ones provided by the target operating system.</p>
-<p>UAC will detect and run CPU architecture-specific executable files, so they need to be placed within the following directory structure: <code>[uac_directory]\bin\[operating_system]\[architecture]</code>.</p>
-<p>Operating system must be one of the following options (in lowercase): android, aix, freebsd, linux, macos, netbsd, netscaler, openbsd or solaris.</p>
-<p>Architecture is the kernel architecture (in lowercase). It can be retrieved using <code>uname</code> tool.</p>
-<p>For example:</p>
-<ul>
-<li>if you have a <code>ss</code> binary for Linux x86_64, it needs to be placed in the <code>[uac_directory]\bin\linux\x86_64</code> directory.</li>
-<li>if you have a <code>lsof</code> binary for AIX powerpc, it needs to be placed in the <code>[uac_directory]\bin\aix\powerpc</code> directory.</li>
-<li>if you have a <code>netstat</code> binary for Android aarch64, it needs to be placed in the <code>[uac_directory]\bin\android\aarch64</code> directory.</li>
-</ul>
+<p>In most cases, the executables should be placed in the <code>[UAC_DIRECTORY]/bin</code> directory, along with any additional support files it needs to run.</p>
+<p>For example, if you have an artifact that uses an executable named 'my_script.sh', you should place this binary in the <code>[UAC_DIRECTORY]/bin</code> directory.</p>
+<p>In the case where you have executables with the same name, but for multiple operating systems, they should be placed in the <code>[UAC_DIRECTORY]/bin/[OS]</code> directory.</p>
+<p>For example, if you have an artifact that uses an executable named 'lsof', but you have two binary files, one for Linux and one for FreeBSD, you should place the binaries in the <code>[UAC_DIRECTORY]/bin/linux</code> and <code>[UAC_DIRECTORY]/bin/freebsd</code> directories. Note that the operating system name must be in lowercase.</p>
+<p>In the case where you have executables that can be run on multiple operating systems, they should be placed in the <code>[UAC_DIRECTORY]/bin/[OS1_OS2_OS3]</code> directory. Note that you can have multiple operating systems separated by an underscore '_'.</p>
+<p>For example, if you have an artifact that uses an executable named 'netstat' that runs on both Linux and ESXi systems, you should place the binary either in the <code>[UAC_DIRECTORY]/bin/linux_esxi</code> directory or place the binary in the <code>[UAC_DIRECTORY]/bin/linux</code> and <code>[UAC_DIRECTORY]/bin/esxi</code> directories.</p>
+<p>In the case where you have executables with the same name, but for multiple operating systems and multiple architectures, they should be placed in the <code>[UAC_DIRECTORY]/bin/[OS]/[ARCH]</code> directory.</p>
+<p>For example, if you have an artifact that uses an executable named 'ss', but you have binary files for Linux arm64 and ppc64, FreeBSD i386, and Solaris x86_64 and sparc64, you should place the binary files in the <code>[UAC_DIRECTORY]/bin/linux/arm64</code>, <code>[UAC_DIRECTORY]/bin/linux/ppc64</code>, <code>[UAC_DIRECTORY]/bin/freebsd/i386</code>, <code>[UAC_DIRECTORY]/bin/solaris/x86_64</code> and <code>[UAC_DIRECTORY]/bin/solaris/sparc64</code> directories.</p>
 <h2 id="troubleshooting-and-support">Troubleshooting and support</h2>
 <h3 id="debug-mode">Debug mode</h3>
-<p>Debug mode <code>--debug</code> may be useful if you are trying to find the source for an error. When debug mode is on, UAC will use <code>set -x</code> to generate debugging messages and store them in <code>uac.log.stderr</code> file.</p>
+<p>Debug mode <code>--debug</code> may be useful if you are trying to find the source of an error. Enabling debug mode will prevent the removal of the <code>uac-data.tmp</code> directory in the destination directory. This directory stores collected, temporary and debugging data during execution.</p>
+<h3 id="trace-messages">Trace messages</h3>
+<p>Using <code>--trace</code> enables command tracing by printing each command before execution, which helps in debugging and understanding the script's flow. It is recommended to redirect the stderr (shell tracing messages) to a text file.</p>
+<p>Consider the following command to enable command tracing and storing them in /tmp/uac-tracing.log file.</p>
+<pre><code class="language-shell">./uac -p ir_triage --trace DESTINATION 2&gt;/tmp/uac-tracing.log
+</code></pre>
 <h3 id="file-an-issue-on-github">File an issue on Github</h3>
-<p>If you are a user and you find a bug, please submit an <a href="https://github.com/tclahr/uac/issues">issue</a>. Please try to provide sufficient information for someone else to reproduce the issue. One of the project's <a href="https://github.com/tclahr/uac/blob/master/MAINTAINERS.md">maintainers</a> should respond to your issue soon.</p>
-<p>Please search within our <a href="https://github.com/tclahr/uac/issues">already reported bugs</a> before raising a new one to make sure you're not raising a duplicate.</p>
+<p>If you are a user and find a bug, please submit an <a href="https://github.com/tclahr/uac/issues">issue</a> and provide enough information for others to reproduce it. One of the project's <a href="https://github.com/tclahr/uac/blob/master/MAINTAINERS.md">maintainers</a> should respond to your issue soon.</p>
+<p>Before submitting, please check our list of <a href="https://github.com/tclahr/uac/issues">already reported bugs</a> to ensure you are not raising a duplicate.</p>
 <p>See our <a href="https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md">Contributing Guide</a> for more information.</p>
 <h3 id="community-support">Community support</h3>
 <p>For additional help, you can use one of the channels to ask a question:</p>
@@ -424,7 +567,7 @@ Validation Arguments:
 <li><a href="https://twitter.com/tclahr">Twitter</a> (Get the news fast)</li>
 </ul>
 <h2 id="contributing">Contributing</h2>
-<p>Have you created any artifact files? Please share them with us!</p>
+<p>Have you created any artifacts? Please share them with us!</p>
 <p>You can contribute with new artifacts, profiles, bug fixes or even propose new features. Please read our <a href="https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md">Contributing Guide</a> before submitting a Pull Request to the project.</p>
 <h2 id="license">License</h2>
 <p>The UAC project uses the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License Version 2.0</a> software license.</p>
@@ -432,7 +575,7 @@ Validation Arguments:
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="profile_file/" class="btn btn-neutral float-right" title="Profile file">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="profiles/" class="btn btn-neutral float-right" title="Profiles">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -456,18 +599,19 @@ Validation Arguments:
     
     
     
-      <span><a href="profile_file/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="profiles/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
-    <script>var base_url = '.';</script>
-    <script src="js/theme_extra.js" defer></script>
-    <script src="js/theme.js" defer></script>
-      <script src="search/main.js" defer></script>
-    <script defer>
-        window.onload = function () {
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
             SphinxRtdTheme.Navigation.enable(true);
-        };
+        });
     </script>
 
 </body>
