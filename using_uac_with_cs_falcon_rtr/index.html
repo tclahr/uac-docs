@@ -108,22 +108,22 @@
               
                 <h1 id="using-uac-with-crowdstrike-falcon-real-time-response">Using UAC with CrowdStrike Falcon Real Time Response</h1>
 <p>With CrowdStrike Falcon Real Time Response (RTR), analysts can remotely access and interact with endpoints in real-time, gaining instant visibility into the system and collecting valuable forensic data by deploying files and running custom scripts.</p>
-<p>In the instructions below the UAC package (i.e. uac-2.9.0.tar.gz) was stored in the CrowdStrike cloud. This way it can be deployed even if an endpoint is isolated via Network Containment feature.</p>
+<p>In the instructions below the UAC package (i.e. uac-3.0.0.tar.gz) was stored in the CrowdStrike cloud. This way it can be deployed even if an endpoint is isolated via Network Containment feature.</p>
 <p>1. Start by creating a temporary working directory on the live endpoint, then change the working directory to it.</p>
 <pre><code class="language-shell">/&gt; mkdir /tmp/uac
 /&gt; cd /tmp/uac
 </code></pre>
 <p>2. Deploy and uncompress the UAC package.</p>
-<pre><code class="language-shell">/tmp/uac&gt; put &quot;uac-2.9.0.tar.gz&quot;
-/tmp/uac&gt; runscript -Raw=```tar -zxf uac-2.9.0.tar.gz``` -Timeout=60
+<pre><code class="language-shell">/tmp/uac&gt; put &quot;uac-3.0.0.tar.gz&quot;
+/tmp/uac&gt; runscript -Raw=```tar -zxf uac-3.0.0.tar.gz``` -Timeout=60
 </code></pre>
 <p>3. Change the working directory and run the collection. Note that CrowdStrike Falcon RTR session times out after 10 minutes. Make sure to keep the Falcon RTR session active.</p>
-<pre><code class="language-shell">/tmp/uac&gt; cd uac-2.9.0
-/tmp/uac/uac-2.6.0&gt; runscript -Raw=```./uac -p ir_triage /tmp/uac``` -Timeout=9999
+<pre><code class="language-shell">/tmp/uac&gt; cd uac-3.0.0
+/tmp/uac/uac-3.0.0&gt; runscript -Raw=```./uac -p ir_triage /tmp/uac``` -Timeout=9999
 </code></pre>
 <p>4. Upload the output and log files to the CrowdStrike cloud using the <code>get</code> command.</p>
-<pre><code class="language-shell">/tmp/uac/uac-2.6.0&gt; get &quot;/tmp/uac/uac-hostname-os-20230101120101.tar.gz&quot;
-/tmp/uac/uac-2.6.0&gt; get &quot;/tmp/uac/uac-hostname-os-20230101120101.log&quot;
+<pre><code class="language-shell">/tmp/uac/uac-3.0.0&gt; get &quot;/tmp/uac/uac-hostname-os-20240707120101.tar.gz&quot;
+/tmp/uac/uac-3.0.0&gt; get &quot;/tmp/uac/uac-hostname-os-20240707120101.log&quot;
 </code></pre>
 <blockquote>
 <p>Note: The maximum file size for <code>get</code> is 4 GB. When needed, split the files using the <code>split</code> command.</p>
