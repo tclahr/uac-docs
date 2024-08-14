@@ -138,11 +138,6 @@ Collection Arguments:
                              netscaler, openbsd, solaris
   -H, --hash-collected
                     Hash all collected files.
-  -t, --max-threads THREADS
-                    Specify the number of files that will be processed in
-                    parallel by the hash and stat collectors (default: 2).
-                    Use '--max-threads list' to list the number of processing
-                    units available on the system.
   -u, --run-as-non-root
                     Disable root user check.
                     Note that data collection may be limited.
@@ -381,14 +376,6 @@ Options: aix, esxi, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris
 **-H, --hash-collected**
 
 Enabling this option will cause UAC to hash all collected files and save the results in a hash file. To accomplish this, all collected data must first be copied to the destination directory. Therefore, ensure you have twice the free space available on the system: once for the collected data and once for the output file. Additionally, note that this process will increase the running time.
-
-**-t, --max-threads**
-
-This option allows you to specify the number of files that will be processed in parallel by the ```hash``` and ```stat``` collectors by setting the -P/--max-procs parameter of xargs at runtime. Note that this option will be ignored on systems where xargs does not support the -P/--max-procs parameter.
-
-Ideally, you want to set --max-threads to a number that matches or is slightly below the number of CPU threads available. This ensures you utilize reasonable processing power without overloading the system.
-
-Use ```--max-threads list``` to list all processing units/threads available on the system.
 
 **-u, --run-as-non-root**
 
