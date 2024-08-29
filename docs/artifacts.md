@@ -620,6 +620,39 @@ artifacts:
     output_file: bigger_than.txt
 ```
 
+## modifier
+<span class="optional">Optional</span>
+
+**_Accepted values:_** _true or false_
+
+The collection will only execute if the value is set to `true` and the `--enable-modifiers` switch is included in the command line. This feature helps identify artifacts that modify the current system state after execution.
+
+Please note that this is a global property that must be set before defining the artifacts mapping.
+
+In the example below, the artifact will only be executed if --enable-modifiers switch is included in the command line.
+
+```yaml
+version: 1.0
+modifier: true
+output_directory: /live_response/modifiers
+artifacts:
+  -
+    description: List all PIDs with a directory in /proc but hidden for ps command.
+    supported_os: [linux]
+    collector: command
+    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
+    command: if ps ax | awk '{print $1}' | grep -q %line%; then true; else echo %line%; fi
+    output_file: hidden_pids_for_ps_command.txt
+  -
+    description: Umount all bind mounted directories to /proc/PID.
+    supported_os: [linux]
+    collector: command
+    foreach: mount | awk 'BEGIN { FS=" on "; } { print $2; }' | grep "/proc/[0-9]" | awk '{print $1}'
+    command: umount "%line%"
+    output_file: umount_%line%.txt
+  
+```
+
 ## name_pattern
 <span class="optional">Optional for: file, find, hash and stat</span>
 

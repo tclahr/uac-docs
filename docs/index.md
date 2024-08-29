@@ -141,6 +141,8 @@ Collection Arguments:
   -u, --run-as-non-root
                     Disable root user check.
                     Note that data collection may be limited.
+      --enable-modifiers
+                    Enable artifacts that change the system state.
       --hostname  HOSTNAME
                     Specify the target system hostname.
       --temp-dir  PATH   
@@ -381,6 +383,10 @@ Enabling this option will cause UAC to hash all collected files and save the res
 
 Disable root user check. Note that artifact collection may be limited.
 
+**--enable-modifiers**
+
+Enabling this option will cause UAC to run artifacts that change the current system state. Please refer to the [modifiers](#modifiers) section for more information.
+
 **--hostname**
 
 Specify the hostname to be used as part of the output name when %hostname% is used in --output-base-name. By default, UAC automatically attempts to identify the target system's hostname.
@@ -588,6 +594,10 @@ For example, if you have an artifact that uses an executable named 'netstat' tha
 In the case where you have executables with the same name, but for multiple operating systems and multiple architectures, they should be placed in the ```[UAC_DIRECTORY]/bin/[OS]/[ARCH]``` directory.
 
 For example, if you have an artifact that uses an executable named 'ss', but you have binary files for Linux arm64 and ppc64, FreeBSD i386, and Solaris x86_64 and sparc64, you should place the binary files in the ```[UAC_DIRECTORY]/bin/linux/arm64```, ```[UAC_DIRECTORY]/bin/linux/ppc64```, ```[UAC_DIRECTORY]/bin/freebsd/i386```, ```[UAC_DIRECTORY]/bin/solaris/x86_64``` and ```[UAC_DIRECTORY]/bin/solaris/sparc64``` directories.
+
+## Modifiers
+
+Modifiers are artifacts that include commands that will alter the current system state when executed on the target system. Please refer to the [modifier](artifacts.md#modifier) property page for more information.
 
 ## Troubleshooting and support
 
