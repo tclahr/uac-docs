@@ -78,6 +78,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-your-binary-files">Using your binary files</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#modifiers">Modifiers</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#troubleshooting-and-support">Troubleshooting and support</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#debug-mode">Debug mode</a>
@@ -272,6 +274,8 @@ Collection Arguments:
   -u, --run-as-non-root
                     Disable root user check.
                     Note that data collection may be limited.
+      --enable-modifiers
+                    Enable artifacts that change the system state.
       --hostname  HOSTNAME
                     Specify the target system hostname.
       --temp-dir  PATH   
@@ -434,6 +438,8 @@ Validation Arguments:
 <p>Enabling this option will cause UAC to hash all collected files and save the results in a hash file. To accomplish this, all collected data must first be copied to the destination directory. Therefore, ensure you have twice the free space available on the system: once for the collected data and once for the output file. Additionally, note that this process will increase the running time.</p>
 <p><strong>-u, --run-as-non-root</strong></p>
 <p>Disable root user check. Note that artifact collection may be limited.</p>
+<p><strong>--enable-modifiers</strong></p>
+<p>Enabling this option will cause UAC to run artifacts that change the current system state. Please refer to the <a href="#modifiers">modifiers</a> section for more information.</p>
 <p><strong>--hostname</strong></p>
 <p>Specify the hostname to be used as part of the output name when %hostname% is used in --output-base-name. By default, UAC automatically attempts to identify the target system's hostname.</p>
 <p><strong>--temp-dir</strong></p>
@@ -538,6 +544,8 @@ Validation Arguments:
 <p>For example, if you have an artifact that uses an executable named 'netstat' that runs on both Linux and ESXi systems, you should place the binary either in the <code>[UAC_DIRECTORY]/bin/linux_esxi</code> directory or place the binary in the <code>[UAC_DIRECTORY]/bin/linux</code> and <code>[UAC_DIRECTORY]/bin/esxi</code> directories.</p>
 <p>In the case where you have executables with the same name, but for multiple operating systems and multiple architectures, they should be placed in the <code>[UAC_DIRECTORY]/bin/[OS]/[ARCH]</code> directory.</p>
 <p>For example, if you have an artifact that uses an executable named 'ss', but you have binary files for Linux arm64 and ppc64, FreeBSD i386, and Solaris x86_64 and sparc64, you should place the binary files in the <code>[UAC_DIRECTORY]/bin/linux/arm64</code>, <code>[UAC_DIRECTORY]/bin/linux/ppc64</code>, <code>[UAC_DIRECTORY]/bin/freebsd/i386</code>, <code>[UAC_DIRECTORY]/bin/solaris/x86_64</code> and <code>[UAC_DIRECTORY]/bin/solaris/sparc64</code> directories.</p>
+<h2 id="modifiers">Modifiers</h2>
+<p>Modifiers are artifacts that include commands that will alter the current system state when executed on the target system. Please refer to the <a href="artifacts/#modifier">modifier</a> property page for more information.</p>
 <h2 id="troubleshooting-and-support">Troubleshooting and support</h2>
 <h3 id="debug-mode">Debug mode</h3>
 <p>Debug mode <code>--debug</code> may be useful if you are trying to find the source of an error. Enabling debug mode will prevent the removal of the <code>uac-data.tmp</code> directory in the destination directory. This directory stores collected, temporary and debugging data during execution.</p>

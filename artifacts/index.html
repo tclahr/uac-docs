@@ -101,6 +101,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#min_file_size">min_file_size</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#modifier">modifier</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#name_pattern">name_pattern</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#output_directory">output_directory</a>
@@ -674,6 +676,32 @@ artifacts:
     file_type: f
     min_file_size: 1048576
     output_file: bigger_than.txt
+</code></pre>
+<h2 id="modifier">modifier</h2>
+<p><span class="optional">Optional</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
+<p>The collection will only execute if the value is set to <code>true</code> and the <code>--enable-modifiers</code> switch is included in the command line. This feature helps identify artifacts that modify the current system state after execution.</p>
+<p>Please note that this is a global property that must be set before defining the artifacts mapping.</p>
+<p>In the example below, the artifact will only be executed if --enable-modifiers switch is included in the command line.</p>
+<pre><code class="language-yaml">version: 1.0
+modifier: true
+output_directory: /live_response/modifiers
+artifacts:
+  -
+    description: List all PIDs with a directory in /proc but hidden for ps command.
+    supported_os: [linux]
+    collector: command
+    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
+    command: if ps ax | awk '{print $1}' | grep -q %line%; then true; else echo %line%; fi
+    output_file: hidden_pids_for_ps_command.txt
+  -
+    description: Umount all bind mounted directories to /proc/PID.
+    supported_os: [linux]
+    collector: command
+    foreach: mount | awk 'BEGIN { FS=&quot; on &quot;; } { print $2; }' | grep &quot;/proc/[0-9]&quot; | awk '{print $1}'
+    command: umount &quot;%line%&quot;
+    output_file: umount_%line%.txt
+
 </code></pre>
 <h2 id="name_pattern">name_pattern</h2>
 <p><span class="optional">Optional for: file, find, hash and stat</span></p>
