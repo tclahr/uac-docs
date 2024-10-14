@@ -2,7 +2,7 @@
 
 Artifacts define parameters for a collector to gather data.
 
-UAC reads the YAML files dynamically and, based on their contents, uses one of the five available [collectors](#collector) to collect the relevant artifacts.
+UAC reads the YAML files dynamically and, based on their contents, uses one of the five available collectors ([command](#command), [file](#find-based-collectors), [find](#find-based-collectors), [hash](#find-based-collectors) and [stat](#find-based-collectors)) to collect the relevant artifacts.
 
 The example below contains two sets of rules: the first set uses the [hash](#collector) collector, and the second set uses the [command](#collector) collector to gather the artifacts.
 
