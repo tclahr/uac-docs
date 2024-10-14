@@ -176,7 +176,7 @@
               
                 <h1 id="artifacts-definition">Artifacts definition</h1>
 <p>Artifacts define parameters for a collector to gather data.</p>
-<p>UAC reads the YAML files dynamically and, based on their contents, uses one of the five available <a href="#collector">collectors</a> to collect the relevant artifacts.</p>
+<p>UAC reads the YAML files dynamically and, based on their contents, uses one of the five available collectors (<a href="#command">command</a>, <a href="#find-based-collectors">file</a>, <a href="#find-based-collectors">find</a>, <a href="#find-based-collectors">hash</a> and <a href="#find-based-collectors">stat</a>) to collect the relevant artifacts.</p>
 <p>The example below contains two sets of rules: the first set uses the <a href="#collector">hash</a> collector, and the second set uses the <a href="#collector">command</a> collector to gather the artifacts.</p>
 <pre><code class="language-yaml">version: 1.0
 artifacts:
