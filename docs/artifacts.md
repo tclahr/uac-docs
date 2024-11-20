@@ -77,6 +77,7 @@ Optional fields:
 - [exclude_nologin_users](#exclude_nologin_users)
 - [foreach](#foreach)
 - [output_file](#output_file)
+- [redirect_stderr_to_stdout](#redirect_stderr_to_stdout)
 
 ### find based collectors
 
@@ -916,6 +917,28 @@ artifacts:
     file_type: f
     permissions: [-4000]
     output_file: suid_files.txt
+```
+
+## redirect_stderr_to_stdout
+<span class="optional">Optional for: command</span>
+
+**_Accepted values:_** _true or false_
+
+If this option is set to ```true```, all error messages (stderr) will be redirected to the standard output (stdout), which is the [output file](#output_file).
+
+In the example below, both the command output (stdout) and the error messages (stderr) will be stored in the ```lsof_-nPl.txt``` file.
+
+```yaml
+version: 1.0
+output_directory: /live_response/process
+artifacts:
+  -
+    description: Collect the list open files.
+    supported_os: [all]
+    collector: command
+    command: lsof -nPl
+    output_file: lsof_-nPl.txt
+    redirect_stderr_to_stdout: true
 ```
 
 ## supported_os
