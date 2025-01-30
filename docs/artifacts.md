@@ -2,7 +2,7 @@
 
 Artifacts define parameters for a collector to gather data.
 
-UAC reads the YAML files dynamically and, based on their contents, uses one of the five available [collectors](#collector) to collect the relevant artifacts.
+UAC reads the YAML files dynamically and, based on their contents, uses one of the five available collectors ([command](#command), [file](#find-based-collectors), [find](#find-based-collectors), [hash](#find-based-collectors) and [stat](#find-based-collectors)) to collect the relevant artifacts.
 
 The example below contains two sets of rules: the first set uses the [hash](#collector) collector, and the second set uses the [command](#collector) collector to gather the artifacts.
 
@@ -77,6 +77,7 @@ Optional fields:
 - [exclude_nologin_users](#exclude_nologin_users)
 - [foreach](#foreach)
 - [output_file](#output_file)
+- [redirect_stderr_to_stdout](#redirect_stderr_to_stdout)
 
 ### find based collectors
 
@@ -620,6 +621,39 @@ artifacts:
     output_file: bigger_than.txt
 ```
 
+## modifier
+<span class="optional">Optional</span>
+
+**_Accepted values:_** _true or false_
+
+The collection will only execute if the value is set to `true` and the `--enable-modifiers` switch is included in the command line. This feature helps identify artifacts that modify the current system state after execution.
+
+Please note that this is a global property that must be set before defining the artifacts mapping.
+
+In the example below, the artifact will only be executed if --enable-modifiers switch is included in the command line.
+
+```yaml
+version: 1.0
+modifier: true
+output_directory: /live_response/modifiers
+artifacts:
+  -
+    description: List all PIDs with a directory in /proc but hidden for ps command.
+    supported_os: [linux]
+    collector: command
+    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
+    command: if ps ax | awk '{print $1}' | grep -q %line%; then true; else echo %line%; fi
+    output_file: hidden_pids_for_ps_command.txt
+  -
+    description: Umount all bind mounted directories to /proc/PID.
+    supported_os: [linux]
+    collector: command
+    foreach: mount | awk 'BEGIN { FS=" on "; } { print $2; }' | grep "/proc/[0-9]" | awk '{print $1}'
+    command: umount "%line%"
+    output_file: umount_%line%.txt
+  
+```
+
 ## name_pattern
 <span class="optional">Optional for: file, find, hash and stat</span>
 
@@ -883,6 +917,28 @@ artifacts:
     file_type: f
     permissions: [-4000]
     output_file: suid_files.txt
+```
+
+## redirect_stderr_to_stdout
+<span class="optional">Optional for: command</span>
+
+**_Accepted values:_** _true or false_
+
+If this option is set to ```true```, all error messages (stderr) will be redirected to the standard output (stdout), which is the [output file](#output_file).
+
+In the example below, both the command output (stdout) and the error messages (stderr) will be stored in the ```lsof_-nPl.txt``` file.
+
+```yaml
+version: 1.0
+output_directory: /live_response/process
+artifacts:
+  -
+    description: Collect the list open files.
+    supported_os: [all]
+    collector: command
+    command: lsof -nPl
+    output_file: lsof_-nPl.txt
+    redirect_stderr_to_stdout: true
 ```
 
 ## supported_os
