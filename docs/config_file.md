@@ -1,6 +1,6 @@
 # uac.conf
 
-UAC configuration file is located in the config directory. 
+UAC configuration file is located in the config directory.
 
 ## exclude_path_pattern
 
@@ -46,7 +46,7 @@ hash_algorithm: [md5, sha1]
 
 ## max_depth
 
-The find tool is used by UAC to search for files and directories within a directory hierarchy. The -maxdepth parameter is used to limit the depth of the search within the directory tree. By default, when you run the find command without specifying -maxdepth, it searches recursively through all subdirectories of the specified directory. 
+The find tool is used by UAC to search for files and directories within a directory hierarchy. The -maxdepth parameter is used to limit the depth of the search within the directory tree. By default, when you run the find command without specifying -maxdepth, it searches recursively through all subdirectories of the specified directory.
 
 When you specify the -maxdepth parameter followed by a number, it restricts the depth of the search to that number of levels below the starting point in the directory hierarchy. This option is used by all find-based UAC collectors such as find, file, hash and stat. Performance Consideration: Specifying a value here can improve performance by limiting the scope of the search.
 
@@ -58,7 +58,7 @@ Example:
 max_depth: 10
 ```
 
-## enable_find_mtime, enable_find_agime and enable_find_ctime
+## enable_find_mtime, enable_find_atime and enable_find_ctime
 
 Limit data collection based on the date range provided. UAC uses find's -mtime, -atime and -ctime options to limit the data
 collection based on the file/directory last accessed, last modified and last status changed dates.

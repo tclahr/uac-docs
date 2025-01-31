@@ -25,4 +25,3 @@ Collected data will be archived and compressed into a zip file. UAC can also enc
 ```shell
 ./uac -p ir_triage /tmp --output-format zip
 ```
-

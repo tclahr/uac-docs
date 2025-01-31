@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD036 -->
 # Profiles definition
 
 Profiles are used to define the list of artifacts that will be collected during the execution.
@@ -17,17 +18,20 @@ artifacts:
 ```
 
 ## name
-<span class="required">Required</span>
+
+**Required**
 
 The profile name. This is the name UAC uses to find the correct profile during the script execution.
 
 ## description
-<span class="required">Required</span>
+
+**Required**
 
 Describes the purpose of the profile as a whole. It should contain all the details about what kind of collection will be performed. No line breaks are supported.
 
 ## artifacts
-<span class="required">Required</span>
+
+**Required**
 
 This is the set of artifacts that will be used during the collection. All available artifacts are located in the ```artifacts``` directory.
 
