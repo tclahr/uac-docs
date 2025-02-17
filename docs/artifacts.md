@@ -101,6 +101,7 @@ artifacts:
     exclude_path_pattern: ["/sys", "/proc"]
     name_pattern: ["*access_log*", "*access.log*", "*error_log*", "*error.log*"]
     max_depth: 5
+    file_type: [f]
     max_file_size: 1073741824 # 1GB
 ```
 
@@ -169,6 +170,7 @@ Optional fields:
   - [path](#path)
   - [path\_pattern](#path_pattern)
   - [permissions](#permissions)
+  - [redirect\_stderr\_to\_stdout](#redirect_stderr_to_stdout)
   - [supported\_os](#supported_os)
   - [version](#version)
 
@@ -215,6 +217,7 @@ Optional fields:
   - [path](#path)
   - [path\_pattern](#path_pattern)
   - [permissions](#permissions)
+  - [redirect\_stderr\_to\_stdout](#redirect_stderr_to_stdout)
   - [supported\_os](#supported_os)
   - [version](#version)
 
@@ -263,6 +266,7 @@ Optional fields:
   - [path](#path)
   - [path\_pattern](#path_pattern)
   - [permissions](#permissions)
+  - [redirect\_stderr\_to\_stdout](#redirect_stderr_to_stdout)
   - [supported\_os](#supported_os)
   - [version](#version)
 
@@ -309,6 +313,7 @@ Optional fields:
   - [path](#path)
   - [path\_pattern](#path_pattern)
   - [permissions](#permissions)
+  - [redirect\_stderr\_to\_stdout](#redirect_stderr_to_stdout)
   - [supported\_os](#supported_os)
   - [version](#version)
 
@@ -682,7 +687,7 @@ artifacts:
 
 **_Accepted values:_** _non-negative integer_
 
-The maximum size of a file to search (in bytes). Any files bigger than this will be ignored. This option works the same way as find's -size option.
+The maximum size of a file to search (in bytes). Any files bigger than this will be ignored. This option works the same way as find's -size option. Note that `file_type` must be set to `f`.
 
 ```yaml
 version: 1.0
@@ -693,7 +698,7 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     max_file_size: 1048576
     output_file: smaller_than.txt
 ```
@@ -704,7 +709,7 @@ artifacts:
 
 **_Accepted values:_** _non-negative integer_
 
-The minimum size of a file to search (in bytes). Any files smaller than this will be ignored. This option works the same way as find's -size option.
+The minimum size of a file to search (in bytes). Any files smaller than this will be ignored. This option works the same way as find's -size option. Note that `file_type` must be set to `f`.
 
 ```yaml
 version: 1.0
@@ -715,7 +720,7 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     min_file_size: 1048576
     output_file: bigger_than.txt
 ```
@@ -1005,7 +1010,7 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     permissions: [755, 644]
     output_file: all_755_and_644_permissions.txt
 ```
@@ -1021,7 +1026,7 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     permissions: [-4000]
     output_file: suid_files.txt
 ```
