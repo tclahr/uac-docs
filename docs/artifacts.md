@@ -165,6 +165,8 @@ Optional fields:
   - [min\_file\_size](#min_file_size)
   - [modifier](#modifier)
   - [name\_pattern](#name_pattern)
+  - [no\_group](#no_group)
+  - [no\_user](#no_user)
   - [output\_directory](#output_directory)
   - [output\_file](#output_file)
   - [path](#path)
@@ -212,6 +214,8 @@ Optional fields:
   - [min\_file\_size](#min_file_size)
   - [modifier](#modifier)
   - [name\_pattern](#name_pattern)
+  - [no\_group](#no_group)
+  - [no\_user](#no_user)
   - [output\_directory](#output_directory)
   - [output\_file](#output_file)
   - [path](#path)
@@ -261,6 +265,8 @@ Optional fields:
   - [min\_file\_size](#min_file_size)
   - [modifier](#modifier)
   - [name\_pattern](#name_pattern)
+  - [no\_group](#no_group)
+  - [no\_user](#no_user)
   - [output\_directory](#output_directory)
   - [output\_file](#output_file)
   - [path](#path)
@@ -308,6 +314,8 @@ Optional fields:
   - [min\_file\_size](#min_file_size)
   - [modifier](#modifier)
   - [name\_pattern](#name_pattern)
+  - [no\_group](#no_group)
+  - [no\_user](#no_user)
   - [output\_directory](#output_directory)
   - [output\_file](#output_file)
   - [path](#path)
@@ -810,6 +818,50 @@ artifacts:
     path: /var/log
     name_pattern: ["*.[Ll]og"]
     output_file: all_log_files.txt
+```
+
+## no_group
+
+**Optional for: file, find, hash and stat**
+
+**_Accepted values:_** _true or false_
+
+Use this option to search for files that have a group ID (GID) that no longer exists in the system. This means that the group associated with the file has been deleted or is missing from /etc/group.
+
+```yaml
+version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: List files under /bin directory with an unknown group ID name.
+    supported_os: [aix, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris]
+    collector: find
+    path: /bin
+    file_type: [f]
+    no_group: true
+    output_file: group_name_unknown_files.txt
+```
+
+## no_user
+
+**Optional for: file, find, hash and stat**
+
+**_Accepted values:_** _true or false_
+
+Use this option to search for files that have a user ID (UID) that no longer exists in the system. This means the file was owned by a user that has been deleted or is missing from /etc/passwd.
+
+```yaml
+version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: List files under /bin directory with an unknown user ID name.
+    supported_os: [aix, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris]
+    collector: find
+    path: /bin
+    file_type: [f]
+    no_user: true
+    output_file: user_name_unknown_files.txt
 ```
 
 ## output_directory
