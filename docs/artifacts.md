@@ -919,7 +919,7 @@ artifacts:
 
 **_Accepted values:_** _file name_
 
-Specify the output file name where the collected data will be stored.
+Specify the output file name where the collected data will be stored. _Note that if the output file name is longer than 255 characters, UAC will truncate the file name to 245 characters and add the prefix (trunc)._
 
 ```yaml
 version: 1.0
