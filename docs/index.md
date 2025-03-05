@@ -35,6 +35,7 @@ The source code is available on the [project](https://github.com/tclahr/uac) pag
 - Extract files and directories status to create a bodyfile.
 - Collect system and user-specific data, configuration files and logs.
 - Acquire volatile memory from Linux systems using different methods and tools.
+- Support to write output to various cloud platforms.
 
 ## Supported operating systems
 
