@@ -658,4 +658,4 @@ If you find UAC helpful, please give us a ⭐ on [GitHub](https://github.com/tcl
 
 ## License
 
-The UAC project uses the [Apache License Version 2.0](LICENSE) software license.
+The UAC project uses the [Apache License Version 2.0](https://github.com/tclahr/uac/blob/main/LICENSE) software license.
