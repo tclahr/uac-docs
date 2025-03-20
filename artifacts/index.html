@@ -105,6 +105,10 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#name_pattern">name_pattern</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#no_group">no_group</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#no_user">no_user</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#output_directory">output_directory</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#output_file">output_file</a>
@@ -114,6 +118,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#path_pattern">path_pattern</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#permissions">permissions</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#redirect_stderr_to_stdout">redirect_stderr_to_stdout</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#supported_os">supported_os</a>
     </li>
@@ -174,7 +180,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="artifacts-definition">Artifacts definition</h1>
+                <!-- markdownlint-disable MD036 -->
+<h1 id="artifacts-definition">Artifacts definition</h1>
 <p>Artifacts define parameters for a collector to gather data.</p>
 <p>UAC reads the YAML files dynamically and, based on their contents, uses one of the five available collectors (<a href="#command">command</a>, <a href="#find-based-collectors">file</a>, <a href="#find-based-collectors">find</a>, <a href="#find-based-collectors">hash</a> and <a href="#find-based-collectors">stat</a>) to collect the relevant artifacts.</p>
 <p>The example below contains two sets of rules: the first set uses the <a href="#collector">hash</a> collector, and the second set uses the <a href="#collector">command</a> collector to gather the artifacts.</p>
@@ -197,9 +204,10 @@ artifacts:
 </code></pre>
 <p>It is common practice to group all artifacts related to the same topic within a single YAML file. This approach allows for more granular artifact collection based on the specific case you are working on.</p>
 <p>An artifact has one required field at the top of the file <a href="#version">version</a>, followed by a set of rules that will be used by one of the <a href="#collector">collectors</a> to collect the desired data.</p>
+<p>The <a href="#version">version</a> should be incremented as artifacts are updated or additional artifacts are added.</p>
 <h2 id="artifacts">artifacts</h2>
-<p><span class="required">Required</span></p>
-<p>Set of rules (sequence of mappings) that define what data will be collected. </p>
+<p><strong>Required</strong></p>
+<p>Set of rules (sequence of mappings) that define what data will be collected.</p>
 <p>An artifact rule must include three mandatory fields: <a href="#description">description</a>, <a href="#supported_os">supported_os</a>, and <a href="#collector">collector</a>, along with additional properties depending on the chosen collector.</p>
 <pre><code class="language-yaml">version: 1.0
 artifacts:
@@ -220,7 +228,7 @@ artifacts:
     ... # additional options depending on the collector
 </code></pre>
 <h2 id="collector">collector</h2>
-<p><span class="required">Required</span></p>
+<p><strong>Required</strong></p>
 <p>UAC uses collectors to gather data, with each collector serving a specific function and requiring its options.</p>
 <h3 id="command">command</h3>
 <p>Use this collector to run commands and store the output into an output file. In a nutshell, UAC will use <code>eval</code> to run the command and redirect the stdout to the output file. The stderr will be captured and added to <a href="../log_files/#uaclog">uac.log</a> file as a log record.</p>
@@ -236,10 +244,11 @@ artifacts:
 <li><a href="#exclude_nologin_users">exclude_nologin_users</a></li>
 <li><a href="#foreach">foreach</a></li>
 <li><a href="#output_file">output_file</a></li>
+<li><a href="#redirect_stderr_to_stdout">redirect_stderr_to_stdout</a></li>
 </ul>
 <h3 id="find-based-collectors">find based collectors</h3>
 <p>These collectors use the <code>find</code> tool to search for files and directories before collecting or processing any data.</p>
-<p>As an example, the artifact below... </p>
+<p>As an example, the artifact below...</p>
 <pre><code class="language-yaml">version: 1.0
 artifacts:
   -
@@ -250,6 +259,7 @@ artifacts:
     exclude_path_pattern: [&quot;/sys&quot;, &quot;/proc&quot;]
     name_pattern: [&quot;*access_log*&quot;, &quot;*access.log*&quot;, &quot;*error_log*&quot;, &quot;*error.log*&quot;]
     max_depth: 5
+    file_type: [f]
     max_file_size: 1073741824 # 1GB
 </code></pre>
 <p>...will become this:</p>
@@ -273,19 +283,44 @@ artifacts:
 </ul>
 <p>Optional fields:</p>
 <ul>
+<li><a href="#artifacts-definition">Artifacts definition</a></li>
+<li><a href="#artifacts">artifacts</a></li>
+<li><a href="#collector">collector</a><ul>
+<li><a href="#command">command</a></li>
+<li><a href="#find-based-collectors">find based collectors</a></li>
+<li><a href="#find">find</a></li>
+<li><a href="#hash">hash</a></li>
+<li><a href="#stat">stat</a></li>
+<li><a href="#file">file</a></li>
+</ul>
+</li>
+<li><a href="#command-1">command</a></li>
+<li><a href="#compress_output_file">compress_output_file</a></li>
 <li><a href="#condition">condition</a></li>
+<li><a href="#description">description</a></li>
 <li><a href="#exclude_file_system">exclude_file_system</a></li>
 <li><a href="#exclude_name_pattern">exclude_name_pattern</a></li>
 <li><a href="#exclude_nologin_users">exclude_nologin_users</a></li>
 <li><a href="#exclude_path_pattern">exclude_path_pattern</a></li>
 <li><a href="#file_type">file_type</a></li>
+<li><a href="#foreach">foreach</a></li>
 <li><a href="#ignore_date_range">ignore_date_range</a></li>
+<li><a href="#is_file_list">is_file_list</a></li>
 <li><a href="#max_depth">max_depth</a></li>
 <li><a href="#max_file_size">max_file_size</a></li>
 <li><a href="#min_file_size">min_file_size</a></li>
+<li><a href="#modifier">modifier</a></li>
 <li><a href="#name_pattern">name_pattern</a></li>
+<li><a href="#no_group">no_group</a></li>
+<li><a href="#no_user">no_user</a></li>
+<li><a href="#output_directory">output_directory</a></li>
+<li><a href="#output_file">output_file</a></li>
+<li><a href="#path">path</a></li>
 <li><a href="#path_pattern">path_pattern</a></li>
 <li><a href="#permissions">permissions</a></li>
+<li><a href="#redirect_stderr_to_stdout">redirect_stderr_to_stdout</a></li>
+<li><a href="#supported_os">supported_os</a></li>
+<li><a href="#version">version</a></li>
 </ul>
 <h4 id="hash">hash</h4>
 <p>Use this collector to hash files and store the output into a text file. The algorithms are defined in the <a href="../config_file/#hash_algorithm">uac.conf</a> file.</p>
@@ -297,20 +332,44 @@ artifacts:
 </ul>
 <p>Optional fields:</p>
 <ul>
+<li><a href="#artifacts-definition">Artifacts definition</a></li>
+<li><a href="#artifacts">artifacts</a></li>
+<li><a href="#collector">collector</a><ul>
+<li><a href="#command">command</a></li>
+<li><a href="#find-based-collectors">find based collectors</a></li>
+<li><a href="#find">find</a></li>
+<li><a href="#hash">hash</a></li>
+<li><a href="#stat">stat</a></li>
+<li><a href="#file">file</a></li>
+</ul>
+</li>
+<li><a href="#command-1">command</a></li>
+<li><a href="#compress_output_file">compress_output_file</a></li>
 <li><a href="#condition">condition</a></li>
+<li><a href="#description">description</a></li>
 <li><a href="#exclude_file_system">exclude_file_system</a></li>
 <li><a href="#exclude_name_pattern">exclude_name_pattern</a></li>
 <li><a href="#exclude_nologin_users">exclude_nologin_users</a></li>
 <li><a href="#exclude_path_pattern">exclude_path_pattern</a></li>
 <li><a href="#file_type">file_type</a></li>
+<li><a href="#foreach">foreach</a></li>
 <li><a href="#ignore_date_range">ignore_date_range</a></li>
 <li><a href="#is_file_list">is_file_list</a></li>
 <li><a href="#max_depth">max_depth</a></li>
 <li><a href="#max_file_size">max_file_size</a></li>
 <li><a href="#min_file_size">min_file_size</a></li>
+<li><a href="#modifier">modifier</a></li>
 <li><a href="#name_pattern">name_pattern</a></li>
+<li><a href="#no_group">no_group</a></li>
+<li><a href="#no_user">no_user</a></li>
+<li><a href="#output_directory">output_directory</a></li>
+<li><a href="#output_file">output_file</a></li>
+<li><a href="#path">path</a></li>
 <li><a href="#path_pattern">path_pattern</a></li>
 <li><a href="#permissions">permissions</a></li>
+<li><a href="#redirect_stderr_to_stdout">redirect_stderr_to_stdout</a></li>
+<li><a href="#supported_os">supported_os</a></li>
+<li><a href="#version">version</a></li>
 </ul>
 <h4 id="stat">stat</h4>
 <p>Use this collector to extract information from files and directories to create a <a href="https://wiki.sleuthkit.org/index.php?title=Body_file">body file</a>.</p>
@@ -323,20 +382,44 @@ artifacts:
 </ul>
 <p>Optional fields:</p>
 <ul>
+<li><a href="#artifacts-definition">Artifacts definition</a></li>
+<li><a href="#artifacts">artifacts</a></li>
+<li><a href="#collector">collector</a><ul>
+<li><a href="#command">command</a></li>
+<li><a href="#find-based-collectors">find based collectors</a></li>
+<li><a href="#find">find</a></li>
+<li><a href="#hash">hash</a></li>
+<li><a href="#stat">stat</a></li>
+<li><a href="#file">file</a></li>
+</ul>
+</li>
+<li><a href="#command-1">command</a></li>
+<li><a href="#compress_output_file">compress_output_file</a></li>
 <li><a href="#condition">condition</a></li>
+<li><a href="#description">description</a></li>
 <li><a href="#exclude_file_system">exclude_file_system</a></li>
 <li><a href="#exclude_name_pattern">exclude_name_pattern</a></li>
 <li><a href="#exclude_nologin_users">exclude_nologin_users</a></li>
 <li><a href="#exclude_path_pattern">exclude_path_pattern</a></li>
 <li><a href="#file_type">file_type</a></li>
+<li><a href="#foreach">foreach</a></li>
 <li><a href="#ignore_date_range">ignore_date_range</a></li>
 <li><a href="#is_file_list">is_file_list</a></li>
 <li><a href="#max_depth">max_depth</a></li>
 <li><a href="#max_file_size">max_file_size</a></li>
 <li><a href="#min_file_size">min_file_size</a></li>
+<li><a href="#modifier">modifier</a></li>
 <li><a href="#name_pattern">name_pattern</a></li>
+<li><a href="#no_group">no_group</a></li>
+<li><a href="#no_user">no_user</a></li>
+<li><a href="#output_directory">output_directory</a></li>
+<li><a href="#output_file">output_file</a></li>
+<li><a href="#path">path</a></li>
 <li><a href="#path_pattern">path_pattern</a></li>
 <li><a href="#permissions">permissions</a></li>
+<li><a href="#redirect_stderr_to_stdout">redirect_stderr_to_stdout</a></li>
+<li><a href="#supported_os">supported_os</a></li>
+<li><a href="#version">version</a></li>
 </ul>
 <h4 id="file">file</h4>
 <p>Use this collector to collect files and directories (in their raw format). Collected files will be stored in the <code>[root]</code> directory within the output file.</p>
@@ -347,23 +430,50 @@ artifacts:
 </ul>
 <p>Optional fields:</p>
 <ul>
+<li><a href="#artifacts-definition">Artifacts definition</a></li>
+<li><a href="#artifacts">artifacts</a></li>
+<li><a href="#collector">collector</a><ul>
+<li><a href="#command">command</a></li>
+<li><a href="#find-based-collectors">find based collectors</a></li>
+<li><a href="#find">find</a></li>
+<li><a href="#hash">hash</a></li>
+<li><a href="#stat">stat</a></li>
+<li><a href="#file">file</a></li>
+</ul>
+</li>
+<li><a href="#command-1">command</a></li>
+<li><a href="#compress_output_file">compress_output_file</a></li>
 <li><a href="#condition">condition</a></li>
+<li><a href="#description">description</a></li>
 <li><a href="#exclude_file_system">exclude_file_system</a></li>
 <li><a href="#exclude_name_pattern">exclude_name_pattern</a></li>
 <li><a href="#exclude_nologin_users">exclude_nologin_users</a></li>
 <li><a href="#exclude_path_pattern">exclude_path_pattern</a></li>
 <li><a href="#file_type">file_type</a></li>
+<li><a href="#foreach">foreach</a></li>
 <li><a href="#ignore_date_range">ignore_date_range</a></li>
 <li><a href="#is_file_list">is_file_list</a></li>
 <li><a href="#max_depth">max_depth</a></li>
 <li><a href="#max_file_size">max_file_size</a></li>
 <li><a href="#min_file_size">min_file_size</a></li>
+<li><a href="#modifier">modifier</a></li>
 <li><a href="#name_pattern">name_pattern</a></li>
+<li><a href="#no_group">no_group</a></li>
+<li><a href="#no_user">no_user</a></li>
+<li><a href="#output_directory">output_directory</a></li>
+<li><a href="#output_file">output_file</a></li>
+<li><a href="#path">path</a></li>
 <li><a href="#path_pattern">path_pattern</a></li>
 <li><a href="#permissions">permissions</a></li>
+<li><a href="#redirect_stderr_to_stdout">redirect_stderr_to_stdout</a></li>
+<li><a href="#supported_os">supported_os</a></li>
+<li><a href="#version">version</a></li>
 </ul>
+<!-- markdownlint-disable MD024 -->
 <h2 id="command_1">command</h2>
-<p><span class="required">Required by: command</span></p>
+<!-- markdownlint-enable MD024 -->
+
+<p><strong>Required by: command</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>one or multiple shell commands</em></p>
 <p>The command will be executed on the target system, and the output will be collected.</p>
 <p>You do not need to specify the path to the executable as it is expected to be in the PATH; only the executable's name and parameters are required.</p>
@@ -380,7 +490,7 @@ artifacts:
     output_file: ps_-ef.txt
 </code></pre>
 <h2 id="compress_output_file">compress_output_file</h2>
-<p><span class="optional">Optional for: command</span></p>
+<p><strong>Optional for: command</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
 <p>If this option is set to <code>true</code>, the output file will be compressed using <code>gzip</code> (when gzip is available).</p>
 <p>The example below will result in a compressed <code>ps_-ef.txt.gz</code> file.</p>
@@ -397,7 +507,7 @@ artifacts:
 </code></pre>
 <p>Note that <code>compress_output_file</code> only applies to files specified in the <code>output_file</code> key-value pair.</p>
 <h2 id="condition">condition</h2>
-<p><span class="optional">Optional for: command, file, find, hash and stat</span></p>
+<p><strong>Optional for: command, file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>one or multiple shell commands</em></p>
 <p>The collection will only run if the condition returns true. This feature is very useful for preventing UAC from executing numerous commands if a specific condition does not apply to the target system.</p>
 <p>In the example below, the command will only be executed if the condition <code>ls /proc/$$</code> returns true.</p>
@@ -445,10 +555,10 @@ artifacts:
     output_file: hash_running_processes
 </code></pre>
 <h2 id="description">description</h2>
-<p><span class="required">Required</span></p>
+<p><strong>Required</strong></p>
 <p>Description of what will be collected. No line breaks are supported.</p>
 <h2 id="exclude_file_system">exclude_file_system</h2>
-<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>array of file systems</em></p>
 <p>Use this option to exclude file systems from the collection. UAC will retrieve the list of existing mountpoints (paths) at runtime and exclude them from the collection.</p>
 <p>The file system types that are supported depend on the target computer's running kernel. <em>Note that exclude_file_system will be ignored when path_pattern is used.</em></p>
@@ -464,7 +574,7 @@ artifacts:
     output_file: exclude_procfs_nfs_devfs.txt
 </code></pre>
 <h2 id="exclude_name_pattern">exclude_name_pattern</h2>
-<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>array of paths</em></p>
 <p>Use this option to exclude files from the collection. This option works the same way as find's -name -prune option.</p>
 <p>Since the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
@@ -482,7 +592,7 @@ artifacts:
     output_file: etc_excluding_passwd_shadow.txt
 </code></pre>
 <h2 id="exclude_nologin_users">exclude_nologin_users</h2>
-<p><span class="optional">Optional for: command, file, find, hash and stat</span></p>
+<p><strong>Optional for: command, file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
 <p>Use this option to search for artifacts only from users with a valid shell. Any user with no shell will be skipped from the collection.</p>
 <p>By default, UAC will always search for artifacts from all users.</p>
@@ -498,7 +608,7 @@ artifacts:
     output_file: ls_-lRa_%user%.txt
 </code></pre>
 <h2 id="exclude_path_pattern">exclude_path_pattern</h2>
-<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>array of paths</em></p>
 <p>Use this option to exclude paths from the collection. This option works the same way as find's -path -prune option.</p>
 <p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
@@ -515,7 +625,7 @@ artifacts:
     output_file: all_excluding_etc_var.txt
 </code></pre>
 <h2 id="file_type">file_type</h2>
-<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>array of file types</em></p>
 <p>Use this option to specify the type of file to search for, such as directories (d), regular files (f), symbolic links (l), and other file types. This option works the same way as find's -type option.</p>
 <p>File is of type:</p>
@@ -576,11 +686,11 @@ artifacts:
     output_file: directories_only.txt
 </code></pre>
 <h2 id="foreach">foreach</h2>
-<p><span class="optional">Optional for: command</span></p>
+<p><strong>Optional for: command</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>one or multiple shell commands</em></p>
 <p>The command will be executed, and its output lines will be used as input by the <a href="#command">command</a> key-value pair.</p>
 <p>The logic behind it is:</p>
-<pre><code>for (each line returned by foreach); do
+<pre><code class="language-shell">for (each line returned by foreach); do
   command
 done
 </code></pre>
@@ -601,7 +711,7 @@ artifacts:
     output_file: docker_container_logs_%line%.txt
 </code></pre>
 <h2 id="ignore_date_range">ignore_date_range</h2>
-<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
 <p>Use this option to collect files ignoring the date set using both --start-date and --end-date command line options.</p>
 <p>This is useful when you want to set a date range for your collection, but want to collect some files regardless of their last accessed, modified and changed dates.</p>
@@ -618,7 +728,7 @@ artifacts:
     output_file: ignore_date_range.txt
 </code></pre>
 <h2 id="is_file_list">is_file_list</h2>
-<p><span class="optional">Optional for: file, hash and stat</span></p>
+<p><strong>Optional for: file, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
 <p>If set to true, the <code>path</code> option will refer to a file list containing one path per line. This is useful when you need to hash/stat/collect files based on a file list.</p>
 <pre><code class="language-yaml">artifacts:
@@ -631,7 +741,7 @@ artifacts:
     output_file: hash_my_file_list.txt
 </code></pre>
 <h2 id="max_depth">max_depth</h2>
-<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>non-negative integer</em></p>
 <p>Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only applying the tests and actions to the starting-points themselves. This option works the same way as find's -maxdepth option.</p>
 <pre><code class="language-yaml">version: 1.0
@@ -646,9 +756,9 @@ artifacts:
     output_file: max_5_levels.txt
 </code></pre>
 <h2 id="max_file_size">max_file_size</h2>
-<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>non-negative integer</em></p>
-<p>The maximum size of a file to search (in bytes). Any files bigger than this will be ignored. This option works the same way as find's -size option.</p>
+<p>The maximum size of a file to search (in bytes). Any files bigger than this will be ignored. This option works the same way as find's -size option. Note that <code>file_type</code> must be set to <code>f</code>.</p>
 <pre><code class="language-yaml">version: 1.0
 output_directory: /live_response/system
 artifacts:
@@ -657,14 +767,14 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     max_file_size: 1048576
     output_file: smaller_than.txt
 </code></pre>
 <h2 id="min_file_size">min_file_size</h2>
-<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>non-negative integer</em></p>
-<p>The minimum size of a file to search (in bytes). Any files smaller than this will be ignored. This option works the same way as find's -size option.</p>
+<p>The minimum size of a file to search (in bytes). Any files smaller than this will be ignored. This option works the same way as find's -size option. Note that <code>file_type</code> must be set to <code>f</code>.</p>
 <pre><code class="language-yaml">version: 1.0
 output_directory: /live_response/system
 artifacts:
@@ -673,12 +783,12 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     min_file_size: 1048576
     output_file: bigger_than.txt
 </code></pre>
 <h2 id="modifier">modifier</h2>
-<p><span class="optional">Optional</span></p>
+<p><strong>Optional</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
 <p>The collection will only execute if the value is set to <code>true</code> and the <code>--enable-modifiers</code> switch is included in the command line. This feature helps identify artifacts that modify the current system state after execution.</p>
 <p>Please note that this is a global property that must be set before defining the artifacts mapping.</p>
@@ -704,7 +814,7 @@ artifacts:
 
 </code></pre>
 <h2 id="name_pattern">name_pattern</h2>
-<p><span class="optional">Optional for: file, find, hash and stat</span></p>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>array of paths</em></p>
 <p>Return the full file path if one of the name_pattern values matches the file name. This option works the same way as find's -name option.</p>
 <p>Since the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so <code>"a/b"</code> will never match anything.</p>
@@ -743,8 +853,40 @@ artifacts:
     name_pattern: [&quot;*.[Ll]og&quot;]
     output_file: all_log_files.txt
 </code></pre>
+<h2 id="no_group">no_group</h2>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
+<p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
+<p>Use this option to search for files that have a group ID (GID) that no longer exists in the system. This means that the group associated with the file has been deleted or is missing from /etc/group.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: List files under /bin directory with an unknown group ID name.
+    supported_os: [aix, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris]
+    collector: find
+    path: /bin
+    file_type: [f]
+    no_group: true
+    output_file: group_name_unknown_files.txt
+</code></pre>
+<h2 id="no_user">no_user</h2>
+<p><strong>Optional for: file, find, hash and stat</strong></p>
+<p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
+<p>Use this option to search for files that have a user ID (UID) that no longer exists in the system. This means the file was owned by a user that has been deleted or is missing from /etc/passwd.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: List files under /bin directory with an unknown user ID name.
+    supported_os: [aix, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris]
+    collector: find
+    path: /bin
+    file_type: [f]
+    no_user: true
+    output_file: user_name_unknown_files.txt
+</code></pre>
 <h2 id="output_directory">output_directory</h2>
-<p><span class="required">Required by: command, find, hash and stat</span></p>
+<p><strong>Required by: command, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>path</em></p>
 <p>Specify the directory within the output file where the collected data will be stored.</p>
 <p>In the example below, <code>ls_tmp.txt</code> will stored in <code>my_custom_artifacts</code> directory within the output file.</p>
@@ -780,9 +922,9 @@ artifacts:
     output_file: ps_auxwww.txt
 </code></pre>
 <h2 id="output_file">output_file</h2>
-<p><span class="optional">Optional for: command, find, hash and stat</span></p>
+<p><strong>Optional for: command, find, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>file name</em></p>
-<p>Specify the output file name where the collected data will be stored.</p>
+<p>Specify the output file name where the collected data will be stored. <em>Note that if the output file name is longer than 255 characters, UAC will truncate the file name to 245 characters and add the prefix (trunc).</em></p>
 <pre><code class="language-yaml">version: 1.0
 artifacts:
   -
@@ -823,7 +965,7 @@ artifacts:
     output_file: same_file.txt
 </code></pre>
 <h2 id="path">path</h2>
-<p><span class="required">Required by: find, file, hash and stat</span></p>
+<p><strong>Required by: find, file, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>path</em></p>
 <p>The starting point from where the artifact will be searched for. UAC will recurse into subdirectories unless otherwise prevented by <code>max_depth</code> option.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
@@ -850,17 +992,20 @@ artifacts:
     output_file: path_with_spaces.txt
 </code></pre>
 <h2 id="path_pattern">path_pattern</h2>
-<p><span class="optional">Optional for: find, file, hash and stat</span></p>
+<p><strong>Optional for: find, file, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>array of paths</em></p>
 <p>Return the full file path if one of the path_pattern values matches the file path. This option works the same way as find's -path option.</p>
 <p>Don't forget to enclose the pattern in double quotes. Use a backslash (\) to escape double quotes and commas.</p>
 <p>As UAC uses <code>find</code> tool to search for artifacts, wildcards and regex patterns are also supported here.</p>
 <p>The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:</p>
+<!-- markdownlint-disable MD033 -->
 <ul>
 <li>/home/user/.config<span style="color: red;">/discord/Cache/</span>00bcecbd2455cb22_0</li>
 <li>/home/user/.var/app/com.discordapp.Discord/config<span style="color: red;">/discord/Cache/</span>index</li>
 <li>/home/user/snap/discord/current/.config<span style="color: red;">/discord/Cache/</span>ac0fa118bdaaa62e_0</li>
 </ul>
+<!-- markdownlint-enable MD033 -->
+
 <pre><code class="language-yaml">version: 1.0
 output_directory: /live_response/system
 artifacts:
@@ -873,7 +1018,7 @@ artifacts:
     output_file: discord_cache.txt
 </code></pre>
 <h2 id="permissions">permissions</h2>
-<p><span class="optional">Optional for: find, file, hash and stat</span></p>
+<p><strong>Optional for: find, file, hash and stat</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>array of permissions</em></p>
 <p>Use this option to search for files and directories based on their permissions. This option works the same way as find's -perm option.</p>
 <p>Please note that symbolic mode is not supported (e.g: -g=w).</p>
@@ -889,7 +1034,7 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     permissions: [755, 644]
     output_file: all_755_and_644_permissions.txt
 </code></pre>
@@ -904,12 +1049,28 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     permissions: [-4000]
     output_file: suid_files.txt
 </code></pre>
+<h2 id="redirect_stderr_to_stdout">redirect_stderr_to_stdout</h2>
+<p><span class="optional">Optional for: command</span></p>
+<p><strong><em>Accepted values:</em></strong> <em>true or false</em></p>
+<p>If this option is set to <code>true</code>, all error messages (stderr) will be redirected to the standard output (stdout), which is the <a href="#output_file">output file</a>.</p>
+<p>In the example below, both the command output (stdout) and the error messages (stderr) will be stored in the <code>lsof_-nPl.txt</code> file.</p>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/process
+artifacts:
+  -
+    description: Collect the list open files.
+    supported_os: [all]
+    collector: command
+    command: lsof -nPl
+    output_file: lsof_-nPl.txt
+    redirect_stderr_to_stdout: true
+</code></pre>
 <h2 id="supported_os">supported_os</h2>
-<p><span class="required">Required</span></p>
+<p><strong>Required</strong></p>
 <p><strong><em>Accepted values:</em></strong> <em>array of operating systems</em></p>
 <p>List of operating systems that the artifact applies to. Use <code>all</code> whether the artifact applies to all operating systems.</p>
 <p>The currently supported operating systems are (case sensitive):</p>
@@ -979,7 +1140,7 @@ artifacts:
     ... # additional options depending on the collector
 </code></pre>
 <h2 id="version">version</h2>
-<p><span class="required">Required</span></p>
+<p><strong>Required</strong></p>
 <p>The artifact file version. It needs to be updated every time the YAML file is changed.</p>
               
             </div>

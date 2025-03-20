@@ -112,7 +112,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="profiles-definition">Profiles definition</h1>
+                <!-- markdownlint-disable MD036 -->
+<h1 id="profiles-definition">Profiles definition</h1>
 <p>Profiles are used to define the list of artifacts that will be collected during the execution.</p>
 <p>A profile has two mandatory fields at the top of the file, followed by a set of artifacts that will be used during the collection.</p>
 <p>Example:</p>
@@ -125,13 +126,13 @@ artifacts:
   - hash_executables/hash_executables.yaml
 </code></pre>
 <h2 id="name">name</h2>
-<p><span class="required">Required</span></p>
+<p><strong>Required</strong></p>
 <p>The profile name. This is the name UAC uses to find the correct profile during the script execution.</p>
 <h2 id="description">description</h2>
-<p><span class="required">Required</span></p>
+<p><strong>Required</strong></p>
 <p>Describes the purpose of the profile as a whole. It should contain all the details about what kind of collection will be performed. No line breaks are supported.</p>
 <h2 id="artifacts">artifacts</h2>
-<p><span class="required">Required</span></p>
+<p><strong>Required</strong></p>
 <p>This is the set of artifacts that will be used during the collection. All available artifacts are located in the <code>artifacts</code> directory.</p>
 <p>Artifacts will be executed in the order they are listed in the profile file.</p>
 <p>The example below shows a profile that will collect the <code>live_response/process/ps.yaml</code> artifact first, followed by the <code>live_response/process/lsof.yaml</code> artifact.</p>
