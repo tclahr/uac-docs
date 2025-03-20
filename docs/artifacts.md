@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD036 -->
 # Artifacts definition
 
 Artifacts define parameters for a collector to gather data.
@@ -29,10 +30,13 @@ It is common practice to group all artifacts related to the same topic within a 
 
 An artifact has one required field at the top of the file [version](#version), followed by a set of rules that will be used by one of the [collectors](#collector) to collect the desired data.
 
-## artifacts
-<span class="required">Required</span>
+The [version](#version) should be incremented as artifacts are updated or additional artifacts are added.
 
-Set of rules (sequence of mappings) that define what data will be collected. 
+## artifacts
+
+**Required**
+
+Set of rules (sequence of mappings) that define what data will be collected.
 
 An artifact rule must include three mandatory fields: [description](#description), [supported_os](#supported_os), and [collector](#collector), along with additional properties depending on the chosen collector.
 
@@ -57,7 +61,8 @@ artifacts:
 ```
 
 ## collector
-<span class="required">Required</span>
+
+**Required**
 
 UAC uses collectors to gather data, with each collector serving a specific function and requiring its options.
 
@@ -77,12 +82,13 @@ Optional fields:
 - [exclude_nologin_users](#exclude_nologin_users)
 - [foreach](#foreach)
 - [output_file](#output_file)
+- [redirect_stderr_to_stdout](#redirect_stderr_to_stdout)
 
 ### find based collectors
 
 These collectors use the ```find``` tool to search for files and directories before collecting or processing any data.
 
-As an example, the artifact below... 
+As an example, the artifact below...
 
 ```yaml
 version: 1.0
@@ -95,6 +101,7 @@ artifacts:
     exclude_path_pattern: ["/sys", "/proc"]
     name_pattern: ["*access_log*", "*access.log*", "*error_log*", "*error.log*"]
     max_depth: 5
+    file_type: [f]
     max_file_size: 1073741824 # 1GB
 ```
 
@@ -132,19 +139,42 @@ Required fields:
 
 Optional fields:
 
-- [condition](#condition)
-- [exclude_file_system](#exclude_file_system)
-- [exclude_name_pattern](#exclude_name_pattern)
-- [exclude_nologin_users](#exclude_nologin_users)
-- [exclude_path_pattern](#exclude_path_pattern)
-- [file_type](#file_type)
-- [ignore_date_range](#ignore_date_range)
-- [max_depth](#max_depth)
-- [max_file_size](#max_file_size)
-- [min_file_size](#min_file_size)
-- [name_pattern](#name_pattern)
-- [path_pattern](#path_pattern)
-- [permissions](#permissions)
+- [Artifacts definition](#artifacts-definition)
+  - [artifacts](#artifacts)
+  - [collector](#collector)
+    - [command](#command)
+    - [find based collectors](#find-based-collectors)
+      - [find](#find)
+      - [hash](#hash)
+      - [stat](#stat)
+      - [file](#file)
+  - [command](#command-1)
+  - [compress\_output\_file](#compress_output_file)
+  - [condition](#condition)
+  - [description](#description)
+  - [exclude\_file\_system](#exclude_file_system)
+  - [exclude\_name\_pattern](#exclude_name_pattern)
+  - [exclude\_nologin\_users](#exclude_nologin_users)
+  - [exclude\_path\_pattern](#exclude_path_pattern)
+  - [file\_type](#file_type)
+  - [foreach](#foreach)
+  - [ignore\_date\_range](#ignore_date_range)
+  - [is\_file\_list](#is_file_list)
+  - [max\_depth](#max_depth)
+  - [max\_file\_size](#max_file_size)
+  - [min\_file\_size](#min_file_size)
+  - [modifier](#modifier)
+  - [name\_pattern](#name_pattern)
+  - [no\_group](#no_group)
+  - [no\_user](#no_user)
+  - [output\_directory](#output_directory)
+  - [output\_file](#output_file)
+  - [path](#path)
+  - [path\_pattern](#path_pattern)
+  - [permissions](#permissions)
+  - [redirect\_stderr\_to\_stdout](#redirect_stderr_to_stdout)
+  - [supported\_os](#supported_os)
+  - [version](#version)
 
 #### hash
 
@@ -158,20 +188,42 @@ Required fields:
 
 Optional fields:
 
-- [condition](#condition)
-- [exclude_file_system](#exclude_file_system)
-- [exclude_name_pattern](#exclude_name_pattern)
-- [exclude_nologin_users](#exclude_nologin_users)
-- [exclude_path_pattern](#exclude_path_pattern)
-- [file_type](#file_type)
-- [ignore_date_range](#ignore_date_range)
-- [is_file_list](#is_file_list)
-- [max_depth](#max_depth)
-- [max_file_size](#max_file_size)
-- [min_file_size](#min_file_size)
-- [name_pattern](#name_pattern)
-- [path_pattern](#path_pattern)
-- [permissions](#permissions)
+- [Artifacts definition](#artifacts-definition)
+  - [artifacts](#artifacts)
+  - [collector](#collector)
+    - [command](#command)
+    - [find based collectors](#find-based-collectors)
+      - [find](#find)
+      - [hash](#hash)
+      - [stat](#stat)
+      - [file](#file)
+  - [command](#command-1)
+  - [compress\_output\_file](#compress_output_file)
+  - [condition](#condition)
+  - [description](#description)
+  - [exclude\_file\_system](#exclude_file_system)
+  - [exclude\_name\_pattern](#exclude_name_pattern)
+  - [exclude\_nologin\_users](#exclude_nologin_users)
+  - [exclude\_path\_pattern](#exclude_path_pattern)
+  - [file\_type](#file_type)
+  - [foreach](#foreach)
+  - [ignore\_date\_range](#ignore_date_range)
+  - [is\_file\_list](#is_file_list)
+  - [max\_depth](#max_depth)
+  - [max\_file\_size](#max_file_size)
+  - [min\_file\_size](#min_file_size)
+  - [modifier](#modifier)
+  - [name\_pattern](#name_pattern)
+  - [no\_group](#no_group)
+  - [no\_user](#no_user)
+  - [output\_directory](#output_directory)
+  - [output\_file](#output_file)
+  - [path](#path)
+  - [path\_pattern](#path_pattern)
+  - [permissions](#permissions)
+  - [redirect\_stderr\_to\_stdout](#redirect_stderr_to_stdout)
+  - [supported\_os](#supported_os)
+  - [version](#version)
 
 #### stat
 
@@ -187,20 +239,42 @@ Required fields:
 
 Optional fields:
 
-- [condition](#condition)
-- [exclude_file_system](#exclude_file_system)
-- [exclude_name_pattern](#exclude_name_pattern)
-- [exclude_nologin_users](#exclude_nologin_users)
-- [exclude_path_pattern](#exclude_path_pattern)
-- [file_type](#file_type)
-- [ignore_date_range](#ignore_date_range)
-- [is_file_list](#is_file_list)
-- [max_depth](#max_depth)
-- [max_file_size](#max_file_size)
-- [min_file_size](#min_file_size)
-- [name_pattern](#name_pattern)
-- [path_pattern](#path_pattern)
-- [permissions](#permissions)
+- [Artifacts definition](#artifacts-definition)
+  - [artifacts](#artifacts)
+  - [collector](#collector)
+    - [command](#command)
+    - [find based collectors](#find-based-collectors)
+      - [find](#find)
+      - [hash](#hash)
+      - [stat](#stat)
+      - [file](#file)
+  - [command](#command-1)
+  - [compress\_output\_file](#compress_output_file)
+  - [condition](#condition)
+  - [description](#description)
+  - [exclude\_file\_system](#exclude_file_system)
+  - [exclude\_name\_pattern](#exclude_name_pattern)
+  - [exclude\_nologin\_users](#exclude_nologin_users)
+  - [exclude\_path\_pattern](#exclude_path_pattern)
+  - [file\_type](#file_type)
+  - [foreach](#foreach)
+  - [ignore\_date\_range](#ignore_date_range)
+  - [is\_file\_list](#is_file_list)
+  - [max\_depth](#max_depth)
+  - [max\_file\_size](#max_file_size)
+  - [min\_file\_size](#min_file_size)
+  - [modifier](#modifier)
+  - [name\_pattern](#name_pattern)
+  - [no\_group](#no_group)
+  - [no\_user](#no_user)
+  - [output\_directory](#output_directory)
+  - [output\_file](#output_file)
+  - [path](#path)
+  - [path\_pattern](#path_pattern)
+  - [permissions](#permissions)
+  - [redirect\_stderr\_to\_stdout](#redirect_stderr_to_stdout)
+  - [supported\_os](#supported_os)
+  - [version](#version)
 
 #### file
 
@@ -214,23 +288,48 @@ Required fields:
 
 Optional fields:
 
-- [condition](#condition)
-- [exclude_file_system](#exclude_file_system)
-- [exclude_name_pattern](#exclude_name_pattern)
-- [exclude_nologin_users](#exclude_nologin_users)
-- [exclude_path_pattern](#exclude_path_pattern)
-- [file_type](#file_type)
-- [ignore_date_range](#ignore_date_range)
-- [is_file_list](#is_file_list)
-- [max_depth](#max_depth)
-- [max_file_size](#max_file_size)
-- [min_file_size](#min_file_size)
-- [name_pattern](#name_pattern)
-- [path_pattern](#path_pattern)
-- [permissions](#permissions)
+- [Artifacts definition](#artifacts-definition)
+  - [artifacts](#artifacts)
+  - [collector](#collector)
+    - [command](#command)
+    - [find based collectors](#find-based-collectors)
+      - [find](#find)
+      - [hash](#hash)
+      - [stat](#stat)
+      - [file](#file)
+  - [command](#command-1)
+  - [compress\_output\_file](#compress_output_file)
+  - [condition](#condition)
+  - [description](#description)
+  - [exclude\_file\_system](#exclude_file_system)
+  - [exclude\_name\_pattern](#exclude_name_pattern)
+  - [exclude\_nologin\_users](#exclude_nologin_users)
+  - [exclude\_path\_pattern](#exclude_path_pattern)
+  - [file\_type](#file_type)
+  - [foreach](#foreach)
+  - [ignore\_date\_range](#ignore_date_range)
+  - [is\_file\_list](#is_file_list)
+  - [max\_depth](#max_depth)
+  - [max\_file\_size](#max_file_size)
+  - [min\_file\_size](#min_file_size)
+  - [modifier](#modifier)
+  - [name\_pattern](#name_pattern)
+  - [no\_group](#no_group)
+  - [no\_user](#no_user)
+  - [output\_directory](#output_directory)
+  - [output\_file](#output_file)
+  - [path](#path)
+  - [path\_pattern](#path_pattern)
+  - [permissions](#permissions)
+  - [redirect\_stderr\_to\_stdout](#redirect_stderr_to_stdout)
+  - [supported\_os](#supported_os)
+  - [version](#version)
 
+<!-- markdownlint-disable MD024 -->
 ## command
-<span class="required">Required by: command</span>
+<!-- markdownlint-enable MD024 -->
+
+**Required by: command**
 
 **_Accepted values:_** _one or multiple shell commands_
 
@@ -255,7 +354,8 @@ artifacts:
 ```
 
 ## compress_output_file
-<span class="optional">Optional for: command</span>
+
+**Optional for: command**
 
 **_Accepted values:_** _true or false_
 
@@ -279,7 +379,8 @@ artifacts:
 Note that ```compress_output_file``` only applies to files specified in the ```output_file``` key-value pair.
 
 ## condition
-<span class="optional">Optional for: command, file, find, hash and stat</span>
+
+**Optional for: command, file, find, hash and stat**
 
 **_Accepted values:_** _one or multiple shell commands_
 
@@ -341,18 +442,20 @@ artifacts:
 ```
 
 ## description
-<span class="required">Required</span>
+
+**Required**
 
 Description of what will be collected. No line breaks are supported.
 
 ## exclude_file_system
-<span class="optional">Optional for: file, find, hash and stat</span>
+
+**Optional for: file, find, hash and stat**
 
 **_Accepted values:_** _array of file systems_
 
 Use this option to exclude file systems from the collection. UAC will retrieve the list of existing mountpoints (paths) at runtime and exclude them from the collection.
 
-The file system types that are supported depend on the target computer's running kernel. *Note that exclude_file_system will be ignored when path_pattern is used.*
+The file system types that are supported depend on the target computer's running kernel. _Note that exclude_file_system will be ignored when path_pattern is used._
 
 ```yaml
 version: 1.0
@@ -368,7 +471,8 @@ artifacts:
 ```
 
 ## exclude_name_pattern
-<span class="optional">Optional for: file, find, hash and stat</span>
+
+**Optional for: file, find, hash and stat**
 
 **_Accepted values:_** _array of paths_
 
@@ -394,7 +498,8 @@ artifacts:
 ```
 
 ## exclude_nologin_users
-<span class="optional">Optional for: command, file, find, hash and stat</span>
+
+**Optional for: command, file, find, hash and stat**
 
 **_Accepted values:_** _true or false_
 
@@ -416,7 +521,8 @@ artifacts:
 ```
 
 ## exclude_path_pattern
-<span class="optional">Optional for: file, find, hash and stat</span>
+
+**Optional for: file, find, hash and stat**
 
 **_Accepted values:_** _array of paths_
 
@@ -440,7 +546,8 @@ artifacts:
 ```
 
 ## file_type
-<span class="optional">Optional for: file, find, hash and stat</span>
+
+**Optional for: file, find, hash and stat**
 
 **_Accepted values:_** _array of file types_
 
@@ -452,7 +559,7 @@ File is of type:
 |---|---|
 |f|regular file|
 |d|directory|
-|l|symbolic link
+|l|symbolic link|
 |p|named pipe (FIFO)|
 |s|socket|
 |b|block special|
@@ -479,7 +586,8 @@ artifacts:
 ```
 
 ## foreach
-<span class="optional">Optional for: command</span>
+
+**Optional for: command**
 
 **_Accepted values:_** _one or multiple shell commands_
 
@@ -487,7 +595,7 @@ The command will be executed, and its output lines will be used as input by the 
 
 The logic behind it is:
 
-```
+```shell
 for (each line returned by foreach); do
   command
 done
@@ -517,7 +625,8 @@ artifacts:
 ```
 
 ## ignore_date_range
-<span class="optional">Optional for: file, find, hash and stat</span>
+
+**Optional for: file, find, hash and stat**
 
 **_Accepted values:_** _true or false_
 
@@ -541,7 +650,8 @@ artifacts:
 ```
 
 ## is_file_list
-<span class="optional">Optional for: file, hash and stat</span>
+
+**Optional for: file, hash and stat**
 
 **_Accepted values:_** _true or false_
 
@@ -559,7 +669,8 @@ artifacts:
 ```
 
 ## max_depth
-<span class="optional">Optional for: file, find, hash and stat</span>
+
+**Optional for: file, find, hash and stat**
 
 **_Accepted values:_** _non-negative integer_
 
@@ -579,11 +690,12 @@ artifacts:
 ```
 
 ## max_file_size
-<span class="optional">Optional for: file, find, hash and stat</span>
+
+**Optional for: file, find, hash and stat**
 
 **_Accepted values:_** _non-negative integer_
 
-The maximum size of a file to search (in bytes). Any files bigger than this will be ignored. This option works the same way as find's -size option.
+The maximum size of a file to search (in bytes). Any files bigger than this will be ignored. This option works the same way as find's -size option. Note that `file_type` must be set to `f`.
 
 ```yaml
 version: 1.0
@@ -594,17 +706,18 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     max_file_size: 1048576
     output_file: smaller_than.txt
 ```
 
 ## min_file_size
-<span class="optional">Optional for: file, find, hash and stat</span>
+
+**Optional for: file, find, hash and stat**
 
 **_Accepted values:_** _non-negative integer_
 
-The minimum size of a file to search (in bytes). Any files smaller than this will be ignored. This option works the same way as find's -size option.
+The minimum size of a file to search (in bytes). Any files smaller than this will be ignored. This option works the same way as find's -size option. Note that `file_type` must be set to `f`.
 
 ```yaml
 version: 1.0
@@ -615,13 +728,14 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     min_file_size: 1048576
     output_file: bigger_than.txt
 ```
 
 ## modifier
-<span class="optional">Optional</span>
+
+**Optional**
 
 **_Accepted values:_** _true or false_
 
@@ -654,7 +768,8 @@ artifacts:
 ```
 
 ## name_pattern
-<span class="optional">Optional for: file, find, hash and stat</span>
+
+**Optional for: file, find, hash and stat**
 
 **_Accepted values:_** _array of paths_
 
@@ -705,8 +820,53 @@ artifacts:
     output_file: all_log_files.txt
 ```
 
+## no_group
+
+**Optional for: file, find, hash and stat**
+
+**_Accepted values:_** _true or false_
+
+Use this option to search for files that have a group ID (GID) that no longer exists in the system. This means that the group associated with the file has been deleted or is missing from /etc/group.
+
+```yaml
+version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: List files under /bin directory with an unknown group ID name.
+    supported_os: [aix, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris]
+    collector: find
+    path: /bin
+    file_type: [f]
+    no_group: true
+    output_file: group_name_unknown_files.txt
+```
+
+## no_user
+
+**Optional for: file, find, hash and stat**
+
+**_Accepted values:_** _true or false_
+
+Use this option to search for files that have a user ID (UID) that no longer exists in the system. This means the file was owned by a user that has been deleted or is missing from /etc/passwd.
+
+```yaml
+version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: List files under /bin directory with an unknown user ID name.
+    supported_os: [aix, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris]
+    collector: find
+    path: /bin
+    file_type: [f]
+    no_user: true
+    output_file: user_name_unknown_files.txt
+```
+
 ## output_directory
-<span class="required">Required by: command, find, hash and stat</span>
+
+**Required by: command, find, hash and stat**
 
 **_Accepted values:_** _path_
 
@@ -754,11 +914,12 @@ artifacts:
 ```
 
 ## output_file
-<span class="optional">Optional for: command, find, hash and stat</span>
+
+**Optional for: command, find, hash and stat**
 
 **_Accepted values:_** _file name_
 
-Specify the output file name where the collected data will be stored.
+Specify the output file name where the collected data will be stored. _Note that if the output file name is longer than 255 characters, UAC will truncate the file name to 245 characters and add the prefix (trunc)._
 
 ```yaml
 version: 1.0
@@ -786,6 +947,7 @@ artifacts:
     collector: command
     command: avml avml.raw
 ```
+
 UAC never overwrites output files; data is always appended.
 
 In the example below, both ```ps``` and ```ps auxwww``` outputs will be stored in the same ```same_file.txt``` file.
@@ -809,7 +971,8 @@ artifacts:
 ```
 
 ## path
-<span class="required">Required by: find, file, hash and stat</span>
+
+**Required by: find, file, hash and stat**
 
 **_Accepted values:_** _path_
 
@@ -846,7 +1009,8 @@ artifacts:
 ```
 
 ## path_pattern
-<span class="optional">Optional for: find, file, hash and stat</span>
+
+**Optional for: find, file, hash and stat**
 
 **_Accepted values:_** _array of paths_
 
@@ -857,11 +1021,11 @@ Don't forget to enclose the pattern in double quotes. Use a backslash (\\) to es
 As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
 
 The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:
-
+<!-- markdownlint-disable MD033 -->
 - /home/user/.config<span style="color: red;">/discord/Cache/</span>00bcecbd2455cb22_0
 - /home/user/.var/app/com.discordapp.Discord/config<span style="color: red;">/discord/Cache/</span>index
 - /home/user/snap/discord/current/.config<span style="color: red;">/discord/Cache/</span>ac0fa118bdaaa62e_0
-
+<!-- markdownlint-enable MD033 -->
 ```yaml
 version: 1.0
 output_directory: /live_response/system
@@ -876,7 +1040,8 @@ artifacts:
 ```
 
 ## permissions
-<span class="optional">Optional for: find, file, hash and stat</span>
+
+**Optional for: find, file, hash and stat**
 
 **_Accepted values:_** _array of permissions_
 
@@ -897,7 +1062,7 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     permissions: [755, 644]
     output_file: all_755_and_644_permissions.txt
 ```
@@ -913,13 +1078,36 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: f
+    file_type: [f]
     permissions: [-4000]
     output_file: suid_files.txt
 ```
 
+## redirect_stderr_to_stdout
+<span class="optional">Optional for: command</span>
+
+**_Accepted values:_** _true or false_
+
+If this option is set to ```true```, all error messages (stderr) will be redirected to the standard output (stdout), which is the [output file](#output_file).
+
+In the example below, both the command output (stdout) and the error messages (stderr) will be stored in the ```lsof_-nPl.txt``` file.
+
+```yaml
+version: 1.0
+output_directory: /live_response/process
+artifacts:
+  -
+    description: Collect the list open files.
+    supported_os: [all]
+    collector: command
+    command: lsof -nPl
+    output_file: lsof_-nPl.txt
+    redirect_stderr_to_stdout: true
+```
+
 ## supported_os
-<span class="required">Required</span>
+
+**Required**
 
 **_Accepted values:_** _array of operating systems_
 
@@ -966,6 +1154,7 @@ artifacts:
 ```
 
 ## version
-<span class="required">Required</span>
+
+**Required**
 
 The artifact file version. It needs to be updated every time the YAML file is changed.

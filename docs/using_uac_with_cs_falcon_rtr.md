@@ -5,7 +5,7 @@ With CrowdStrike Falcon Real Time Response (RTR), analysts can remotely access a
 In the instructions below the UAC package (i.e. uac-3.0.0.tar.gz) was stored in the CrowdStrike cloud. This way it can be deployed even if an endpoint is isolated via Network Containment feature.
 
 1\. Start by creating a temporary working directory on the live endpoint, then change the working directory to it.
-    
+
 ```shell
 /> mkdir /tmp/uac
 /> cd /tmp/uac

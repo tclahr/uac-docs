@@ -1,16 +1,29 @@
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD041 -->
 <p align="center">
     <img src="img/uac-dark.svg" alt="logo" width="120px">
 </p>
+<!-- markdownlint-enable MD041 -->
+<!-- markdownlint-enable MD033 -->
 
 # Welcome to the Unix-like Artifacts Collector documentation
 
-UAC is a Live Response collection script for Incident Response that makes use of native binaries and tools to automate the collection of AIX, ESXi, FreeBSD, Linux, macOS, NetBSD, NetScaler, OpenBSD and Solaris systems artifacts. It was created to facilitate and speed up data collection, and depend less on remote support during incident response engagements.
+**UAC (Unix-like Artifacts Collector)** is a powerful and extensible incident response tool designed for forensic investigators, security analysts, and IT professionals. It automates the collection of artifacts from a wide range of Unix-like systems, including AIX, ESXi, FreeBSD, Linux, macOS, NetBSD, NetScaler, OpenBSD and Solaris.
+
+Whether you're handling an intrusion, conducting forensic investigations, or performing compliance checks, UAC simplifies and accelerates data collection while minimizing reliance on external support during critical incidents.
 
 UAC reads YAML files on the fly and, based on their contents, collects relevant artifacts. This makes UAC very customizable and extensible.
 
-The source code is available on the [project](https://github.com/tclahr/uac) page](https://github.com/tclahr/uac).
+## Key Highlights
 
-[![uac_collection](img/uac_3_collection.gif)](#)
+- 📂 Fully customizable via YAML profiles for tailored data collection.
+- ⚡ Lightweight, portable, and requires no installation or dependencies.
+- 🔒 Adheres to the order of volatility to ensure reliable data acquisition.
+- 🛠 Designed for diverse environments, including IoT devices and NAS systems.
+
+The source code is available on the [project](https://github.com/tclahr/uac) page](<https://github.com/tclahr/uac>).
+
+![uac_collection](img/uac_3_collection.gif)
 
 ## Main features
 
@@ -22,6 +35,7 @@ The source code is available on the [project](https://github.com/tclahr/uac) pag
 - Extract files and directories status to create a bodyfile.
 - Collect system and user-specific data, configuration files and logs.
 - Acquire volatile memory from Linux systems using different methods and tools.
+- Support to write output to various cloud platforms.
 
 ## Supported operating systems
 
@@ -83,9 +97,9 @@ Collect all artifacts based on the ir_triage profile excluding the bodyfile.yaml
 
 UAC is a command line tool, and as such, has several options that can be used to interact with it. It is recommended to run UAC from an external device/usb/network share to avoid overwriting evidence.
 
-<pre class="code">
+```shell
 Usage: ./uac [-h] [-V] [--debug] {-p PROFILE | -a ARTIFACT} DESTINATION 
-             
+
    or: ./uac --validate-artifact FILE
    or: ./uac --validate-profile FILE
 
@@ -135,7 +149,7 @@ Collection Arguments:
   -s, --operating-system OPERATING_SYSTEM
                     Specify the operating system.
                     Options: aix, esxi, freebsd, linux, macos, netbsd
-                             netscaler, openbsd, solaris
+                      netscaler, openbsd, solaris
   -H, --hash-collected
                     Hash all collected files.
   -u, --run-as-non-root
@@ -208,34 +222,33 @@ Validation Arguments:
                     Validate artifact.
       --validate-profile FILE
                     Validate profile.
-
-</pre>
+```
 
 ### Optional Arguments
 
-**--help**
+#### --help
 
 Display the help and exit.
 
-**-v, --verbose**
+#### -v, --verbose
 
 Increases the verbosity level. Enabling a higher verbosity level will result in the display of all executed commands.
 
-**--debug**
+#### --debug
 
 Enable debug mode. Enabling debug mode will prevent the removal of the ```uac-data.tmp``` directory in the destination directory. This directory stores collected, temporary and debugging data during execution.
 
-**--trace**
+#### --trace
 
 Enable ```set -x```. Using ```set -x``` in a shell script enables command tracing by printing each command before execution, which helps in debugging and understanding the script's flow.
 
-**-V, --version**
+#### -V, --version
 
 Output version information and exit.
 
 ### Profiling Arguments
 
-**-p, --profile**
+#### -p, --profile
 
 Specify the collection profile name. Profiles are used to define the list of artifacts that will be used during the execution. They are YAML files located in the ```profiles``` directory.
 
@@ -261,7 +274,7 @@ Example:
 ./uac -p /home/user/my_custom_profile.yaml DESTINATION_DIR
 ```
 
-**-a, --artifacts**
+#### -a, --artifacts
 
 Specify the artifacts to be used during the collection. Artifacts are used to define parameters that will be used by a [collector](artifacts.md#collector) to collect data. They are YAML files located in the ```artifacts``` directory.
 
@@ -299,13 +312,13 @@ Examples:
 
 ### Positional Arguments
 
-**DESTINATION**
+#### DESTINATION
 
 The directory where the output and acquisition log files should be copied to.
 
 ### Output Arguments
 
-**-o, --output-base-name**
+#### -o, --output-base-name
 
 Specify the base name of the output file (without extension). Default is ```uac-%hostname%-%os%-%timestamp%```
 
@@ -319,7 +332,7 @@ Examples:
 ./uac -a ./artifacts/files/browsers/chrome.yaml -o uac-chrome-only-%hostname%-%timestamp% DESTINATION
 ```
 
-**-f, --output-format**
+#### -f, --output-format
 
 Specify the output format. Compression will be automatically enabled if ```gzip``` is available.
 
@@ -337,7 +350,7 @@ Examples:
 ./uac -p full --output-format none DESTINATION
 ```
 
-**-P, --output-password**
+#### -P, --output-password
 
 Specify the password to be used to encrypt the contents of the archive file. Applies to zip output format only.
 
@@ -349,7 +362,7 @@ Examples:
 
 ### Collection Arguments
 
-**-c, --config**
+#### -c, --config
 
 Load the config from a specific file.
 
@@ -359,7 +372,7 @@ Examples:
 ./uac -p full -c /home/user/my_custom_uac_config.conf DESTINATION
 ```
 
-**-m, --mount-point**
+#### -m, --mount-point
 
 The mount point where the files will be collected from. Default is ```/```
 
@@ -369,67 +382,67 @@ Examples:
 ./uac -p offline -m /mnt/sda1 DESTINATION
 ```
 
-**-s, --operating-system**
+#### -s, --operating-system
 
 This option allows you to force UAC to collect artifacts for a specific operating system. By default, UAC automatically attempts to identify the target operating system.
 
 Options: aix, esxi, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris
 
-**-H, --hash-collected**
+#### -H, --hash-collected
 
 Enabling this option will cause UAC to hash all collected files and save the results in a hash file. To accomplish this, all collected data must first be copied to the destination directory. Therefore, ensure you have twice the free space available on the system: once for the collected data and once for the output file. Additionally, note that this process will increase the running time.
 
-**-u, --run-as-non-root**
+#### -u, --run-as-non-root
 
 Disable root user check. Note that artifact collection may be limited.
 
-**--enable-modifiers**
+#### --enable-modifiers
 
 Enabling this option will cause UAC to run artifacts that change the current system state. Please refer to the [modifiers](#modifiers) section for more information.
 
-**--hostname**
+#### --hostname
 
 Specify the hostname to be used as part of the output name when %hostname% is used in --output-base-name. By default, UAC automatically attempts to identify the target system's hostname.
 
-**--temp-dir**
+#### --temp-dir
 
 The location where the ```uac-data.tmp``` directory will be created. This directory stores collected, temporary and debugging data during execution. By default, ```uac-data.tmp``` will be created within the DESTINATION directory.
 
 ### Filter Arguments
 
-**--start-date**
+#### --start-date
 
 Collect only the files that were last modified, accessed, or changed after a specific date. The date must be in the format: YYYY-MM-DD.
 
-**--end-date**
+#### --end-date
 
 Collect only the files that were last modified, accessed, or changed before a specific date. The date must be in the format: YYYY-MM-DD.
 
 ### Informational Arguments
 
-**--case-number**
+#### --case-number
 
 Specify the case number.
 
-**--description**
+#### --description
 
 Specify the case description.
 
-**--evidence-number**
+#### --evidence-number
 
 Specify the evidence number.
 
-**--examiner**
+#### --examiner
 
 Specify the examiner's name.
 
-**--notes**
+#### --notes
 
 Specify the case notes.
 
 ### Remote Transfer Arguments
 
-**--sftp**
+#### --sftp
 
 SFTP server host/IP for transferring the output and acquisition log files. It also transfers collected data when ```none``` is used as the output format. It must be specified in the form ```[user@]host:[path]```
 
@@ -439,15 +452,15 @@ Examples:
 ./uac -p full --sftp "user@host:/remote_dir" DESTINATION
 ```
 
-**--sftp-port**
+#### --sftp-port
 
 SFTP server port. Default is ```22```.
 
-**--sftp-identity-file**
+#### --sftp-identity-file
 
 File from which the identity (private key) for public-key authentication is read.
 
-**--sftp-ssh-options**
+#### --sftp-ssh-options
 
 Comma-separated options that modify the behavior of the SSH client. These options are usually specified in the SSH client configuration file, but this argument allows you to specify them directly on the command line.
 
@@ -457,27 +470,27 @@ Examples:
 ./uac -p ir_triage --sftp "user@host:/remote_dir" --sftp-ssh-options "StrictHostKeyChecking=no,UserKnownHostsFile=/dev/null" DESTINATION
 ```
 
-**--s3-provider**
+#### --s3-provider
 
 Transfer the output and log file to a S3 bucket/cloud object storage.
 
 Options: amazon, google, ibm
 
-**--s3-region**
+#### --s3-region
 
 S3 region name.
 
 Default: us-east-1 (amazon), us-south (ibm)
 
-**--s3-bucket**
+#### --s3-bucket
 
 S3 bucket/cloud object storage name
 
-**--s3-access-key**
+#### --s3-access-key
 
 The access key for the bucket/cloud object storage.
 
-**--s3-secret-key**
+#### --s3-secret-key
 
 The secret access key for the bucket/cloud object storage.
 
@@ -485,7 +498,7 @@ The secret access key for the bucket/cloud object storage.
 ./uac -p ir_triage --s3-provider amazon --s3-region us-east-1 --s3-bucket uac-test --s3-access-key "AKIAXKDAGGVYYXDZKAGH1" --s3-secret-key "plJqM2mFAu2lVBhpi5UrL+X+8hL+LOYOJryhp2s2" DESTINATION
 ```
 
-**--s3-token**
+#### --s3-token
 
 The session/bearer token for the bucket/cloud object storage.
 
@@ -495,7 +508,7 @@ Examples:
 ./uac -p ir_triage --s3-provider ibm --s3-region us-south --s3-bucket uac-test --s3-token "eyJraWQiOiIyMDIyMDkxMzA4MjciLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwiaWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwicmVhbG1pZCI6IklCTWlkIiwianRpIjoiYWVhMDE0MGYtZGM2Ni00MzE0LWJhMjMtZTIxOTAzZmQ3Y2ZhIiwiaWRlbnRpZmllciI6IjA2MDAwMUtVUkMiLCJnaXZlbl9uYW1lIjoiVGhpYWdvIiwiZmFtaWx5X25hbWUiOiJDYW5ve" DESTINATION
 ```
 
-**--aws-s3-presigned-url**
+#### --aws-s3-presigned-url
 
 This allows for using a pre-signed URL to upload the output file to AWS S3. Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
 
@@ -505,7 +518,7 @@ Example:
 ./uac -p full --aws-s3-presigned-url 'https://uac-test.s3.amazonaws.com/uac-output.tar.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220924T135105Z&X-Amz-Expires=360000&X-Amz-SignedHeaders=host&X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' DESTINATION
 ```
 
-**--aws-s3-presigned-url-log-file**
+#### --aws-s3-presigned-url-log-file
 
 This allows for using a pre-signed URL to upload the acquisition log file to AWS S3. Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
 
@@ -515,7 +528,7 @@ Example:
 ./uac -p full --aws-s3-presigned-url 'https://uac-test.s3.amazonaws.com/uac-output.tar.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220924T135105Z&X-Amz-Expires=360000&X-Amz-SignedHeaders=host&X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' --aws-s3-presigned-url-log-file 'https://uac-test.s3.amazonaws.com/uac-output.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220924T135105Z&X-Amz-Expires=360000&X-Amz-SignedHeaders=host&X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' DESTINATION
 ```
 
-**--azure-storage-sas-url**
+#### --azure-storage-sas-url
 
 This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage. It is strongly recommended to use single quotes to enclose the URL.
 
@@ -525,7 +538,7 @@ Example:
 ./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
 ```
 
-**--azure-storage-sas-url-log-file**
+#### --azure-storage-sas-url-log-file
 
 This allows for using a shared access signature (SAS) URL to upload the acquisition log to Azure Storage. It is strongly recommended to use single quotes to enclose the URL.
 
@@ -535,13 +548,13 @@ Example:
 ./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' --azure-storage-sas-url-log-file 'https://uac-test.blob.core.windows.net/uac-container/uac-output.log?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
 ```
 
-**--delete-local-on-successful-transfer**
+#### --delete-local-on-successful-transfer
 
 Delete the local output and acquisition log files if they were successfully transferred to a remote destination such as an SFTP server or S3.
 
 ### Validation Arguments
 
-**--validate-artifact**
+#### --validate-artifact
 
 Validate whether the artifact YAML file contains any errors.
 
@@ -551,7 +564,7 @@ Examples:
 ./uac --validate-artifact my_custom_artifact.yaml
 ```
 
-**--validate-profile**
+#### --validate-profile
 
 Validate whether the profile YAML file contains any errors.
 
@@ -623,20 +636,26 @@ Before submitting, please check our list of [already reported bugs](https://gith
 
 See our [Contributing Guide](https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md) for more information.
 
-### Community support
+## Contributing
 
-For additional help, you can use one of the channels to ask a question:
+Contributions make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
+
+Have you created any artifacts? Please share them with us!
+
+You can contribute with new artifacts, profiles, bug fixes, or propose new features. Please read our [Contributing Guide](https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md) before submitting a Pull Request to the project.
+
+## Support
+
+For general help using UAC, please refer to the [project documentation page](https://tclahr.github.io/uac-docs). For additional help, you can use one of the following channels:
 
 - [Discord](https://discord.com/invite/digitalforensics) (For live discussion with the community and UAC team)
 - [GitHub](https://github.com/tclahr/uac/issues) (Bug reports and contributions)
 - [Twitter](https://twitter.com/tclahr) (Get the news fast)
 
-## Contributing
+## Support the Project
 
-Have you created any artifacts? Please share them with us!
-
-You can contribute with new artifacts, profiles, bug fixes or even propose new features. Please read our [Contributing Guide](https://github.com/tclahr/uac/blob/master/CONTRIBUTING.md) before submitting a Pull Request to the project.
+If you find UAC helpful, please give us a ⭐ on [GitHub](https://github.com/tclahr/uac)! This helps others discover the project and motivates us to improve it further.
 
 ## License
 
-The UAC project uses the [Apache License Version 2.0](https://www.apache.org/licenses/LICENSE-2.0) software license.
+The UAC project uses the [Apache License Version 2.0](LICENSE) software license.

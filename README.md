@@ -1,4 +1,4 @@
-## UAC (Unix-like Artifacts Collector) Docs
+# UAC (Unix-like Artifacts Collector) Docs
 
 [![GitHub](https://img.shields.io/github/license/tclahr/uac-docs?style=flat)](LICENSE)
 
