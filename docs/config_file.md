@@ -1,6 +1,10 @@
-# uac.conf
+# Config files
 
-UAC configuration file is located in the config directory.
+UAC configuration files are located in the `config` directory.
+
+The default configuration file is `uac.conf`. It will be loaded automatically by the UAC during execution.
+
+You can also create files with the operating system name in the `config` directory to **override** the default configuration for a specific operating system. For example, `aix.conf` for aix, `linux.conf` for linux, `macos.conf` for macos, etc.
 
 ## exclude_path_pattern
 
