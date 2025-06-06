@@ -191,8 +191,9 @@ Remote Transfer Arguments:
       --sftp-identity-file FILE
                     File from which the identity (private key) for public key
                     authentication is read.
-      --sftp-ssh-options
-                    Comma separated ssh options.
+      --sftp-ssh-option
+                    Allow setting SSH options as key=value pairs.
+                    Can be used multiple times to set multiple options.
       --s3-provider
                     Transfer the output and log files to S3 service.
                     Options: amazon, google, ibm
@@ -460,14 +461,14 @@ SFTP server port. Default is ```22```.
 
 File from which the identity (private key) for public-key authentication is read.
 
-#### --sftp-ssh-options
+#### --sftp-ssh-option
 
-Comma-separated options that modify the behavior of the SSH client. These options are usually specified in the SSH client configuration file, but this argument allows you to specify them directly on the command line.
+Allow setting SSH options as key=value pairs. Can be used multiple times to set multiple options.
 
 Examples:
 
 ```shell
-./uac -p ir_triage --sftp "user@host:/remote_dir" --sftp-ssh-options "StrictHostKeyChecking=no,UserKnownHostsFile=/dev/null" DESTINATION
+./uac -p ir_triage --sftp "user@host:/remote_dir" --sftp-ssh-option "StrictHostKeyChecking=no" --sftp-ssh-option "UserKnownHostsFile=/dev/null" DESTINATION
 ```
 
 #### --s3-provider
