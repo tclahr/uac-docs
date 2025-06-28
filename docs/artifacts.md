@@ -286,6 +286,40 @@ artifacts:
     output_file: ps_-ef.txt
 ```
 
+Commands can become long and difficult to read. To execute a multi-line command, you need to enter it within a triple-quote string.
+
+The example below...
+
+```yaml
+version: 1.0
+artifacts:
+  -
+    description: Collect the command name associated with a process.
+    supported_os: [linux]
+    collector: command
+    command: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
+    output_directory: /live_response/process
+    output_file: pids.txt
+```
+
+...can also be defined as:
+
+```yaml
+version: 1.0
+artifacts:
+  -
+    description: Collect the command name associated with a process.
+    supported_os: [linux]
+    collector: command
+    command: """
+      for pid in /proc/[0-9]*; do 
+        echo ${pid} | sed -e 's:/proc/::';
+      done
+      """
+    output_directory: /live_response/process
+    output_file: pids.txt
+```
+
 ## compress_output_file
 
 **Optional for: command**
@@ -372,6 +406,44 @@ artifacts:
     collector: hash
     path: /proc/[0-9]*/file
     output_file: hash_running_processes
+```
+
+Conditions can become long and difficult to read. To execute a multi-line command, you need to enter it within a triple-quote string.
+
+The example below...
+
+```yaml
+version: 1.0
+output_directory: /live_response/process
+artifacts:
+  -
+    description: Collect running processes executable path.
+    supported_os: [freebsd]
+    condition: if ls /proc/$$ && ps; then true; else false; fi
+    collector: command
+    command: ls -l /proc/[0-9]*/file
+    output_file: running_processes_full_paths.txt
+```
+
+...can also be defined as:
+
+```yaml
+version: 1.0
+output_directory: /live_response/process
+artifacts:
+  -
+    description: Collect running processes executable path.
+    supported_os: [freebsd]
+    condition: """
+      if ls /proc/$$ && ps; then
+        true
+      else
+        false
+      fi
+    """
+    collector: command
+    command: ls -l /proc/[0-9]*/file
+    output_file: running_processes_full_paths.txt
 ```
 
 ## description
@@ -555,6 +627,42 @@ artifacts:
     command: docker container logs %line%
     output_directory: /live_response/containers/%line%
     output_file: docker_container_logs_%line%.txt
+```
+
+Commands can become long and difficult to read. To execute a multi-line command, you need to enter it within a triple-quote string.
+
+The example below...
+
+```yaml
+version: 1.0
+artifacts:
+  -
+    description: Collect the command name associated with a process.
+    supported_os: [linux]
+    collector: command
+    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
+    command: cat /proc/%line%/comm
+    output_directory: /live_response/process/proc/%line%
+    output_file: comm.txt
+```
+
+...can also be defined as:
+
+```yaml
+version: 1.0
+artifacts:
+  -
+    description: Collect the command name associated with a process.
+    supported_os: [linux]
+    collector: command
+    foreach: """
+      for pid in /proc/[0-9]*; do 
+        echo ${pid} | sed -e 's:/proc/::';
+      done
+      """
+    command: cat /proc/%line%/comm
+    output_directory: /live_response/process/proc/%line%
+    output_file: comm.txt
 ```
 
 ## ignore_date_range
@@ -937,6 +1045,47 @@ artifacts:
     collector: find
     path: /Library/"Application Support"/com.apple.TCC/TCC.db
     output_file: path_with_spaces.txt
+```
+
+Multiple paths can be specified inline or entering them within a triple-quote string.
+
+The example below...
+
+```yaml
+version: 1.0
+output_directory: /system
+artifacts:
+  -
+    description: List files under user's home directory (no recursion, top-level only) with an unknown user ID name.
+    supported_os: [aix, freebsd, linux, netbsd, netscaler, openbsd]
+    collector: find
+    path: /home /export/home /Users /%user_home%
+    max_depth: 1
+    file_type: [f]
+    no_user: true
+    output_file: user_name_unknown_files.txt
+```
+
+...can also be defined as:
+
+```yaml
+version: 1.0
+output_directory: /system
+artifacts:
+  -
+    description: List files under user's home directory (no recursion, top-level only) with an unknown user ID name.
+    supported_os: [aix, freebsd, linux, netbsd, netscaler, openbsd]
+    collector: find
+    path: """
+      /home
+      /export/home
+      /Users
+      /%user_home%
+    """
+    max_depth: 1
+    file_type: [f]
+    no_user: true
+    output_file: user_name_unknown_files.txt
 ```
 
 ## path_pattern

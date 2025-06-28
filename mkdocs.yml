@@ -6,7 +6,6 @@ nav:
   - 'DEFINITIONS':
     - 'Profiles': profiles.md
     - 'Artifacts': artifacts.md
-    - 'Multi-line Command': multi_line_command.md
     - 'Exposed Variables': exposed_vars.md
     - 'Exposed Functions': exposed_functions.md
   - 'CONFIG':
