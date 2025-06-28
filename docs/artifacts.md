@@ -628,7 +628,7 @@ artifacts:
 
 **_Accepted values:_** _non-negative integer_
 
-The maximum size of a file to search (in bytes). Any files bigger than this will be ignored. This option works the same way as find's -size option. Note that `file_type` must be set to `f`.
+The maximum size of a file to search (in bytes). Any files bigger than this will be ignored. This option works the same way as find's -size option.
 
 ```yaml
 version: 1.0
@@ -639,7 +639,6 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: [f]
     max_file_size: 1048576
     output_file: smaller_than.txt
 ```
@@ -650,7 +649,7 @@ artifacts:
 
 **_Accepted values:_** _non-negative integer_
 
-The minimum size of a file to search (in bytes). Any files smaller than this will be ignored. This option works the same way as find's -size option. Note that `file_type` must be set to `f`.
+The minimum size of a file to search (in bytes). Any files smaller than this will be ignored. This option works the same way as find's -size option.
 
 ```yaml
 version: 1.0
@@ -661,7 +660,6 @@ artifacts:
     supported_os: [all]
     collector: find
     path: /
-    file_type: [f]
     min_file_size: 1048576
     output_file: bigger_than.txt
 ```
@@ -1017,7 +1015,8 @@ artifacts:
 ```
 
 ## redirect_stderr_to_stdout
-<span class="optional">Optional for: command</span>
+
+**Optional for: command**
 
 **_Accepted values:_** _true or false_
 
