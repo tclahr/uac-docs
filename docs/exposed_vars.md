@@ -7,6 +7,7 @@ Some variables can be used and will be replaced by UAC at runtime:
 |%uac_directory%|Full path to where uac was run from.|
 |%mount_point%|Full path of the target mount point.|
 |%temp_directory%|Full path to the temp directory used by UAC to store temp data. Data in this directory will be discarded and not be part of the output file.|
+|%non_local_mount_points%|Pipe-separated list of non-local mount points based on the `exclude_file_system` option set in `uac.conf` file.|
 |%start_date%|Date specified by --start-date command line option.|
 |%start_date_epoch%|Epoch converted date specified by --start-date.|
 |%end_date%|Date specified by --end-date command line option.|

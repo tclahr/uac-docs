@@ -1047,9 +1047,7 @@ artifacts:
     output_file: path_with_spaces.txt
 ```
 
-Multiple paths can be specified inline or entering them within a triple-quote string.
-
-The example below...
+Multiple paths can also be specified.
 
 ```yaml
 version: 1.0
@@ -1060,28 +1058,6 @@ artifacts:
     supported_os: [aix, freebsd, linux, netbsd, netscaler, openbsd]
     collector: find
     path: /home /export/home /Users /%user_home%
-    max_depth: 1
-    file_type: [f]
-    no_user: true
-    output_file: user_name_unknown_files.txt
-```
-
-...can also be defined as:
-
-```yaml
-version: 1.0
-output_directory: /system
-artifacts:
-  -
-    description: List files under user's home directory (no recursion, top-level only) with an unknown user ID name.
-    supported_os: [aix, freebsd, linux, netbsd, netscaler, openbsd]
-    collector: find
-    path: """
-      /home
-      /export/home
-      /Users
-      /%user_home%
-    """
     max_depth: 1
     file_type: [f]
     no_user: true
