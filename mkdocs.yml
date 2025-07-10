@@ -17,6 +17,8 @@ nav:
   - 'OTHER':
     - 'Parsing UAC output': parsing_uac_output.md
     - 'Using UAC with CrowdStrike Falcon Real Time Response': using_uac_with_cs_falcon_rtr.md
+  - 'MISC':
+    - 'Testing Lab': testing_lab.md
 theme: readthedocs
 extra_css: [extra.css]
 plugins:
