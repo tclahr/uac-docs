@@ -320,9 +320,9 @@ artifacts:
     output_file: pids.txt
 ```
 
-You can also use the ```timeout``` command to limit the execution time of a command. The ```timeout``` is available in the ```tools``` directory. It is a shell script that mimics the traditional Linux ```timeout``` command, so it can be used on all operating systems.
+You can also use the ```timeout.sh``` tool to limit the execution time of a command. Please refer to the [timeout.sh](https://github.com/tclahr/timeout.sh) command documentation for more information.
 
-The example below demonstrates how to collect the output from the ```ps -ef``` command with a timeout of 10 seconds:
+The example below demonstrates how to collect the output from the ```ps -ef``` command with a timeout of 2 seconds:
 
 ```yaml
 version: 1.0
@@ -331,15 +331,9 @@ artifacts:
   description: Report hardware information.
   supported_os: [all]
   collector: command
-  command: timeout 2 ps -ef
+  command: timeout.h 2 ps -ef
   output_directory: /live_response/process
   output_file: ps_-ef.txt
-```
-
-When a command times out, UAC will record the following message in the log file:
-
-```text
-2025-07-12 16:51:46 -0300 CMD timeout 2 ps -ef 2> Command timeout reached, TERM signal sent.
 ```
 
 ## compress_output_file
