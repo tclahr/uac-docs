@@ -1,11 +1,11 @@
 <!-- markdownlint-disable MD036 -->
 # Artifacts definition
 
-Artifacts define parameters for a collector to gather data.
+Artifacts define the parameters used by UAC collectors to gather data from the target system.
 
-UAC reads the YAML files dynamically and, based on their contents, uses one of the five available collectors ([command](#command), [file](#find-based-collectors), [find](#find-based-collectors), [hash](#find-based-collectors) and [stat](#find-based-collectors)) to collect the relevant artifacts.
+UAC dynamically reads YAML artifact definition files and determines which of the five available collectors to use: [`command`](#command), [`file`](#file), [`find`](#find), [`hash`](#hash), or [`stat`](#stat). Based on the contents of each artifact, UAC collects the appropriate data and saves it to the specified output locations.
 
-The example below contains two sets of rules: the first set uses the [hash](#collector) collector, and the second set uses the [command](#collector) collector to gather the artifacts.
+Each artifact file must include a `version` field and a list of artifact rules. Every rule defines how data is collected, which platforms it supports, and what collector it uses. Here's an example containing two rules, each using a different collector:
 
 ```yaml
 version: 1.0
@@ -26,19 +26,31 @@ artifacts:
     output_file: ps_auxwww.txt
 ```
 
-It is common practice to group all artifacts related to the same topic within a single YAML file. This approach allows for more granular artifact collection based on the specific case you are working on.
+It's a common practice to group artifacts by related topics within the same YAML file. This structure allows for more precise and efficient artifact collection tailored to your specific needs.
 
-An artifact has one required field at the top of the file [version](#version), followed by a set of rules that will be used by one of the [collectors](#collector) to collect the desired data.
+## YAML File Structure Overview
 
-The [version](#version) should be incremented as artifacts are updated or additional artifacts are added.
-
-## artifacts
+### version
 
 **Required**
 
-Set of rules (sequence of mappings) that define what data will be collected.
+Indicates the version of the artifact file. Increment this value whenever you modify the file, such as by updating rules or adding new artifacts.
 
-An artifact rule must include three mandatory fields: [description](#description), [supported_os](#supported_os), and [collector](#collector), along with additional properties depending on the chosen collector.
+```yaml
+version: 1.0
+```
+
+### artifacts
+
+**Required**
+
+A list of rules specifying what to collect. Each rule must contain:
+
+- `description`
+- `supported_os`
+- `collector`
+
+Other fields depend on the selected collector.
 
 ```yaml
 version: 1.0
@@ -60,35 +72,47 @@ artifacts:
     ... # additional options depending on the collector
 ```
 
-## collector
+## Collectors Overview
 
-**Required**
-
-UAC uses collectors to gather data, with each collector serving a specific function and requiring its options.
+Each collector serves a specific function and comes with its own set of required and optional fields. The following sections provide a complete explanation of each collector along with practical examples.
 
 ### command
 
-Use this collector to run commands and store the output into an output file. In a nutshell, UAC will use ```eval``` to run the command and redirect the stdout to the output file. The stderr will be captured and added to [uac.log](log_files.md#uaclog) file as a log record.
+Use the `command` collector to execute system commands and save their output to a specified file. UAC uses `eval` to run the command and captures standard output (stdout) into the defined file. Standard error (stderr) messages are written to `uac.log`, unless redirected explicitly.
 
-Required fields:
+**Required fields:**
 
-- [command](#command)
-- [output_directory](#output_directory)
+- `command`
+- `output_directory`
 
-Optional fields:
+**Optional fields:**
 
-- [compress_output_file](#compress_output_file)
-- [condition](#condition)
-- [exclude_nologin_users](#exclude_nologin_users)
-- [foreach](#foreach)
-- [output_file](#output_file)
-- [redirect_stderr_to_stdout](#redirect_stderr_to_stdout)
+- `compress_output_file`
+- `condition`
+- `exclude_nologin_users`
+- `foreach`
+- `output_file`
+- `redirect_stderr_to_stdout`
 
-### find based collectors
+**Example:**
 
-These collectors use the ```find``` tool to search for files and directories before collecting or processing any data.
+```yaml
+version: 1.0
+artifacts:
+  -
+    description: Report a snapshot of the current processes.
+    supported_os: [all]
+    collector: command
+    command: ps auxwww
+    output_directory: /live_response/process
+    output_file: ps_auxwww.txt
+```
 
-As an example, the artifact below...
+### find-based collectors
+
+These collectors rely on the `find` tool to locate files and directories. UAC builds the appropriate `find` command dynamically at runtime based on the platform’s supported options. If unsupported options are detected or `find` is not available, UAC can use [find.pl](https://github.com/tclahr/find.pl) as a fallback.
+
+**Example:**
 
 ```yaml
 version: 1.0
@@ -105,174 +129,82 @@ artifacts:
     max_file_size: 1073741824 # 1GB
 ```
 
-...will become this:
+Resulting command with standard `find`:
 
 ```shell
 find /var/log -maxdepth 5 \( -path "/sys" -o -path "/proc" \) -prune -o -size -1073741824c  \( -name "*access_log*" -o -name "*access.log*" -o -name "*error_log*" -o -name "*error.log*" \) -print
 ```
 
-Since the ```find``` tool varies between operating systems, UAC will determine which options are supported by the ```find``` tool on the target system to build the correct find command at runtime. UAC can also use a Perl-based implementation of the find command provided in the tools/find_pl directory.
-
-For example, if the artifact above is executed on a system where the ```find``` tool does not support the ```-maxdepth``` and ```-path``` options, and perl is also not available, the find command will be:
+Fallback using Perl implementation:
 
 ```shell
-find /var/log -size -1073741824c  \( -name "*access_log*" -o -name "*access.log*" -o -name "*error_log*" -o -name "*error.log*" \) -print
+find.pl /var/log -maxdepth 5 \( -path "/sys" -o -path "/proc" \) -prune -o -size -1073741824c  \( -name "*access_log*" -o -name "*access.log*" -o -name "*error_log*" -o -name "*error.log*" \) -print
 ```
-
-Since the Perl-based implementation of the find command supports most known options, the same example will result in the following command:
-
-```shell
-find_pl /var/log -maxdepth 5 \( -path "/sys" -o -path "/proc" \) -prune -o -size -1073741824c  \( -name "*access_log*" -o -name "*access.log*" -o -name "*error_log*" -o -name "*error.log*" \) -print
-```
-
-This is done to prevent the ```find``` command from failing during the collection due to an invalid option.
 
 #### find
 
-Use this collector to find files and directories and store the output into a text file.
+Search for files and directories and save their paths to a text file.
 
-Required fields:
+**Required fields:**
 
-- [path](#path)
-- [output_directory](#output_directory)
-- [output_file](#output_file)
+- `path`
+- `output_directory`
+- `output_file`
 
-Optional fields:
-
-- [condition](#condition)
-- [description](#description)
-- [exclude\_file\_system](#exclude_file_system)
-- [exclude\_name\_pattern](#exclude_name_pattern)
-- [exclude\_nologin\_users](#exclude_nologin_users)
-- [exclude\_path\_pattern](#exclude_path_pattern)
-- [file\_type](#file_type)
-- [ignore\_date\_range](#ignore_date_range)
-- [max\_depth](#max_depth)
-- [max\_file\_size](#max_file_size)
-- [min\_file\_size](#min_file_size)
-- [name\_pattern](#name_pattern)
-- [no\_group](#no_group)
-- [no\_user](#no_user)
-- [output\_directory](#output_directory)
-- [output\_file](#output_file)
-- [path](#path)
-- [path\_pattern](#path_pattern)
-- [permissions](#permissions)
+**Optional fields:** Refer to the [field reference section](#field-reference-and-examples) for a full list (e.g., `exclude_path_pattern`, `name_pattern`, etc.)
 
 #### hash
 
-Use this collector to hash files and store the output into a text file. The algorithms are defined in the [uac.conf](config_file.md#hash_algorithm) file.
+Generate hash values of matching files and save the results to a text file. The hash algorithm is defined in the UAC configuration file (`uac.conf`).
 
-Required fields:
+**Required fields:**
 
-- [path](#path)
-- [output_directory](#output_directory)
-- [output_file](#output_file)
+- `path`
+- `output_directory`
+- `output_file`
 
-Optional fields:
-
-- [condition](#condition)
-- [description](#description)
-- [exclude\_file\_system](#exclude_file_system)
-- [exclude\_name\_pattern](#exclude_name_pattern)
-- [exclude\_nologin\_users](#exclude_nologin_users)
-- [exclude\_path\_pattern](#exclude_path_pattern)
-- [file\_type](#file_type)
-- [ignore\_date\_range](#ignore_date_range)
-- [is\_file\_list](#is_file_list)
-- [max\_depth](#max_depth)
-- [max\_file\_size](#max_file_size)
-- [min\_file\_size](#min_file_size)
-- [name\_pattern](#name_pattern)
-- [no\_group](#no_group)
-- [no\_user](#no_user)
-- [output\_directory](#output_directory)
-- [output\_file](#output_file)
-- [path](#path)
-- [path\_pattern](#path_pattern)
-- [permissions](#permissions)
+**Optional fields:** Refer to the [field reference section](#field-reference-and-examples) for a full list (e.g., `exclude_path_pattern`, `name_pattern`, etc.)
 
 #### stat
 
-Use this collector to extract information from files and directories to create a [body file](https://wiki.sleuthkit.org/index.php?title=Body_file).
+Collect file and directory metadata to generate a body file, compatible with The Sleuth Kit (TSK). If the native `stat` tool is unavailable, UAC will use a Perl fallback [stat.pl](https://github.com/tclahr/stat.pl).
 
-Some systems do not have the ```stat``` tool available, but do have Perl (e.g., AIX). In this case, UAC will use a Perl-based version (```stat_pl```) to extract information from files and directories.
+**Required fields:**
 
-Required fields:
+- `path`
+- `output_directory`
+- `output_file`
 
-- [path](#path)
-- [output_directory](#output_directory)
-- [output_file](#output_file)
-
-Optional fields:
-
-- [condition](#condition)
-- [description](#description)
-- [exclude\_file\_system](#exclude_file_system)
-- [exclude\_name\_pattern](#exclude_name_pattern)
-- [exclude\_nologin\_users](#exclude_nologin_users)
-- [exclude\_path\_pattern](#exclude_path_pattern)
-- [file\_type](#file_type)
-- [ignore\_date\_range](#ignore_date_range)
-- [is\_file\_list](#is_file_list)
-- [max\_depth](#max_depth)
-- [max\_file\_size](#max_file_size)
-- [min\_file\_size](#min_file_size)
-- [name\_pattern](#name_pattern)
-- [no\_group](#no_group)
-- [no\_user](#no_user)
-- [output\_directory](#output_directory)
-- [output\_file](#output_file)
-- [path](#path)
-- [path\_pattern](#path_pattern)
-- [permissions](#permissions)
+**Optional fields:** Refer to the [field reference section](#field-reference-and-examples) for a full list (e.g., `exclude_path_pattern`, `name_pattern`, etc.)
 
 #### file
 
-Use this collector to collect files and directories (in their raw format). Collected files will be stored in the ```[root]``` directory within the output file.
+Copy raw files and directories to the output archive. Files are stored in the `[root]` directory inside the output file structure.
 
-![screenshot](img/artifacts_md_file_collector.png)
+**Required fields:**
 
-Required fields:
+- `path`
 
-- [path](#path)
+**Optional fields:** Refer to the [field reference section](#field-reference-and-examples) for a full list (e.g., `exclude_path_pattern`, `name_pattern`, etc.)
 
-Optional fields:
+Example output layout:
 
-- [condition](#condition)
-- [description](#description)
-- [exclude\_file\_system](#exclude_file_system)
-- [exclude\_name\_pattern](#exclude_name_pattern)
-- [exclude\_nologin\_users](#exclude_nologin_users)
-- [exclude\_path\_pattern](#exclude_path_pattern)
-- [file\_type](#file_type)
-- [ignore\_date\_range](#ignore_date_range)
-- [is\_file\_list](#is_file_list)
-- [max\_depth](#max_depth)
-- [max\_file\_size](#max_file_size)
-- [min\_file\_size](#min_file_size)
-- [name\_pattern](#name_pattern)
-- [no\_group](#no_group)
-- [no\_user](#no_user)
-- [path](#path)
-- [path\_pattern](#path_pattern)
-- [permissions](#permissions)
+```text
+[root]
+└── var
+    └── log
+        └── access.log
+```
 
-<!-- markdownlint-disable MD024 -->
-## command
-<!-- markdownlint-enable MD024 -->
+## Field Reference and Examples
+
+Each field used in artifact rules is described below, along with relevant examples.
+
+### command
 
 **Required by: command**
 
-**_Accepted values:_** _one or multiple shell commands_
-
-The command will be executed on the target system, and the output will be collected.
-
-You do not need to specify the path to the executable as it is expected to be in the PATH; only the executable's name and parameters are required.
-
-UAC can also run executables located in the ```bin``` directory. In this case, the path to the executable is still not required, as the ```bin``` directory is automatically added to PATH when UAC runs. For more information, refer to the ```bin/README.md``` file.
-
-The example below demonstrates how to collect the output from the ```ps -ef``` command:
+Defines the shell command to execute on the target system. The command is run using `eval`, and its stdout is captured in the output file. stderr is logged to `uac.log` unless redirected.
 
 ```yaml
 version: 1.0
@@ -286,65 +218,27 @@ artifacts:
     output_file: ps_-ef.txt
 ```
 
-Commands can become long and difficult to read. To execute a multi-line command, you need to enter it within a triple-quote string.
-
-The example below...
+Multi-line commands should be enclosed in triple quotes:
 
 ```yaml
-version: 1.0
-artifacts:
-  -
-    description: Collect the command name associated with a process.
-    supported_os: [linux]
-    collector: command
-    command: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
-    output_directory: /live_response/process
-    output_file: pids.txt
+command: """
+  for pid in /proc/[0-9]*; do 
+    echo ${pid} | sed -e 's:/proc/::';
+  done
+"""
 ```
 
-...can also be defined as:
+Use with timeout:
 
 ```yaml
-version: 1.0
-artifacts:
-  -
-    description: Collect the command name associated with a process.
-    supported_os: [linux]
-    collector: command
-    command: """
-      for pid in /proc/[0-9]*; do 
-        echo ${pid} | sed -e 's:/proc/::';
-      done
-      """
-    output_directory: /live_response/process
-    output_file: pids.txt
+command: timeout.sh 2 ps -ef
 ```
 
-You can also use the ```timeout.sh``` tool to limit the execution time of a command. Please refer to the [timeout.sh](https://github.com/tclahr/timeout.sh) command documentation for more information.
-
-The example below demonstrates how to collect the output from the ```ps -ef``` command with a timeout of 2 seconds:
-
-```yaml
-version: 1.0
-artifacts:
-  -
-  description: Report hardware information.
-  supported_os: [all]
-  collector: command
-  command: timeout.h 2 ps -ef
-  output_directory: /live_response/process
-  output_file: ps_-ef.txt
-```
-
-## compress_output_file
+### compress\_output\_file
 
 **Optional for: command**
 
-**_Accepted values:_** _true or false_
-
-If this option is set to ```true```, the output file will be compressed using ```gzip``` (when gzip is available).
-
-The example below will result in a compressed ```ps_-ef.txt.gz``` file.
+If `true`, compresses the output file using `gzip`.
 
 ```yaml
 version: 1.0
@@ -359,17 +253,11 @@ artifacts:
     compress_output_file: true
 ```
 
-Note that ```compress_output_file``` only applies to files specified in the ```output_file``` key-value pair.
+### condition
 
-## condition
+**Optional for: all collectors**
 
-**Optional for: command, file, find, hash and stat**
-
-**_Accepted values:_** _one or multiple shell commands_
-
-The collection will only run if the condition returns true. This feature is very useful for preventing UAC from executing numerous commands if a specific condition does not apply to the target system.
-
-In the example below, the command will only be executed if the condition ```ls /proc/$$``` returns true.
+Shell condition that must return success (exit 0) for the artifact to run.
 
 ```yaml
 version: 1.0
@@ -384,99 +272,49 @@ artifacts:
     output_file: running_processes_full_paths.txt
 ```
 
-You can prefix the command with an exclamation mark (!) to perform an 'if not' condition.
-
-In the example below, the command will only be executed if the condition ```ls /proc/$$``` returns false.
+Negation with `!`:
 
 ```yaml
-version: 1.0
-output_directory: /live_response/process
-artifacts:
-  -
-    description: Collect running processes executable path.
-    supported_os: [freebsd]
-    condition: ! ls /proc/$$
-    collector: command
-    command: ps -eo args | grep ^/ | awk '{print $1}' | sort -u
-    output_file: running_processes_full_paths.txt
+condition: ! ls /proc/$$
 ```
 
-The condition key-pair value can also be used as a global option, placed before the ```artifacts``` mapping. In this case, the collection will only proceed if the global condition returns true.
-
-In the example below, the data will only be collected if the global condition returns true.
+Global condition example. In this case, the collection will only proceed if the global condition returns true.
 
 ```yaml
-version: 1.0
-output_directory: /live_response/process
 condition: ls /proc/$$
 artifacts:
-  -
-    description: Hash running processes.
-    supported_os: [linux, netbsd]
-    collector: hash
-    path: /proc/[0-9]*/exe
-    output_file: hash_running_processes
-  -
-    description: Hash running processes.
-    supported_os: [freebsd]
-    collector: hash
-    path: /proc/[0-9]*/file
-    output_file: hash_running_processes
+  - description: Hash running processes
+    supported_os: [linux]
+    ...
 ```
 
-Conditions can become long and difficult to read. To execute a multi-line command, you need to enter it within a triple-quote string.
-
-The example below...
+Multi-line example:
 
 ```yaml
-version: 1.0
-output_directory: /live_response/process
-artifacts:
-  -
-    description: Collect running processes executable path.
-    supported_os: [freebsd]
-    condition: if ls /proc/$$ && ps; then true; else false; fi
-    collector: command
-    command: ls -l /proc/[0-9]*/file
-    output_file: running_processes_full_paths.txt
+condition: """
+  if ls /proc/$$ && ps; then
+    true
+  else
+    false
+  fi
+"""
 ```
 
-...can also be defined as:
-
-```yaml
-version: 1.0
-output_directory: /live_response/process
-artifacts:
-  -
-    description: Collect running processes executable path.
-    supported_os: [freebsd]
-    condition: """
-      if ls /proc/$$ && ps; then
-        true
-      else
-        false
-      fi
-    """
-    collector: command
-    command: ls -l /proc/[0-9]*/file
-    output_file: running_processes_full_paths.txt
-```
-
-## description
+### description
 
 **Required**
 
-Description of what will be collected. No line breaks are supported.
+Short text describing what the artifact does. Should not contain line breaks.
 
-## exclude_file_system
+```yaml
+description: List current processes
+```
 
-**Optional for: file, find, hash and stat**
+### exclude\_file\_system
 
-**_Accepted values:_** _array of file systems_
+**Optional for: file, find, hash, stat**
 
-Use this option to exclude file systems from the collection. UAC will retrieve the list of existing mountpoints (paths) at runtime and exclude them from the collection.
-
-The file system types that are supported depend on the target computer's running kernel. _Note that exclude_file_system will be ignored when path_pattern is used._
+Exclude file systems by type. UAC retrieves the list of existing mountpoints (paths) at runtime and excludes them from the collection.
 
 ```yaml
 version: 1.0
@@ -491,19 +329,13 @@ artifacts:
     output_file: exclude_procfs_nfs_devfs.txt
 ```
 
-## exclude_name_pattern
+_Note that exclude_file_system will be ignored when path_pattern is used._
 
-**Optional for: file, find, hash and stat**
+### exclude\_name\_pattern
 
-**_Accepted values:_** _array of paths_
+**Optional**
 
-Use this option to exclude files from the collection. This option works the same way as find's -name -prune option.
-
-Since the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so ```"a/b"``` will never match anything.
-
-Don't forget to enclose the pattern in double quotes. Use a backslash (\\) to escape double quotes and commas.
-
-As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
+Exclude files by name pattern. No slashes allowed in patterns.
 
 ```yaml
 version: 1.0
@@ -518,15 +350,11 @@ artifacts:
     output_file: etc_excluding_passwd_shadow.txt
 ```
 
-## exclude_nologin_users
+### exclude\_nologin\_users
 
-**Optional for: command, file, find, hash and stat**
+**Optional**
 
-**_Accepted values:_** _true or false_
-
-Use this option to search for artifacts only from users with a valid shell. Any user with no shell will be skipped from the collection.
-
-By default, UAC will always search for artifacts from all users.
+When `true`, artifacts are only collected for users with a valid login shell.
 
 ```yaml
 version: 1.0
@@ -541,17 +369,11 @@ artifacts:
     output_file: ls_-lRa_%user%.txt
 ```
 
-## exclude_path_pattern
+### exclude\_path\_pattern
 
-**Optional for: file, find, hash and stat**
+**Optional**
 
-**_Accepted values:_** _array of paths_
-
-Use this option to exclude paths from the collection. This option works the same way as find's -path -prune option.
-
-Don't forget to enclose the pattern in double quotes. Use a backslash (\\) to escape double quotes and commas.
-
-As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
+Exclude specific paths using shell-style patterns.
 
 ```yaml
 version: 1.0
@@ -566,25 +388,21 @@ artifacts:
     output_file: all_excluding_etc_var.txt
 ```
 
-## file_type
+### file\_type
 
-**Optional for: file, find, hash and stat**
+**Required when [max\_file\_size](#max_file_size) or [min\_file\_size](#min_file_size) is specified**
 
-**_Accepted values:_** _array of file types_
+Match files by type.
 
-Use this option to specify the type of file to search for, such as directories (d), regular files (f), symbolic links (l), and other file types. This option works the same way as find's -type option.
-
-File is of type:
-
-|Value|Description|
-|---|---|
-|f|regular file|
-|d|directory|
-|l|symbolic link|
-|p|named pipe (FIFO)|
-|s|socket|
-|b|block special|
-|c|character special|
+| Value | Description        |
+| ----- | ------------------ |
+| `f`   | Regular file       |
+| `d`   | Directory          |
+| `l`   | Symbolic link      |
+| `p`   | Named pipe (FIFO)  |
+| `s`   | Socket             |
+| `b`   | Block special file |
+| `c`   | Character special  |
 
 ```yaml
 version: 1.0
@@ -606,31 +424,19 @@ artifacts:
     output_file: directories_only.txt
 ```
 
-## foreach
+### foreach
 
 **Optional for: command**
 
-**_Accepted values:_** _one or multiple shell commands_
-
-The command will be executed, and its output lines will be used as input by the [command](#command) key-value pair.
+Run a command for each result returned by another command. Use `%line%` to substitute the line output.
 
 The logic behind it is:
 
-```shell
+```sh
 for (each line returned by foreach); do
   command
 done
 ```
-
-The ```%line%``` variable has to be used and will be replaced by each line returned by the execution of the ```foreach``` command at runtime. The ```%line%``` variable can also be used on ```output_directory``` and ```output_file``` key-value pairs.
-
-Let's suppose you need to collect container logs, and you don't know the container IDs. First, you need to retrieve all the IDs: ```docker container ps -all | sed 1d | awk '{print $1}'```
-
-The ```%line%``` variable will be replaced by each output line generated by the command (which are container IDs in the example above).
-
-This implies that if you have 10 containers, the command ```docker container logs %line%``` will be executed 10 times, once for each container ID.
-
-Example:
 
 ```yaml
 version: 1.0
@@ -645,53 +451,21 @@ artifacts:
     output_file: docker_container_logs_%line%.txt
 ```
 
-Commands can become long and difficult to read. To execute a multi-line command, you need to enter it within a triple-quote string.
-
-The example below...
+Multi-line:
 
 ```yaml
-version: 1.0
-artifacts:
-  -
-    description: Collect the command name associated with a process.
-    supported_os: [linux]
-    collector: command
-    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
-    command: cat /proc/%line%/comm
-    output_directory: /live_response/process/proc/%line%
-    output_file: comm.txt
+foreach: """
+  for pid in /proc/[0-9]*; do
+    echo ${pid} | sed -e 's:/proc/::'
+  done
+"""
 ```
 
-...can also be defined as:
+### ignore\_date\_range
 
-```yaml
-version: 1.0
-artifacts:
-  -
-    description: Collect the command name associated with a process.
-    supported_os: [linux]
-    collector: command
-    foreach: """
-      for pid in /proc/[0-9]*; do 
-        echo ${pid} | sed -e 's:/proc/::';
-      done
-      """
-    command: cat /proc/%line%/comm
-    output_directory: /live_response/process/proc/%line%
-    output_file: comm.txt
-```
+**Optional**
 
-## ignore_date_range
-
-**Optional for: file, find, hash and stat**
-
-**_Accepted values:_** _true or false_
-
-Use this option to collect files ignoring the date set using both --start-date and --end-date command line options.
-
-This is useful when you want to set a date range for your collection, but want to collect some files regardless of their last accessed, modified and changed dates.
-
-For example, search for all files and subdirectories from /etc regardless of their last accessed, modified and changed dates, even if a date range was set using --start-date and --end-date command line options.
+Ignore `--start-date` and `--end-date` arguments if `true`.
 
 ```yaml
 version: 1.0
@@ -706,13 +480,11 @@ artifacts:
     output_file: ignore_date_range.txt
 ```
 
-## is_file_list
+### is\_file\_list
 
-**Optional for: file, hash and stat**
+**Optional for: file, hash, stat**
 
-**_Accepted values:_** _true or false_
-
-If set to true, the ```path``` option will refer to a file list containing one path per line. This is useful when you need to hash/stat/collect files based on a file list.
+Interpret `path` as a file that contains a list of file paths.
 
 ```yaml
 artifacts:
@@ -725,13 +497,11 @@ artifacts:
     output_file: hash_my_file_list.txt
 ```
 
-## max_depth
+### max\_depth
 
-**Optional for: file, find, hash and stat**
+**Optional**
 
-**_Accepted values:_** _non-negative integer_
-
-Descend at most levels (a non-negative integer) levels of directories below the starting-point. Using 0 means only applying the tests and actions to the starting-points themselves. This option works the same way as find's -maxdepth option.
+Limit recursion depth in directories.
 
 ```yaml
 version: 1.0
@@ -746,13 +516,11 @@ artifacts:
     output_file: max_5_levels.txt
 ```
 
-## max_file_size
+### max\_file\_size
 
-**Optional for: file, find, hash and stat**
+**Optional**
 
-**_Accepted values:_** _non-negative integer_
-
-The maximum size of a file to search (in bytes). Any files bigger than this will be ignored. This option works the same way as find's -size option.
+Only include files within the specified size limits (in bytes).
 
 ```yaml
 version: 1.0
@@ -767,13 +535,11 @@ artifacts:
     output_file: smaller_than.txt
 ```
 
-## min_file_size
+### min\_file\_size
 
-**Optional for: file, find, hash and stat**
+**Optional**
 
-**_Accepted values:_** _non-negative integer_
-
-The minimum size of a file to search (in bytes). Any files smaller than this will be ignored. This option works the same way as find's -size option.
+Only include files within the specified size limits (in bytes).
 
 ```yaml
 version: 1.0
@@ -788,17 +554,11 @@ artifacts:
     output_file: bigger_than.txt
 ```
 
-## modifier
+### modifier
 
-**Optional**
+**Optional (global)**
 
-**_Accepted values:_** _true or false_
-
-The collection will only execute if the value is set to `true` and the `--enable-modifiers` switch is included in the command line. This feature helps identify artifacts that modify the current system state after execution.
-
-Please note that this is a global property that must be set before defining the artifacts mapping.
-
-In the example below, the artifact will only be executed if --enable-modifiers switch is included in the command line.
+Mark artifact as a modifier (may alter system state). Must be enabled via `--enable-modifiers`.
 
 ```yaml
 version: 1.0
@@ -819,20 +579,13 @@ artifacts:
     foreach: mount | awk 'BEGIN { FS=" on "; } { print $2; }' | grep "/proc/[0-9]" | awk '{print $1}'
     command: umount "%line%"
     output_file: umount_%line%.txt
-  
 ```
 
-## name_pattern
+### name\_pattern
 
-**Optional for: file, find, hash and stat**
+**Optional**
 
-**_Accepted values:_** _array of paths_
-
-Return the full file path if one of the name_pattern values matches the file name. This option works the same way as find's -name option.
-
-Since the leading directories are removed, the file names considered for a match with name_pattern will never include a slash, so ```"a/b"``` will never match anything.
-
-Don't forget to enclose the pattern in double quotes. Use a backslash (\\) to escape double quotes and commas.
+Match files by name. Wildcards and regex supported.
 
 ```yaml
 version: 1.0
@@ -847,41 +600,11 @@ artifacts:
     output_file: wtmp_btmp.txt
 ```
 
-As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
+### no\_group
 
-```yaml
-version: 1.0
-output_directory: /live_response/system
-artifacts:
-  -
-    description: Search all HTML and TXT files.
-    supported_os: [all]
-    collector: find
-    path: /
-    name_pattern: ["*.html", "*.txt"]
-    output_file: all_html_txt.txt
-```
+**Optional**
 
-```yaml
-version: 1.0
-output_directory: /live_response/system
-artifacts:
-  -
-    description: Search all .log and .Log (capital L) files.
-    supported_os: [all]
-    collector: find
-    path: /var/log
-    name_pattern: ["*.[Ll]og"]
-    output_file: all_log_files.txt
-```
-
-## no_group
-
-**Optional for: file, find, hash and stat**
-
-**_Accepted values:_** _true or false_
-
-Use this option to search for files that have a group ID (GID) that no longer exists in the system. This means that the group associated with the file has been deleted or is missing from /etc/group.
+Match files with unknown GID.
 
 ```yaml
 version: 1.0
@@ -897,13 +620,11 @@ artifacts:
     output_file: group_name_unknown_files.txt
 ```
 
-## no_user
+### no\_user
 
-**Optional for: file, find, hash and stat**
+**Optional**
 
-**_Accepted values:_** _true or false_
-
-Use this option to search for files that have a user ID (UID) that no longer exists in the system. This means the file was owned by a user that has been deleted or is missing from /etc/passwd.
+Match files with unknown UID.
 
 ```yaml
 version: 1.0
@@ -919,15 +640,11 @@ artifacts:
     output_file: user_name_unknown_files.txt
 ```
 
-## output_directory
+### output\_directory
 
-**Required by: command, find, hash and stat**
+**Required for: command, find, hash, stat**
 
-**_Accepted values:_** _path_
-
-Specify the directory within the output file where the collected data will be stored.
-
-In the example below, ```ls_tmp.txt``` will stored in ```my_custom_artifacts``` directory within the output file.
+Specifies the internal output path in the output file.
 
 ```yaml
 version: 1.0
@@ -945,13 +662,11 @@ Output file contents:
 
 ![screenshot](img/artifacts_md_output_directory.png)
 
-The output_directory key-pair value can also be used as a global option, placed before the ```artifacts``` mapping. In this case, any rules that do not have a specified ```output_directory``` will use the global setting.
-
-In the example below, ```ps.txt``` will be stored in ```live_response/process``` directory, but ```ps_auxwww.txt``` will be stored in ```my_global_dir``` directory.
+Can be defined globally:
 
 ```yaml
 version: 1.0
-output_directory: /my_global_dir
+output_directory: /my_custom_artifacts
 artifacts:
   -
     description: Report a snapshot of the current processes.
@@ -968,13 +683,11 @@ artifacts:
     output_file: ps_auxwww.txt
 ```
 
-## output_file
+### output\_file
 
-**Optional for: command, find, hash and stat**
+**Optional**
 
-**_Accepted values:_** _file name_
-
-Specify the output file name where the collected data will be stored. _Note that if the output file name is longer than 255 characters, UAC will truncate the file name to 245 characters and add the prefix (trunc)._
+Defines the file name inside `output_directory`. UAC appends to this file.
 
 ```yaml
 version: 1.0
@@ -988,9 +701,9 @@ artifacts:
     output_file: ps.txt
 ```
 
-If no ```output_file``` is specified, all data in the ```output_directory``` will be archived into the output file.
+If no `output_file` is specified, the output of the `command` will be stored in the `output_directory`.
 
-In the example below, ```avml.raw``` will be placed in the ```memory_dump``` directory.
+In the example below, `avml.raw` will be placed in the `memory_dump` directory.
 
 ```yaml
 version: 1.0
@@ -1003,39 +716,11 @@ artifacts:
     command: avml avml.raw
 ```
 
-UAC never overwrites output files; data is always appended.
+### path
 
-In the example below, both ```ps``` and ```ps auxwww``` outputs will be stored in the same ```same_file.txt``` file.
+**Required for: find, file, hash, stat**
 
-```yaml
-version: 1.0
-output_directory: /live_response/process
-artifacts:
-  -
-    description: Report a snapshot of the current processes.
-    supported_os: [all]
-    collector: command
-    command: ps
-    output_file: same_file.txt
-  -
-    description: Report a snapshot of the current processes.
-    supported_os: [all]
-    collector: command
-    command: ps auxwww
-    output_file: same_file.txt
-```
-
-## path
-
-**Required by: find, file, hash and stat**
-
-**_Accepted values:_** _path_
-
-The starting point from where the artifact will be searched for. UAC will recurse into subdirectories unless otherwise prevented by ```max_depth``` option.
-
-As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
-
-Every artifact should be treated as if it originates from the / (root) mount point. The root mount point will be replaced by UAC at runtime if a mount point is defined with the ```--mount-point``` command-line option.
+Specifies the starting point for searching or collecting files. The mount point set by `--mount-point` is automatically prepended to the path.
 
 ```yaml
 version: 1.0
@@ -1049,21 +734,7 @@ artifacts:
     output_file: list_of_cmdline_files.txt
 ```
 
-Remember to use quotation marks when specifying paths with spaces or special characters.
-
-```yaml
-version: 1.0
-output_directory: /live_response/system
-artifacts:
-  -
-    description: Search for TCC.db file.
-    supported_os: [all]
-    collector: find
-    path: /Library/"Application Support"/com.apple.TCC/TCC.db
-    output_file: path_with_spaces.txt
-```
-
-Multiple paths can also be specified.
+Multiple paths example:
 
 ```yaml
 version: 1.0
@@ -1080,24 +751,26 @@ artifacts:
     output_file: user_name_unknown_files.txt
 ```
 
-## path_pattern
+Use quotation marks when specifying paths with spaces or special characters.
 
-**Optional for: find, file, hash and stat**
+```yaml
+version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search for TCC.db file.
+    supported_os: [all]
+    collector: find
+    path: /Library/"Application Support"/com.apple.TCC/TCC.db
+    output_file: path_with_spaces.txt
+```
 
-**_Accepted values:_** _array of paths_
+### path\_pattern
 
-Return the full file path if one of the path_pattern values matches the file path. This option works the same way as find's -path option.
+**Optional**
 
-Don't forget to enclose the pattern in double quotes. Use a backslash (\\) to escape double quotes and commas.
+Match full paths with patterns.
 
-As UAC uses ```find``` tool to search for artifacts, wildcards and regex patterns are also supported here.
-
-The example below searches for Discord's Cache directory anywhere within the user's home directory. Hits would be as follows:
-<!-- markdownlint-disable MD033 -->
-- /home/user/.config<span style="color: red;">/discord/Cache/</span>00bcecbd2455cb22_0
-- /home/user/.var/app/com.discordapp.Discord/config<span style="color: red;">/discord/Cache/</span>index
-- /home/user/snap/discord/current/.config<span style="color: red;">/discord/Cache/</span>ac0fa118bdaaa62e_0
-<!-- markdownlint-enable MD033 -->
 ```yaml
 version: 1.0
 output_directory: /live_response/system
@@ -1111,19 +784,11 @@ artifacts:
     output_file: discord_cache.txt
 ```
 
-## permissions
+### permissions
 
-**Optional for: find, file, hash and stat**
+**Optional**
 
-**_Accepted values:_** _array of permissions_
-
-Use this option to search for files and directories based on their permissions. This option works the same way as find's -perm option.
-
-Please note that symbolic mode is not supported (e.g: -g=w).
-
-Permissions can be used as follows:
-
-- File's permission bits are exactly ```mode``` (octal).
+Filter files by permission bits. Symbolic mode is not supported (e.g: -g=w).
 
 ```yaml
 version: 1.0
@@ -1135,35 +800,15 @@ artifacts:
     collector: find
     path: /
     file_type: [f]
-    permissions: [755, 644]
+    permissions: [755, -4000]
     output_file: all_755_and_644_permissions.txt
 ```
 
-- All of the permission bits ```mode``` (octal) are set for the file.
-
-```yaml
-version: 1.0
-output_directory: /live_response/system
-artifacts:
-  -
-    description: Search for files that have SUID bit set.
-    supported_os: [all]
-    collector: find
-    path: /
-    file_type: [f]
-    permissions: [-4000]
-    output_file: suid_files.txt
-```
-
-## redirect_stderr_to_stdout
+### redirect\_stderr\_to\_stdout
 
 **Optional for: command**
 
-**_Accepted values:_** _true or false_
-
-If this option is set to ```true```, all error messages (stderr) will be redirected to the standard output (stdout), which is the [output file](#output_file).
-
-In the example below, both the command output (stdout) and the error messages (stderr) will be stored in the ```lsof_-nPl.txt``` file.
+Redirect `stderr` to the output file.
 
 ```yaml
 version: 1.0
@@ -1178,31 +823,24 @@ artifacts:
     redirect_stderr_to_stdout: true
 ```
 
-## supported_os
+### supported\_os
 
 **Required**
 
-**_Accepted values:_** _array of operating systems_
+Specifies supported operating systems.
 
-List of operating systems that the artifact applies to. Use ```all``` whether the artifact applies to all operating systems.
-
-The currently supported operating systems are (case sensitive):
-
-| Value | Description |
-| ----- | ----------- |
-| aix | Artifact applies to AIX systems. |
-| esxi | Artifact applies to ESXi systems. |
-| freebsd | Artifact applies to FreeBSD systems. |
-| linux | Artifact applies to Linux systems. |
-| macos | Artifact applies to macOS systems. |
-| netbsd | Artifact applies to NetBSD systems. |
-| netscaler | Artifact applies to NetScaler systems. |
-| openbsd | Artifact applies to OpenBSD systems. |
-| solaris | Artifact applies to Solaris systems. |
-
-Examples:
-
-Artifact applies to all supported operating systems:
+| Value       | Description            |
+| ----------- | ---------------------- |
+| `all`       | Applies to all systems |
+| `aix`       | IBM AIX                |
+| `esxi`      | VMware ESXi            |
+| `freebsd`   | FreeBSD                |
+| `linux`     | Linux                  |
+| `macos`     | macOS                  |
+| `netbsd`    | NetBSD                 |
+| `netscaler` | NetScaler              |
+| `openbsd`   | OpenBSD                |
+| `solaris`   | Solaris                |
 
 ```yaml
 version: 1.0
@@ -1212,13 +850,6 @@ artifacts:
     supported_os: [all]
     collector: hash
     ... # additional options depending on the collector
-```
-
-Artifact applies to Aix, FreeBSD and Solaris systems only:
-
-```yaml
-version: 1.0
-artifacts:
   -
     description: Artifact description.
     supported_os: [aix, freebsd, solaris]
@@ -1226,8 +857,9 @@ artifacts:
     ... # additional options depending on the collector
 ```
 
-## version
+## Additional Recommendations
 
-**Required**
-
-The artifact file version. It needs to be updated every time the YAML file is changed.
+- Enclose paths with spaces or special characters in quotes.
+- Use triple-quoted strings (`"""`) for multi-line commands or conditions.
+- Apply runtime variables like `%user%`, `%line%`, and `%uac_directory%` where applicable.
+- Maintain consistent indentation and formatting in your YAML.

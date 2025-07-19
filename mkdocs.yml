@@ -6,10 +6,10 @@ nav:
   - 'DEFINITIONS':
     - 'Profiles': profiles.md
     - 'Artifacts': artifacts.md
-    - 'Exposed Variables': exposed_vars.md
-    - 'Exposed Functions': exposed_functions.md
+    - 'Runtime Variables': runtime_variables.md
+    - 'Helper Functions': helper_functions.md
   - 'CONFIG':
-    - 'uac.conf': config_file.md
+    - 'Config Files': config_file.md
   - 'OUTPUT':
     - 'Output Formats': output_formats.md
   - 'LOG':
