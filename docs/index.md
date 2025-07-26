@@ -527,7 +527,7 @@ Examples:
 
 #### --aws-s3-presigned-url
 
-This allows for using a pre-signed URL to upload the output file to AWS S3. Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+This allows for using a pre-signed URL to upload the output file to AWS S3. Make sure you generate a PUT URL for this to work. Use single quotes to enclose the URL.
 
 Example:
 
@@ -537,7 +537,7 @@ Example:
 
 #### --aws-s3-presigned-url-log-file
 
-This allows for using a pre-signed URL to upload the acquisition log file to AWS S3. Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.
+This allows for using a pre-signed URL to upload the acquisition log file to AWS S3. Make sure you generate a PUT URL for this to work. Use single quotes to enclose the URL.
 
 Example:
 
@@ -547,7 +547,7 @@ Example:
 
 #### --azure-storage-sas-url
 
-This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage. It is strongly recommended to use single quotes to enclose the URL.
+This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage. Use single quotes to enclose the URL.
 
 Example:
 
@@ -557,7 +557,7 @@ Example:
 
 #### --azure-storage-sas-url-log-file
 
-This allows for using a shared access signature (SAS) URL to upload the acquisition log to Azure Storage. It is strongly recommended to use single quotes to enclose the URL.
+This allows for using a shared access signature (SAS) URL to upload the acquisition log to Azure Storage. Use single quotes to enclose the URL.
 
 Example:
 
