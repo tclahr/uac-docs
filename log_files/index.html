@@ -51,16 +51,14 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../artifacts/">Artifacts</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../multi_line_command/">Multi-line Command</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_vars/">Exposed Variables</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_functions/">Exposed Functions</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">CONFIG</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">uac.conf</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">Config Files</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OUTPUT</span></p>
@@ -84,6 +82,11 @@
                   <li class="toctree-l1"><a class="reference internal" href="../parsing_uac_output/">Parsing UAC output</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MISC</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing_lab/">Testing Lab</a>
                   </li>
               </ul>
       </div>
@@ -112,7 +115,7 @@
               
                 <h1 id="log-files">Log files</h1>
 <h2 id="uaclog">uac.log</h2>
-<p>The uac.log file contains a timestamp along with the message level and message displayed. This is the primary log that serves to preserve the actions UAC took while operating. The <code>--debug</code> option affects the level of detail that ends up in this log. When the collection finishes, this log is also archived within the output file.</p>
+<p>The <code>uac.log</code> file contains timestamped messages that include a log level and a corresponding message. This is the primary log used to track the actions performed by UAC during its execution. The level of detail in this log is affected by the <code>--debug</code> option. When data collection is complete, this log is also included in the final output archive.</p>
 <table>
 <thead>
 <tr>
@@ -135,11 +138,11 @@
 </tr>
 <tr>
 <td>CMD</td>
-<td>Commands executed and their stderr messages</td>
+<td>Executed commands and their stderr output</td>
 </tr>
 </tbody>
 </table>
-<p>At the beginning of the file, UAC will record important information about the options used during execution, operating system, system architecture, mount point, configuration loaded from uac.conf file, tools and parameters available on the target system, etc (INF level).</p>
+<p>At the beginning of the file, UAC logs important information such as the command-line options used, operating system, system architecture, mount point, loaded configuration (from <code>uac.conf</code>), available tools, and other environment details. These entries are logged at the <code>INF</code> level.</p>
 <p>Example:</p>
 <pre><code class="language-text">2024-05-23 18:07:12 -0300 INF Unix-like Artifacts Collector 
 2024-05-23 18:07:12 -0300 INF UAC directory: /tmp/uac
@@ -174,7 +177,7 @@
 2024-05-23 18:07:12 -0300 INF find -ctime support: true
 2024-05-23 18:07:12 -0300 INF find -print0 support: true
 </code></pre>
-<p>When the collection starts, UAC will record each command executed on the target system using the CMD level.</p>
+<p>Once the collection begins, UAC logs each executed command on the target system using the <code>CMD</code> level.</p>
 <pre><code class="language-text">2024-05-23 18:07:12 -0300 INF Artifacts collection started
 2024-05-23 18:07:12 -0300 INF Parsing live_response/process/ps.yaml
 2024-05-23 18:07:12 -0300 CMD ps
@@ -187,12 +190,12 @@
 2024-05-23 18:07:12 -0300 CMD ps -eo pid,user,lstart,args
 2024-05-23 18:07:12 -0300 CMD ps -eo pid,user,cgroup
 </code></pre>
-<p>If the executed command generates an error message (stderr), it will be recorded on the same line following the <code>2&gt;</code> identifier.</p>
+<p>If a command produces an error (stderr), it will be logged on the same line, following the <code>2&gt;</code> identifier.</p>
 <pre><code class="language-text">2024-05-23 18:07:44 -0300 CMD uptime -s 2&gt; uptime: invalid option -- 's'/nTry 'uptime --help' for more information.
 2024-05-23 18:08:04 -0300 CMD fdisk -l 2&gt; fdisk: cannot open /dev/vda: Permission denied
 </code></pre>
 <h2 id="acquisition-log">Acquisition log</h2>
-<p>The log file generated by UAC after execution provides detailed information about the acquisition process, along with the calculated hash values (e.g., MD5, SHA-1) for the output file to ensure data integrity.</p>
+<p>After UAC completes execution, it generates a log file with detailed information about the acquisition process. This includes the case metadata and calculated cryptographic hashes (e.g., MD5 and SHA-1) for the output archive to verify data integrity.</p>
 <p>Example:</p>
 <pre><code class="language-text">Created by UAC (Unix-like Artifacts Collector)
 

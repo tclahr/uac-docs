@@ -54,21 +54,27 @@
     <li class="toctree-l2"><a class="reference internal" href="#description">description</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#artifacts">artifacts</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#globbing-and-wildcards">Globbing and Wildcards</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#excluding-artifacts">Excluding Artifacts</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#using-external-artifacts">Using External Artifacts</a>
+    </li>
+        </ul>
     </li>
     </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../artifacts/">Artifacts</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../multi_line_command/">Multi-line Command</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_vars/">Exposed Variables</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_functions/">Exposed Functions</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">CONFIG</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">uac.conf</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">Config Files</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OUTPUT</span></p>
@@ -86,6 +92,11 @@
                   <li class="toctree-l1"><a class="reference internal" href="../parsing_uac_output/">Parsing UAC output</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MISC</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing_lab/">Testing Lab</a>
                   </li>
               </ul>
       </div>
@@ -113,9 +124,9 @@
             <div class="section" itemprop="articleBody">
               
                 <!-- markdownlint-disable MD036 -->
-<h1 id="profiles-definition">Profiles definition</h1>
-<p>Profiles are used to define the list of artifacts that will be collected during the execution.</p>
-<p>A profile has two mandatory fields at the top of the file, followed by a set of artifacts that will be used during the collection.</p>
+<h1 id="profile-definition">Profile Definition</h1>
+<p>Profiles define the list of artifacts to be collected during execution.</p>
+<p>Each profile file includes two mandatory fields at the top, followed by a set of artifacts that guide the collection process.</p>
 <p>Example:</p>
 <pre><code class="language-yaml">name: myprofile
 description: My profile.
@@ -127,28 +138,30 @@ artifacts:
 </code></pre>
 <h2 id="name">name</h2>
 <p><strong>Required</strong></p>
-<p>The profile name. This is the name UAC uses to find the correct profile during the script execution.</p>
+<p>The profile name. UAC uses this name to locate and apply the correct profile during script execution.</p>
 <h2 id="description">description</h2>
 <p><strong>Required</strong></p>
-<p>Describes the purpose of the profile as a whole. It should contain all the details about what kind of collection will be performed. No line breaks are supported.</p>
+<p>A brief summary describing the overall purpose of the profile. It should specify the type of collection being performed. Line breaks are not supported.</p>
 <h2 id="artifacts">artifacts</h2>
 <p><strong>Required</strong></p>
-<p>This is the set of artifacts that will be used during the collection. All available artifacts are located in the <code>artifacts</code> directory.</p>
-<p>Artifacts will be executed in the order they are listed in the profile file.</p>
-<p>The example below shows a profile that will collect the <code>live_response/process/ps.yaml</code> artifact first, followed by the <code>live_response/process/lsof.yaml</code> artifact.</p>
+<p>The list of artifacts to be collected. All available artifacts are stored in the <code>artifacts</code> directory.</p>
+<p>Artifacts are collected in the order they are listed.</p>
+<p>The following example collects <code>live_response/process/ps.yaml</code> first, then <code>live_response/process/lsof.yaml</code>:</p>
 <pre><code class="language-yaml">name: myprofile
 description: My profile.
 artifacts:
   - live_response/process/ps.yaml
   - live_response/process/lsof.yaml
 </code></pre>
-<p>Wildcards and regex patterns (globbing) are also supported for referring to artifacts. The example below shows a profile that will collect all artifacts located in the <code>live_response/process</code> directory (including subdirectories). In this case, the artifacts will be processed in alphabetical order.</p>
+<h3 id="globbing-and-wildcards">Globbing and Wildcards</h3>
+<p>Wildcards and glob-style patterns are supported. The next example collects all artifacts in the <code>live_response/process</code> directory and its subdirectories, in alphabetical order:</p>
 <pre><code class="language-yaml">name: myprofile
 description: My profile.
 artifacts:
   - live_response/process/*
 </code></pre>
-<p>Artifacts can be excluded from the collection by prefixing the artifact path with an exclamation mark (!). The example below shows a profile that will collect all artifacts in the <code>files</code> directory (including subdirectories), except for <code>files/logs/additional_logs.yaml</code> and all artifacts in the <code>files/applications</code> directory.</p>
+<h3 id="excluding-artifacts">Excluding Artifacts</h3>
+<p>Artifacts can be excluded using an exclamation mark (<code>!</code>) prefix. The example below collects everything from <code>files/</code>, except for <code>files/logs/additional_logs.yaml</code> and all items in <code>files/applications/</code>:</p>
 <pre><code class="language-yaml">name: myprofile
 description: My profile.
 artifacts:
@@ -156,13 +169,16 @@ artifacts:
   - !files/logs/additional_logs.yaml
   - !files/applications/*
 </code></pre>
-<p>Artifacts located outside the artifacts directory can also be used by specifying their full path. The example below shows a profile that will first collect all artifacts in the <code>live_response/process</code> directory (including subdirectories), followed by a custom artifact located in the <code>/my_artifacts_dir</code> directory. Remember to use the full path for artifacts outside the <code>artifacts</code> directory.</p>
+<h3 id="using-external-artifacts">Using External Artifacts</h3>
+<p>Artifacts located outside the default <code>artifacts</code> directory can also be included by specifying their full path.</p>
+<p>Example:</p>
 <pre><code class="language-yaml">name: myprofile
 description: My profile.
 artifacts:
   - live_response/process/*
   - /my_artifacts_dir/my_artifact.yaml
 </code></pre>
+<p>Ensure the full path is used when referencing external artifacts.</p>
               
             </div>
           </div><footer>

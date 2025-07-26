@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/exposed_vars/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/runtime_variables/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Exposed Variables - UAC Documentation</title>
+    <title>Runtime Variables - UAC Documentation</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Exposed Variables";
-        var mkdocs_page_input_path = "exposed_vars.md";
-        var mkdocs_page_url = "/tclahr/uac/exposed_vars/";
+        var mkdocs_page_name = "Runtime Variables";
+        var mkdocs_page_input_path = "runtime_variables.md";
+        var mkdocs_page_url = "/tclahr/uac/runtime_variables/";
       </script>
     
     <!--[if lt IE 9]>
@@ -51,18 +51,22 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../artifacts/">Artifacts</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../multi_line_command/">Multi-line Command</a>
-                  </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Exposed Variables</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Runtime Variables</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#command-line-variables">Command Line Variables</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#general-variables">General Variables</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#user-based-variables">User-Based Variables</a>
+    </li>
     </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_functions/">Exposed Functions</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">CONFIG</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">uac.conf</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">Config Files</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OUTPUT</span></p>
@@ -82,6 +86,11 @@
                   <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">MISC</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing_lab/">Testing Lab</a>
+                  </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -97,7 +106,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">DEFINITIONS</li>
-      <li class="breadcrumb-item active">Exposed Variables</li>
+      <li class="breadcrumb-item active">Runtime Variables</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -106,67 +115,92 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="exposed-variables">Exposed variables</h1>
-<p>Some variables can be used and will be replaced by UAC at runtime:</p>
+                <h1 id="runtime-variables">Runtime Variables</h1>
+<p>UAC supports a set of special runtime variables that are dynamically replaced during execution.</p>
+<h2 id="command-line-variables">Command Line Variables</h2>
+<p>The following variables can be used in conjunction with these command-line options:</p>
+<ul>
+<li><a href="../#-o---output-base-name">--output-base-name</a></li>
+<li><a href="../#--aws-s3-presigned-url">--aws-s3-presigned-url</a></li>
+<li><a href="../#--aws-s3-presigned-url-log-file">--aws-s3-presigned-url-log-file</a></li>
+<li><a href="../#--azure-storage-sas-url">--azure-storage-sas-url</a></li>
+<li><a href="../#--azure-storage-sas-url-log-file">--azure-storage-sas-url-log-file</a></li>
+</ul>
 <table>
 <thead>
 <tr>
 <th>Variable</th>
-<th>Replacement</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>%uac_directory%</td>
-<td>Full path to where uac was run from.</td>
+<td><code>%hostname%</code></td>
+<td>The hostname of the target system.</td>
 </tr>
 <tr>
-<td>%mount_point%</td>
-<td>Full path of the target mount point.</td>
+<td><code>%os%</code></td>
+<td>The operating system of the target system.</td>
 </tr>
 <tr>
-<td>%temp_directory%</td>
-<td>Full path to the temp directory used by UAC to store temp data. Data in this directory will be discarded and not be part of the output file.</td>
-</tr>
-<tr>
-<td>%start_date%</td>
-<td>Date specified by --start-date command line option.</td>
-</tr>
-<tr>
-<td>%start_date_epoch%</td>
-<td>Epoch converted date specified by --start-date.</td>
-</tr>
-<tr>
-<td>%end_date%</td>
-<td>Date specified by --end-date command line option.</td>
-</tr>
-<tr>
-<td>%end_date_epoch%</td>
-<td>Epoch converted date specified by --end-date.</td>
-</tr>
-</tbody>
-</table>
-<p>The following two variables will initiate a loop, causing UAC will run the command for all users.</p>
-<table>
-<thead>
-<tr>
-<th>Variable</th>
-<th>Replacement</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>%user%</td>
-<td>Username of each user.</td>
-</tr>
-<tr>
-<td>%user_home%</td>
-<td>User's home directory path.</td>
+<td><code>%timestamp%</code></td>
+<td>The Unix timestamp indicating when the data collection started.</td>
 </tr>
 </tbody>
 </table>
 <p>Examples:</p>
-<p>%uac_directory% is useful when you need to add custom files to use during the collection.</p>
+<p>Use variables to create custom output file names:</p>
+<pre><code class="language-shell">./uac -a files/browsers/\* --output-base-name &quot;uac-%hostname%-%os%-browsers-only-%timestamp%&quot; /tmp
+</code></pre>
+<p>Use variables to upload custom file names during presigned URL transfers:</p>
+<pre><code class="language-shell">./uac -a files/browsers/\* --output-base-name &quot;uac-%hostname%-%os%-browsers-only-%timestamp%&quot; --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-%hostname%-%os%-browsers-only-%timestamp%.tar.gz?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' /tmp
+</code></pre>
+<h2 id="general-variables">General Variables</h2>
+<p>These variables can be used within artifact definitions to make your collection scripts more flexible and adaptable.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%uac_directory%</code></td>
+<td>Full path to the directory where UAC was executed.</td>
+</tr>
+<tr>
+<td><code>%mount_point%</code></td>
+<td>Full path to the target mount point.</td>
+</tr>
+<tr>
+<td><code>%temp_directory%</code></td>
+<td>Full path to the temporary directory used by UAC to store transient data. Files in this directory are <strong>not</strong> included in the final output archive.</td>
+</tr>
+<tr>
+<td><code>%non_local_mount_points%</code></td>
+<td>Pipe-separated list of non-local mount points, based on the <code>exclude_file_system</code> setting in the <code>uac.conf</code> file.</td>
+</tr>
+<tr>
+<td><code>%start_date%</code></td>
+<td>Date provided via the <code>--start-date</code> command-line option.</td>
+</tr>
+<tr>
+<td><code>%start_date_epoch%</code></td>
+<td>The Unix timestamp corresponding to the <code>--start-date</code> value.</td>
+</tr>
+<tr>
+<td><code>%end_date%</code></td>
+<td>Date provided via the <code>--end-date</code> command-line option.</td>
+</tr>
+<tr>
+<td><code>%end_date_epoch%</code></td>
+<td>The Unix timestamp corresponding to the <code>--end-date</code> value.</td>
+</tr>
+</tbody>
+</table>
+<p>Examples:</p>
+<p>Use <code>%uac_directory%</code> to reference internal files. This example hashes files listed in a custom file located in the UAC directory:</p>
 <pre><code class="language-yaml">version: 1.0
 artifacts:
   -
@@ -178,28 +212,29 @@ artifacts:
     output_directory: /live_response/system
     output_file: my_hash_list.txt
 </code></pre>
+<p>Use <code>%mount_point%</code> to access files on the target system. This example lists all files in the <code>/Applications</code> directory of the target macOS system:</p>
 <pre><code class="language-yaml">version: 1.0
 output_directory: /live_response/packages
 artifacts:
   -
-    description: Display all applications located at /Applications directory.
+    description: Display all applications located in the /Applications directory.
     supported_os: [macos]
     collector: command
     command: ls -l -a /%mount_point%/Applications
     output_file: ls_-l_-a_Applications.txt
 </code></pre>
-<p>In the example below, the file <code>hash_running_processes_full_paths.txt</code> will not be part of the output file as it was stored in the <code>%temp_directory%</code>.</p>
+<p>Use <code>%temp_directory%</code> for temporary data. Files stored in the <code>%temp_directory%</code> are <strong>excluded</strong> from the final output archive. This is useful for temporary or intermediate data:</p>
 <pre><code class="language-yaml">version: 1.0
 artifacts:
   -
-    description: Collect running processes executable path.
+    description: Collect executable paths of running processes.
     supported_os: [esxi]
     collector: command
     command: ps -c | awk '{print $4}' | sort -u | grep &quot;^/&quot;
     output_directory: /%temp_directory%/process
     output_file: hash_running_processes_full_paths.txt
   -
-    description: Hash running processes.
+    description: Hash running process executables.
     supported_os: [esxi, freebsd, macos, openbsd]
     collector: hash
     path: /%temp_directory%/process/hash_running_processes_full_paths.txt
@@ -207,7 +242,28 @@ artifacts:
     output_directory: /live_response/hash_executables
     output_file: hash_running_processes
 </code></pre>
-<p>In the example below, UAC will collect the file patterns specified in name_pattern from any user's home folder.</p>
+<h2 id="user-based-variables">User-Based Variables</h2>
+<p>These variables trigger a loop in which UAC runs the command once for <strong>each user</strong> detected on the system.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%user%</code></td>
+<td>Username of the current user in the loop.</td>
+</tr>
+<tr>
+<td><code>%user_home%</code></td>
+<td>Full path to the current user's home directory.</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<p>Use <code>%user_home%</code> to collect files for each user. This example collects shell history and related files from each user's home directory:</p>
 <pre><code class="language-yaml">version: 1.0
 artifacts:
   -
@@ -221,8 +277,8 @@ artifacts:
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../multi_line_command/" class="btn btn-neutral float-left" title="Multi-line Command"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../exposed_functions/" class="btn btn-neutral float-right" title="Exposed Functions">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../artifacts/" class="btn btn-neutral float-left" title="Artifacts"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../helper_functions/" class="btn btn-neutral float-right" title="Helper Functions">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -245,10 +301,10 @@ artifacts:
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../multi_line_command/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../artifacts/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../exposed_functions/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../helper_functions/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

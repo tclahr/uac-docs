@@ -51,16 +51,14 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../artifacts/">Artifacts</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../multi_line_command/">Multi-line Command</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_vars/">Exposed Variables</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_functions/">Exposed Functions</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">CONFIG</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">uac.conf</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">Config Files</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OUTPUT</span></p>
@@ -79,7 +77,14 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="#">Using UAC with CrowdStrike Falcon Real Time Response</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#running-uac-in-the-background">Running UAC in the background</a>
+    </li>
     </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MISC</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing_lab/">Testing Lab</a>
                   </li>
               </ul>
       </div>
@@ -107,32 +112,44 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="using-uac-with-crowdstrike-falcon-real-time-response">Using UAC with CrowdStrike Falcon Real Time Response</h1>
-<p>With CrowdStrike Falcon Real Time Response (RTR), analysts can remotely access and interact with endpoints in real-time, gaining instant visibility into the system and collecting valuable forensic data by deploying files and running custom scripts.</p>
-<p>In the instructions below the UAC package (i.e. uac-3.0.0.tar.gz) was stored in the CrowdStrike cloud. This way it can be deployed even if an endpoint is isolated via Network Containment feature.</p>
-<p>1. Start by creating a temporary working directory on the live endpoint, then change the working directory to it.</p>
+<p>CrowdStrike Falcon Real Time Response (RTR) enables analysts to remotely access and interact with endpoints in real time. This allows for immediate visibility into a system and the ability to collect valuable forensic data by deploying files and executing custom scripts.</p>
+<p>In the instructions below, the UAC package (e.g., <code>uac-3.0.0.tar.gz</code>) is assumed to be stored in the CrowdStrike cloud. This allows deployment even if the endpoint is isolated using the Network Containment feature.</p>
+<p>1. Create a temporary working directory</p>
+<p>Create a temporary directory on the live endpoint and navigate into it:</p>
 <pre><code class="language-shell">/&gt; mkdir /tmp/uac
 /&gt; cd /tmp/uac
 </code></pre>
-<p>2. Deploy and uncompress the UAC package.</p>
+<p>2. Deploy and extract the UAC package</p>
+<p>Deploy the UAC archive and extract its contents:</p>
 <pre><code class="language-shell">/tmp/uac&gt; put &quot;uac-3.0.0.tar.gz&quot;
 /tmp/uac&gt; runscript -Raw=```tar -zxf uac-3.0.0.tar.gz``` -Timeout=60
 </code></pre>
-<p>3. Change the working directory and run the collection. Note that CrowdStrike Falcon RTR session times out after 10 minutes. Make sure to keep the Falcon RTR session active.</p>
+<p>3. Run the collection</p>
+<p>Change to the UAC directory and start the data collection. Note that Falcon RTR sessions timeout after 10 minutes, so you may need to interact with the session to keep it alive.</p>
 <pre><code class="language-shell">/tmp/uac&gt; cd uac-3.0.0
 /tmp/uac/uac-3.0.0&gt; runscript -Raw=```./uac -p ir_triage /tmp/uac``` -Timeout=9999
 </code></pre>
-<p>4. Upload the output and log files to the CrowdStrike cloud using the <code>get</code> command.</p>
+<p>4. Upload output and log files</p>
+<p>Use the <code>get</code> command to upload the resulting archive and log files to the CrowdStrike cloud:</p>
 <pre><code class="language-shell">/tmp/uac/uac-3.0.0&gt; get &quot;/tmp/uac/uac-hostname-os-20240707120101.tar.gz&quot;
 /tmp/uac/uac-3.0.0&gt; get &quot;/tmp/uac/uac-hostname-os-20240707120101.log&quot;
 </code></pre>
 <blockquote>
-<p>Note: The maximum file size for <code>get</code> is 4 GB. When needed, split the files using the <code>split</code> command.</p>
+<p><strong>Note:</strong> The maximum file size supported by <code>get</code> is 4 GB. If necessary, use the <code>split</code> command to divide larger files.</p>
 </blockquote>
+<h2 id="running-uac-in-the-background">Running UAC in the background</h2>
+<p>To run UAC in the background and prevent it from being interrupted by session timeouts, use the following command. This command launches UAC using <code>bash -c</code> and appends its output to a log file:</p>
+<pre><code class="language-shell">/tmp/uac/uac-3.0.0&gt; runscript -Raw=```bash -c &quot;./uac -p ir_triage -v /tmp/uac &amp;&quot; &gt;&gt;/tmp/uac/uac.run.log``` -Timeout=9999
+</code></pre>
+<p>You can monitor the progress using:</p>
+<pre><code class="language-shell">/tmp/uac/uac-3.0.0&gt; cat /tmp/uac/uac.run.log
+</code></pre>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../parsing_uac_output/" class="btn btn-neutral float-left" title="Parsing UAC output"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../testing_lab/" class="btn btn-neutral float-right" title="Testing Lab">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -157,6 +174,8 @@
     
       <span><a href="../parsing_uac_output/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
+    
+      <span><a href="../testing_lab/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

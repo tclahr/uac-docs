@@ -51,16 +51,14 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../artifacts/">Artifacts</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../multi_line_command/">Multi-line Command</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_vars/">Exposed Variables</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_functions/">Exposed Functions</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">CONFIG</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">uac.conf</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">Config Files</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OUTPUT</span></p>
@@ -88,6 +86,11 @@
                   <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">MISC</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing_lab/">Testing Lab</a>
+                  </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -113,24 +116,27 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="output-formats">Output formats</h1>
-<p>Currently, UAC can collect and store data in 4 different formats: none, tar and zip. The default output format is <code>tar</code>. You can define the output using the <a href="../#output-arguments">--output-format</a> command line option.</p>
+<p>UAC currently supports collecting and storing data in three formats: <code>none</code>, <code>tar</code>, and <code>zip</code>. The default output format is <code>tar</code>.</p>
+<p>You can specify the desired format using the <code>--output-format</code> command-line option.</p>
 <h2 id="none">none</h2>
-<p>Collected data will not be archived or compressed. Instead, it will be copied directly to an output directory. This is useful in cases where the system has no archiving tool available.</p>
+<p>Collected data will not be archived or compressed. Instead, it will be copied directly into the specified output directory.</p>
+<p>This format is useful when no archiving tools are available on the target system.</p>
 <pre><code class="language-shell">./uac -p ir_triage /tmp --output-format none
 </code></pre>
 <h2 id="tar">tar</h2>
-<p>Collected data will be archived (and compressed) into a tar file. This is the default output format.</p>
+<p>Collected data will be archived and compressed into a <code>.tar</code> file. This is the default format used by UAC. Compression will be enabled if <code>gzip</code> is available in the target system.</p>
 <pre><code class="language-shell">./uac -p ir_triage /tmp
 </code></pre>
 <h2 id="zip">zip</h2>
-<p>Collected data will be archived and compressed into a zip file. UAC can also encrypt the contents of the zip archive using a password defined by the <a href="../#output-arguments">--output-password</a> command line option.</p>
+<p>Collected data will be archived and compressed into a <code>.zip</code> file.</p>
+<p>Optionally, UAC can encrypt the ZIP archive using a password provided via the <code>--output-password</code> option.</p>
 <pre><code class="language-shell">./uac -p ir_triage /tmp --output-format zip
 </code></pre>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../config_file/" class="btn btn-neutral float-left" title="uac.conf"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../config_file/" class="btn btn-neutral float-left" title="Config Files"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../log_files/" class="btn btn-neutral float-right" title="Log Files">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 

@@ -142,7 +142,7 @@
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#-sftp-identity-file">--sftp-identity-file</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#-sftp-ssh-options">--sftp-ssh-options</a>
+    <li class="toctree-l4"><a class="reference internal" href="#-sftp-ssh-option">--sftp-ssh-option</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#-s3-provider">--s3-provider</a>
     </li>
@@ -213,16 +213,14 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="artifacts/">Artifacts</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="multi_line_command/">Multi-line Command</a>
+                  <li class="toctree-l1"><a class="reference internal" href="runtime_variables/">Runtime Variables</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="exposed_vars/">Exposed Variables</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="exposed_functions/">Exposed Functions</a>
+                  <li class="toctree-l1"><a class="reference internal" href="helper_functions/">Helper Functions</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">CONFIG</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="config_file/">uac.conf</a>
+                  <li class="toctree-l1"><a class="reference internal" href="config_file/">Config Files</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OUTPUT</span></p>
@@ -240,6 +238,11 @@
                   <li class="toctree-l1"><a class="reference internal" href="parsing_uac_output/">Parsing UAC output</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MISC</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="testing_lab/">Testing Lab</a>
                   </li>
               </ul>
       </div>
@@ -285,7 +288,7 @@
 <li>🔒 Adheres to the order of volatility to ensure reliable data acquisition.</li>
 <li>🛠 Designed for diverse environments, including IoT devices and NAS systems.</li>
 </ul>
-<p>The source code is available on the <a href="https://github.com/tclahr/uac">project</a> page](<a href="https://github.com/tclahr/uac">https://github.com/tclahr/uac</a>).</p>
+<p>The source code is available on the <a href="https://github.com/tclahr/uac">project</a> page.</p>
 <p><img alt="uac_collection" src="img/uac_3_collection.gif" /></p>
 <h2 id="main-features">Main features</h2>
 <ul>
@@ -382,7 +385,7 @@ Output Arguments:
 
 Collection Arguments:
   -c, --config      FILE
-                    Load the config from a specific file.
+                    Load config from a specific file.
   -m, --mount-point MOUNT_POINT
                     Specify the mount point (default: /).
   -s, --operating-system OPERATING_SYSTEM
@@ -430,8 +433,9 @@ Remote Transfer Arguments:
       --sftp-identity-file FILE
                     File from which the identity (private key) for public key
                     authentication is read.
-      --sftp-ssh-options
-                    Comma separated ssh options.
+      --sftp-ssh-option
+                    Allow setting SSH options as key=value pairs.
+                    Can be used multiple times to set multiple options.
       --s3-provider
                     Transfer the output and log files to S3 service.
                     Options: amazon, google, ibm
@@ -488,10 +492,12 @@ Validation Arguments:
 <pre><code class="language-shell">./uac -p /home/user/my_custom_profile.yaml DESTINATION_DIR
 </code></pre>
 <h4 id="-a-artifacts">-a, --artifacts</h4>
-<p>Specify the artifacts to be used during the collection. Artifacts are used to define parameters that will be used by a <a href="artifacts/#collector">collector</a> to collect data. They are YAML files located in the <code>artifacts</code> directory.</p>
+<p>Specify the artifacts to be used during the collection. Artifacts define the parameters used by UAC collectors to gather data from the target system. They are YAML files located in the <code>artifacts</code> directory.</p>
 <p>Feel free to utilize multiple artifacts to craft a highly tailored collection. Artifacts will be processed in the sequence they are listed in the command line. It's important to note that duplicate artifacts will be gathered just once.</p>
-<p>You have the option to specify multiple artifacts simultaneously by either separating them with a comma (without spaces) or by using -a/--artifacts multiple times.</p>
-<p>You can exclude individual artifacts by prefixing them with an exclamation mark (!). Note that in many shells, special characters like ! and * require escaping with a backslash.</p>
+<p>You have the option to specify multiple artifacts simultaneously by either separating them with a comma (without spaces) or by using <code>-a</code>/<code>--artifacts</code> multiple times.</p>
+<p>Wildcards and glob-style patterns are supported.</p>
+<p>Artifacts can be excluded using an exclamation mark (<code>!</code>) prefix.</p>
+<p>Note that in many shells, special characters like ! and * require escaping with a backslash.</p>
 <p>Use <code>--artifacts list</code> to list all available artifacts.</p>
 <p>Use <code>--artifacts list [OPERATING_SYSTEM]</code> to list all available artifacts for a specific operating system.</p>
 <p>Examples:</p>
@@ -517,51 +523,95 @@ Validation Arguments:
 <pre><code class="language-shell">./uac -a ./artifacts/files/browsers/chrome.yaml -o uac-chrome-only-%hostname%-%timestamp% DESTINATION
 </code></pre>
 <h4 id="-f-output-format">-f, --output-format</h4>
-<p>Specify the output format. Compression will be automatically enabled if <code>gzip</code> is available.</p>
-<p>Options: none, tar, zip (Default is <code>tar</code>)</p>
+<p>Specify the output format.</p>
 <ul>
 <li>
-<p><strong>none</strong>: Collected data will not be archived or compressed. Instead, it will be copied directly to an output directory.</p>
+<p><strong>none</strong>: Collected data will not be archived or compressed. Instead, it will be copied directly into the specified output directory.</p>
 </li>
 <li>
-<p><strong>tar</strong>: Collected data will be archived (and compressed) into a tar file.</p>
+<p><strong>tar</strong>: Collected data will be archived and compressed into a <code>.tar</code> file. This is the default format used by UAC. Compression will be enabled if <code>gzip</code> is available in the target system.</p>
 </li>
 <li>
-<p><strong>zip</strong>: Collected data will be archived and compressed into a zip file.</p>
+<p><strong>zip</strong>: Collected data will be archived and compressed into a <code>.zip</code> file.</p>
 </li>
 </ul>
 <p>Examples:</p>
 <pre><code class="language-shell">./uac -p full --output-format none DESTINATION
 </code></pre>
 <h4 id="-p-output-password">-P, --output-password</h4>
-<p>Specify the password to be used to encrypt the contents of the archive file. Applies to zip output format only.</p>
+<p>Specify the password to be used to encrypt the contents of the archive file. Applies to the <code>zip</code> output format only.</p>
 <p>Examples:</p>
 <pre><code class="language-shell">./uac -p ir_triage --output-format zip --output-password &quot;infected&quot; DESTINATION
 </code></pre>
 <h3 id="collection-arguments">Collection Arguments</h3>
 <h4 id="-c-config">-c, --config</h4>
-<p>Load the config from a specific file.</p>
+<p>Load config from a specific file to <strong>override</strong> the default and the operating system specific configuration.</p>
 <p>Examples:</p>
 <pre><code class="language-shell">./uac -p full -c /home/user/my_custom_uac_config.conf DESTINATION
 </code></pre>
 <h4 id="-m-mount-point">-m, --mount-point</h4>
-<p>The mount point where the files will be collected from. Default is <code>/</code></p>
+<p>The mount point where the files will be collected from. Default is <code>/</code>.</p>
 <p>Examples:</p>
 <pre><code class="language-shell">./uac -p offline -m /mnt/sda1 DESTINATION
 </code></pre>
 <h4 id="-s-operating-system">-s, --operating-system</h4>
 <p>This option allows you to force UAC to collect artifacts for a specific operating system. By default, UAC automatically attempts to identify the target operating system.</p>
-<p>Options: aix, esxi, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aix</code></td>
+<td>IBM AIX</td>
+</tr>
+<tr>
+<td><code>esxi</code></td>
+<td>VMware ESXi</td>
+</tr>
+<tr>
+<td><code>freebsd</code></td>
+<td>FreeBSD</td>
+</tr>
+<tr>
+<td><code>linux</code></td>
+<td>Linux</td>
+</tr>
+<tr>
+<td><code>macos</code></td>
+<td>macOS</td>
+</tr>
+<tr>
+<td><code>netbsd</code></td>
+<td>NetBSD</td>
+</tr>
+<tr>
+<td><code>netscaler</code></td>
+<td>NetScaler</td>
+</tr>
+<tr>
+<td><code>openbsd</code></td>
+<td>OpenBSD</td>
+</tr>
+<tr>
+<td><code>solaris</code></td>
+<td>Solaris</td>
+</tr>
+</tbody>
+</table>
 <h4 id="-h-hash-collected">-H, --hash-collected</h4>
-<p>Enabling this option will cause UAC to hash all collected files and save the results in a hash file. To accomplish this, all collected data must first be copied to the destination directory. Therefore, ensure you have twice the free space available on the system: once for the collected data and once for the output file. Additionally, note that this process will increase the running time.</p>
+<p>Enabling this option will cause UAC to hash all collected files and save the results in a hash file. To accomplish this, all collected data must be copied to the destination directory first. Therefore, ensure you have twice the free space available on the system: once for the collected data and once for the output file. Additionally, note that this process will increase the collection running time.</p>
 <h4 id="-u-run-as-non-root">-u, --run-as-non-root</h4>
-<p>Disable root user check. Note that artifact collection may be limited.</p>
+<p>Disable <code>root</code> user check. Note that artifact collection may be limited.</p>
 <h4 id="-enable-modifiers">--enable-modifiers</h4>
 <p>Enabling this option will cause UAC to run artifacts that change the current system state. Please refer to the <a href="#modifiers">modifiers</a> section for more information.</p>
 <h4 id="-hostname">--hostname</h4>
-<p>Specify the hostname to be used as part of the output name when %hostname% is used in --output-base-name. By default, UAC automatically attempts to identify the target system's hostname.</p>
+<p>Specify the hostname to be used as the runtime variable <code>%hostname%</code>. By default, UAC automatically attempts to identify the target system's hostname.</p>
 <h4 id="-temp-dir">--temp-dir</h4>
-<p>The location where the <code>uac-data.tmp</code> directory will be created. This directory stores collected, temporary and debugging data during execution. By default, <code>uac-data.tmp</code> will be created within the DESTINATION directory.</p>
+<p>The location where the <code>uac-data.tmp</code> directory will be created. This directory stores collected, temporary and debugging data during execution. By default, <code>uac-data.tmp</code> will be created within the <code>DESTINATION</code> directory.</p>
 <h3 id="filter-arguments">Filter Arguments</h3>
 <h4 id="-start-date">--start-date</h4>
 <p>Collect only the files that were last modified, accessed, or changed after a specific date. The date must be in the format: YYYY-MM-DD.</p>
@@ -588,14 +638,35 @@ Validation Arguments:
 <p>SFTP server port. Default is <code>22</code>.</p>
 <h4 id="-sftp-identity-file">--sftp-identity-file</h4>
 <p>File from which the identity (private key) for public-key authentication is read.</p>
-<h4 id="-sftp-ssh-options">--sftp-ssh-options</h4>
-<p>Comma-separated options that modify the behavior of the SSH client. These options are usually specified in the SSH client configuration file, but this argument allows you to specify them directly on the command line.</p>
+<h4 id="-sftp-ssh-option">--sftp-ssh-option</h4>
+<p>Allow setting SSH options as key=value pairs. Can be used multiple times to set multiple options.</p>
 <p>Examples:</p>
-<pre><code class="language-shell">./uac -p ir_triage --sftp &quot;user@host:/remote_dir&quot; --sftp-ssh-options &quot;StrictHostKeyChecking=no,UserKnownHostsFile=/dev/null&quot; DESTINATION
+<pre><code class="language-shell">./uac -p ir_triage --sftp &quot;user@host:/remote_dir&quot; --sftp-ssh-option &quot;StrictHostKeyChecking=no&quot; --sftp-ssh-option &quot;UserKnownHostsFile=/dev/null&quot; DESTINATION
 </code></pre>
 <h4 id="-s3-provider">--s3-provider</h4>
 <p>Transfer the output and log file to a S3 bucket/cloud object storage.</p>
-<p>Options: amazon, google, ibm</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>amazon</code></td>
+<td>Amazon Cloud</td>
+</tr>
+<tr>
+<td><code>google</code></td>
+<td>Google Cloud</td>
+</tr>
+<tr>
+<td><code>ibm</code></td>
+<td>IBM Cloud</td>
+</tr>
+</tbody>
+</table>
 <h4 id="-s3-region">--s3-region</h4>
 <p>S3 region name.</p>
 <p>Default: us-east-1 (amazon), us-south (ibm)</p>
@@ -655,21 +726,21 @@ Validation Arguments:
 </code></pre>
 <h2 id="using-your-binary-files">Using your binary files</h2>
 <p>In most cases, the executables should be placed in the <code>[UAC_DIRECTORY]/bin</code> directory, along with any additional support files it needs to run.</p>
-<p>For example, if you have an artifact that uses an executable named 'my_script.sh', you should place this binary in the <code>[UAC_DIRECTORY]/bin</code> directory.</p>
+<p>For example, if you have an artifact that uses an executable named <code>my_script.sh</code>, you should place this binary in the <code>[UAC_DIRECTORY]/bin</code> directory.</p>
 <p>In the case where you have executables with the same name, but for multiple operating systems, they should be placed in the <code>[UAC_DIRECTORY]/bin/[OS]</code> directory.</p>
-<p>For example, if you have an artifact that uses an executable named 'lsof', but you have two binary files, one for Linux and one for FreeBSD, you should place the binaries in the <code>[UAC_DIRECTORY]/bin/linux</code> and <code>[UAC_DIRECTORY]/bin/freebsd</code> directories. Note that the operating system name must be in lowercase.</p>
-<p>In the case where you have executables that can be run on multiple operating systems, they should be placed in the <code>[UAC_DIRECTORY]/bin/[OS1_OS2_OS3]</code> directory. Note that you can have multiple operating systems separated by an underscore '_'.</p>
+<p>For example, if you have an artifact that uses an executable named <code>lsof</code>, but you have two binary files, one for Linux and one for FreeBSD, you should place the binaries in the <code>[UAC_DIRECTORY]/bin/linux</code> and <code>[UAC_DIRECTORY]/bin/freebsd</code> directories. Note that the operating system name must be in lowercase.</p>
+<p>In the case where you have executables that can be run on multiple operating systems, they should be placed in the <code>[UAC_DIRECTORY]/bin/[OS1_OS2_OS3]</code> directory. Note that you can have multiple operating systems separated by an underscore <code>_</code>.</p>
 <p>For example, if you have an artifact that uses an executable named 'netstat' that runs on both Linux and ESXi systems, you should place the binary either in the <code>[UAC_DIRECTORY]/bin/linux_esxi</code> directory or place the binary in the <code>[UAC_DIRECTORY]/bin/linux</code> and <code>[UAC_DIRECTORY]/bin/esxi</code> directories.</p>
 <p>In the case where you have executables with the same name, but for multiple operating systems and multiple architectures, they should be placed in the <code>[UAC_DIRECTORY]/bin/[OS]/[ARCH]</code> directory.</p>
-<p>For example, if you have an artifact that uses an executable named 'ss', but you have binary files for Linux arm64 and ppc64, FreeBSD i386, and Solaris x86_64 and sparc64, you should place the binary files in the <code>[UAC_DIRECTORY]/bin/linux/arm64</code>, <code>[UAC_DIRECTORY]/bin/linux/ppc64</code>, <code>[UAC_DIRECTORY]/bin/freebsd/i386</code>, <code>[UAC_DIRECTORY]/bin/solaris/x86_64</code> and <code>[UAC_DIRECTORY]/bin/solaris/sparc64</code> directories.</p>
+<p>For example, if you have an artifact that uses an executable named <code>ss</code>, but you have binary files for Linux arm64 and ppc64, FreeBSD i386, and Solaris x86_64 and sparc64, you should place the binary files in the <code>[UAC_DIRECTORY]/bin/linux/arm64</code>, <code>[UAC_DIRECTORY]/bin/linux/ppc64</code>, <code>[UAC_DIRECTORY]/bin/freebsd/i386</code>, <code>[UAC_DIRECTORY]/bin/solaris/x86_64</code> and <code>[UAC_DIRECTORY]/bin/solaris/sparc64</code> directories.</p>
 <h2 id="modifiers">Modifiers</h2>
 <p>Modifiers are artifacts that include commands that will alter the current system state when executed on the target system. Please refer to the <a href="artifacts/#modifier">modifier</a> property page for more information.</p>
 <h2 id="troubleshooting-and-support">Troubleshooting and support</h2>
 <h3 id="debug-mode">Debug mode</h3>
-<p>Debug mode <code>--debug</code> may be useful if you are trying to find the source of an error. Enabling debug mode will prevent the removal of the <code>uac-data.tmp</code> directory in the destination directory. This directory stores collected, temporary and debugging data during execution.</p>
+<p>Debug mode <code>--debug</code> may be useful if you are trying to find the source of an error. Enabling debug mode will prevent the removal of the <code>uac-data.tmp</code> directory from the destination directory. This directory stores collected, temporary and debugging data during execution.</p>
 <h3 id="trace-messages">Trace messages</h3>
 <p>Using <code>--trace</code> enables command tracing by printing each command before execution, which helps in debugging and understanding the script's flow. It is recommended to redirect the stderr (shell tracing messages) to a text file.</p>
-<p>Consider the following command to enable command tracing and storing them in /tmp/uac-tracing.log file.</p>
+<p>Consider the following command to enable command tracing and storing them in <code>/tmp/uac-tracing.log</code> file.</p>
 <pre><code class="language-shell">./uac -p ir_triage --trace DESTINATION 2&gt;/tmp/uac-tracing.log
 </code></pre>
 <h3 id="file-an-issue-on-github">File an issue on Github</h3>

@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/multi_line_command/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/helper_functions/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Multi-line Command - UAC Documentation</title>
+    <title>Helper Functions - UAC Documentation</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Multi-line Command";
-        var mkdocs_page_input_path = "multi_line_command.md";
-        var mkdocs_page_url = "/tclahr/uac/multi_line_command/";
+        var mkdocs_page_name = "Helper Functions";
+        var mkdocs_page_input_path = "helper_functions.md";
+        var mkdocs_page_url = "/tclahr/uac/helper_functions/";
       </script>
     
     <!--[if lt IE 9]>
@@ -51,18 +51,18 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../artifacts/">Artifacts</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Multi-line Command</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Helper Functions</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#command_exists">command_exists</a>
+    </li>
     </ul>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_vars/">Exposed Variables</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_functions/">Exposed Functions</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">CONFIG</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">uac.conf</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">Config Files</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OUTPUT</span></p>
@@ -82,6 +82,11 @@
                   <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">MISC</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing_lab/">Testing Lab</a>
+                  </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -97,7 +102,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">DEFINITIONS</li>
-      <li class="breadcrumb-item active">Multi-line Command</li>
+      <li class="breadcrumb-item active">Helper Functions</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -106,43 +111,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="multi-line-command">Multi-line command</h1>
-<p>Commands can become long and difficult to read. To execute a multi-line command, you need to enter it within a triple-quote string.</p>
-<p>Multi-line commands are supported in the <code>command</code>, <code>foreach</code> and <code>condition</code> fields.</p>
-<p>The example below...</p>
+                <h1 id="helper-functions">Helper functions</h1>
+<p>Some helper functions are available for use during artifact collection. These functions can enhance your collection logic by introducing conditional behavior based on the target system's state.</p>
+<h2 id="command_exists">command_exists</h2>
+<p>Checks whether a given command is available on the target system. Returns <code>true</code> if the command exists.</p>
+<ul>
+<li><strong>Parameter:</strong> The command name must be provided as a string (enclosed in quotes).</li>
+<li><strong>Returns:</strong> Boolean (<code>true</code> if the command exists)</li>
+</ul>
+<p>Example:</p>
+<p>The following artifact will only collect block device information if the <code>lsblk</code> command is available:</p>
 <pre><code class="language-yaml">version: 1.0
+condition: command_exists &quot;lsblk&quot;
+output_directory: /live_response/storage
 artifacts:
   -
-    description: Collect the command name associated with a process.
+    description: List block devices.
     supported_os: [linux]
     collector: command
-    foreach: for pid in /proc/[0-9]*; do echo ${pid} | sed -e 's:/proc/::'; done
-    command: cat /proc/%line%/comm
-    output_directory: /live_response/process/proc/%line%
-    output_file: comm.txt
-</code></pre>
-<p>...can also be defined as:</p>
-<pre><code class="language-yaml">version: 1.0
-artifacts:
-  -
-    description: Collect the command name associated with a process.
-    supported_os: [linux]
-    collector: command
-    foreach: &quot;&quot;&quot;
-      for pid in /proc/[0-9]*; do 
-        echo ${pid} | sed -e 's:/proc/::';
-      done
-      &quot;&quot;&quot;
-    command: cat /proc/%line%/comm
-    output_directory: /live_response/process/proc/%line%
-    output_file: comm.txt
+    command: lsblk -l
+    output_file: lsblk_-l.txt
 </code></pre>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../artifacts/" class="btn btn-neutral float-left" title="Artifacts"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../exposed_vars/" class="btn btn-neutral float-right" title="Exposed Variables">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../runtime_variables/" class="btn btn-neutral float-left" title="Runtime Variables"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../config_file/" class="btn btn-neutral float-right" title="Config Files">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -165,10 +160,10 @@ artifacts:
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../artifacts/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../runtime_variables/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../exposed_vars/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../config_file/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

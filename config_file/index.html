@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/config_file/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>uac.conf - UAC Documentation</title>
+    <title>Config Files - UAC Documentation</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,7 +13,7 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "uac.conf";
+        var mkdocs_page_name = "Config Files";
         var mkdocs_page_input_path = "config_file.md";
         var mkdocs_page_url = "/tclahr/uac/config_file/";
       </script>
@@ -51,16 +51,14 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../artifacts/">Artifacts</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../multi_line_command/">Multi-line Command</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_vars/">Exposed Variables</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_functions/">Exposed Functions</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">CONFIG</span></p>
               <ul class="current">
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">uac.conf</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Config Files</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#exclude_path_pattern">exclude_path_pattern</a>
     </li>
@@ -72,7 +70,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#max_depth">max_depth</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#enable_find_mtime-enable_find_atime-and-enable_find_ctime">enable_find_mtime, enable_find_atime and enable_find_ctime</a>
+    <li class="toctree-l2"><a class="reference internal" href="#enable_find_mtime-enable_find_atime-enable_find_ctime">enable_find_mtime / enable_find_atime / enable_find_ctime</a>
     </li>
     </ul>
                   </li>
@@ -94,6 +92,11 @@
                   <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
                   </li>
               </ul>
+              <p class="caption"><span class="caption-text">MISC</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing_lab/">Testing Lab</a>
+                  </li>
+              </ul>
       </div>
     </div>
     </nav>
@@ -109,7 +112,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">CONFIG</li>
-      <li class="breadcrumb-item active">uac.conf</li>
+      <li class="breadcrumb-item active">Config Files</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -118,47 +121,47 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="uacconf">uac.conf</h1>
-<p>UAC configuration file is located in the config directory.</p>
+                <h1 id="config-files">Config files</h1>
+<p>UAC configuration files are located in the <code>config</code> directory.</p>
+<p>The default configuration file is <code>uac.conf</code>, which will be automatically loaded by UAC during execution.</p>
+<p>You can create files named after the operating system in the <code>config</code> directory to <strong>override</strong> the default configuration for a specific operating system. For example: <code>aix.conf</code> for AIX, <code>linux.conf</code> for Linux, <code>macos.conf</code> for macOS, etc.</p>
+<p>You can also load an external configuration file using the <code>-c/--config</code> option to <strong>override</strong> the default and the operating system specific configuration.</p>
 <h2 id="exclude_path_pattern">exclude_path_pattern</h2>
-<p>Directory/path patterns will be excluded from find, file, hash and stat collectors. As find tool is used to search for files and directories, the path patterns below need to be compatible with -path option. Please check find man pages for more information.</p>
-<p>Example:</p>
+<p>Exclude specific paths using shell-style patterns.</p>
 <pre><code class="language-ini">exclude_path_pattern: [&quot;/etc&quot;, &quot;/usr/*/local&quot;, &quot;*/log&quot;]
 </code></pre>
 <h2 id="exclude_name_pattern">exclude_name_pattern</h2>
-<p>File name patterns will be excluded from find, file, hash and stat collectors. As find tool is used to search for files and directories, the file name patterns below need to be compatible with -name option. Please check find man pages for more information.</p>
-<p>Example:</p>
-<pre><code class="language-ini">exclude_name_pattern: [&quot;/etc/passwd&quot;, &quot;*.txt&quot;, &quot;*.gz.*&quot;, &quot;*.[Ll][Oo][Gg]&quot;]
+<p>Exclude files by name pattern. No slashes allowed in patterns.</p>
+<pre><code class="language-ini">exclude_name_pattern: [&quot;*.txt&quot;, &quot;*.gz.*&quot;, &quot;*.[Ll][Oo][Gg]&quot;]
 </code></pre>
 <h2 id="exclude_file_system">exclude_file_system</h2>
-<p>File systems that will be excluded from find, file, hash and stat collectors. UAC will retrieve the list of existing mount-points (paths) and add them to the exclusion list automatically. The file system types that are supported depend on the target computer's running kernel.</p>
-<p>Example:</p>
+<p>Exclude file systems by type. UAC retrieves the list of existing mountpoints (paths) at runtime and excludes them from the collection.</p>
 <pre><code class="language-ini">exclude_file_system: [9p, afs, nfs, nfs4, rpc_pipefs, smbfs, sysfs]
 </code></pre>
 <h2 id="hash_algorithm">hash_algorithm</h2>
-<p>Hash algorithms will be used by the hash collector.</p>
-<p>Accepted values: md5, sha1 and sha256</p>
-<p>Example:</p>
+<p>Specifies the hash algorithms to be used by the <code>hash</code> collector.</p>
+<p>Accepted values: <code>md5</code>, <code>sha1</code>, and <code>sha256</code></p>
 <pre><code class="language-ini">hash_algorithm: [md5, sha1]
 </code></pre>
 <h2 id="max_depth">max_depth</h2>
-<p>The find tool is used by UAC to search for files and directories within a directory hierarchy. The -maxdepth parameter is used to limit the depth of the search within the directory tree. By default, when you run the find command without specifying -maxdepth, it searches recursively through all subdirectories of the specified directory.</p>
-<p>When you specify the -maxdepth parameter followed by a number, it restricts the depth of the search to that number of levels below the starting point in the directory hierarchy. This option is used by all find-based UAC collectors such as find, file, hash and stat. Performance Consideration: Specifying a value here can improve performance by limiting the scope of the search.</p>
-<p>Accepted values: a positive integer or 0 for disabling it (making UAC search recursively through all subdirectories of the specified directory).</p>
-<p>Example:</p>
+<p>Limit recursion depth in directories.</p>
+<p>Accepted values: A positive integer or <code>0</code> to disable depth limiting.</p>
+<p><strong>Performance consideration</strong>: Specifying a value here can improve performance by reducing the search scope.</p>
 <pre><code class="language-ini">max_depth: 10
 </code></pre>
-<h2 id="enable_find_mtime-enable_find_atime-and-enable_find_ctime">enable_find_mtime, enable_find_atime and enable_find_ctime</h2>
-<p>Limit data collection based on the date range provided. UAC uses find's -mtime, -atime and -ctime options to limit the data
-collection based on the file/directory last accessed, last modified and last status changed dates.</p>
-<p>Accepted values: true or false</p>
-<p>Examples:</p>
-<p>To collect only files in which data was last modified OR status last changed within the given date range, please set enable_find_mtime and enable_find_ctime to true and enable_find_atime to false.</p>
+<h2 id="enable_find_mtime-enable_find_atime-enable_find_ctime">enable_find_mtime / enable_find_atime / enable_find_ctime</h2>
+<p>Enable or disable filters based on file timestamps using find options:</p>
+<p>-mtime: last modified</p>
+<p>-atime: last accessed</p>
+<p>-ctime: last status change</p>
+<p>These options can be used to restrict collection to specific date ranges.</p>
+<p>Accepted values: true, false</p>
+<p>To collect only files whose data was last modified <strong>or</strong> whose status was last changed within the specified date range, set <code>enable_find_mtime</code> and <code>enable_find_ctime</code> to <code>true</code>, and <code>enable_find_atime</code> to <code>false</code>:</p>
 <pre><code class="language-ini">enable_find_mtime: true
 enable_find_atime: false
 enable_find_ctime: true
 </code></pre>
-<p>To collect only files whose last status was changed within the date range, please set enable_find_ctime to true, and enable_find_atime and enable_find_mtime to false.</p>
+<p>To collect only files whose status was last changed within the specified date range, set only <code>enable_find_ctime</code> to <code>true</code>:</p>
 <pre><code class="language-ini">enable_find_mtime: false
 enable_find_atime: false
 enable_find_ctime: true
@@ -167,7 +170,7 @@ enable_find_ctime: true
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../exposed_functions/" class="btn btn-neutral float-left" title="Exposed Functions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../helper_functions/" class="btn btn-neutral float-left" title="Helper Functions"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../output_formats/" class="btn btn-neutral float-right" title="Output Formats">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -191,7 +194,7 @@ enable_find_ctime: true
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../exposed_functions/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../helper_functions/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../output_formats/" style="color: #fcfcfc">Next &raquo;</a></span>

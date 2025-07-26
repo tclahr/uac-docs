@@ -51,16 +51,14 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../artifacts/">Artifacts</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../multi_line_command/">Multi-line Command</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_vars/">Exposed Variables</a>
-                  </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../exposed_functions/">Exposed Functions</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">CONFIG</span></p>
               <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">uac.conf</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">Config Files</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">OUTPUT</span></p>
@@ -79,11 +77,11 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#using-plaso">Using Plaso</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#plaso-in-a-docker-container">Plaso in a docker container</a>
+    <li class="toctree-l3"><a class="reference internal" href="#plaso-in-a-docker-container">Plaso in a Docker container</a>
         <ul>
-    <li class="toctree-l4"><a class="reference internal" href="#obtaining-a-plaso-docker-image">Obtaining a Plaso docker image</a>
+    <li class="toctree-l4"><a class="reference internal" href="#obtaining-the-plaso-docker-image">Obtaining the Plaso Docker image</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#parsing-uac-output-file-using-plaso">Parsing UAC output file using Plaso</a>
+    <li class="toctree-l4"><a class="reference internal" href="#parsing-a-uac-output-file-using-plaso">Parsing a UAC output file using Plaso</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#run-analysis-with-psort">Run analysis with psort</a>
     </li>
@@ -95,7 +93,7 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#bodyfile-custom-artifact">Bodyfile custom artifact</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#parsing-uac-output-file-using-magnet-axiom">Parsing UAC output file using Magnet AXIOM</a>
+    <li class="toctree-l3"><a class="reference internal" href="#parsing-uac-output-file-in-magnet-axiom">Parsing UAC output file in Magnet AXIOM</a>
     </li>
         </ul>
     </li>
@@ -104,6 +102,11 @@
     </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MISC</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../testing_lab/">Testing Lab</a>
                   </li>
               </ul>
       </div>
@@ -132,40 +135,51 @@
               
                 <h1 id="parsing-uac-output">Parsing UAC output</h1>
 <h2 id="using-plaso">Using Plaso</h2>
-<p>Plaso is a Python-based backend engine that powers log2timeline. Log2timeline is a tool designed to extract timestamps and forensic artifacts from a computer system to facilitate analysis. It creates what we refer to as a "Super Timeline". If you haven't watched it already, there is a great YouTube video by Richard Davis of 13cubed that I suggest you start with.</p>
-<p>For more information about Plaso please refer to the <a href="https://plaso.readthedocs.io">official documentation page</a>.</p>
-<h3 id="plaso-in-a-docker-container">Plaso in a docker container</h3>
-<h4 id="obtaining-a-plaso-docker-image">Obtaining a Plaso docker image</h4>
+<p>Plaso is a Python-based backend engine that powers <strong>log2timeline</strong> - a tool designed to extract timestamps and forensic artifacts from a computer system to facilitate timeline analysis. It generates what is commonly referred to as a <strong>"Super Timeline."</strong></p>
+<p>If you haven’t seen it already, there's a great <a href="https://www.youtube.com/watch?v=ywx9U-d3hS4">YouTube video by Richard Davis of 13cubed</a> that introduces the concept effectively.</p>
+<p>For more details about Plaso, refer to the <a href="https://plaso.readthedocs.io">official documentation page</a>.</p>
+<h3 id="plaso-in-a-docker-container">Plaso in a Docker container</h3>
+<h4 id="obtaining-the-plaso-docker-image">Obtaining the Plaso Docker image</h4>
 <pre><code class="language-shell">docker pull log2timeline/plaso
 </code></pre>
-<h4 id="parsing-uac-output-file-using-plaso">Parsing UAC output file using Plaso</h4>
-<p>First start the extraction with log2timeline. Your UAC output file should be present on the host, and not in the container (which is the default scenario), you’ll have to set up a bridge between the two. For example, if you store your current UAC output file to analyze in <code>/data/uac-testvm-linux-20220204120054.tar.gz</code>, you could tell log2timeline to generate the Plaso storage file as <code>/data/uac-testvm-linux-20220204120054.plaso</code> this way:</p>
+<h4 id="parsing-a-uac-output-file-using-plaso">Parsing a UAC output file using Plaso</h4>
+<p>To start the extraction with <code>log2timeline</code>, ensure the UAC output file is available on the host system. Since containers are isolated, you’ll need to mount the host directory containing the file into the container.</p>
+<p>For example, if your UAC output file is stored at:</p>
+<pre><code class="language-text">/data/uac-testvm-linux-20220204120054.tar.gz
+</code></pre>
+<p>...and you want to generate the Plaso storage file as:</p>
+<pre><code class="language-text">/data/uac-testvm-linux-20220204120054.plaso
+</code></pre>
+<p>You can run:</p>
 <pre><code class="language-shell">docker run -v /data:/data log2timeline/plaso:latest log2timeline --storage-file /data/uac-testvm-linux-20220204120054.plaso /data/uac-testvm-linux-20220204120054.tar.gz
 </code></pre>
-<p>This way your Plaso file will also be stored on the host filesystem.</p>
+<p>This ensures that both the input and output files are accessible from the host filesystem.</p>
 <h4 id="run-analysis-with-psort">Run analysis with psort</h4>
-<p>The <code>/data/uac-testvm-linux-20220204120054.plaso</code> file is the database file created by log2timeline, which can be exported to a CSV file (which can be read using ie. Eric Zimmermans <a href="https://ericzimmerman.github.io">timeline explorer</a>).</p>
-<p>You need to run psort to create a complete timeline of everything.</p>
+<p>The <code>.plaso</code> file created by <code>log2timeline</code> is a structured event database. You can convert it to CSV format using <code>psort</code>, making it compatible with timeline analysis tools such as <a href="https://ericzimmerman.github.io">Eric Zimmerman's Timeline Explorer</a>.</p>
+<p>Run:</p>
 <pre><code class="language-shell">docker run -v /data:/data log2timeline/plaso:latest psort.py -o l2tcsv /data/uac-testvm-linux-20220204120054.plaso -w /data/uac-testvm-linux-20220204120054.csv
 </code></pre>
 <h2 id="using-magnet-axiom">Using Magnet AXIOM</h2>
-<p>You can also use Magnet AXIOM to extract timestamps and forensic artifacts from UAC's output file to create Super Timelines.</p>
+<p>Magnet AXIOM can be used to parse forensic artifacts from UAC output files.</p>
 <h3 id="bodyfile-custom-artifact">Bodyfile custom artifact</h3>
-<p>It is strongly recommended that you download and install the Bodyfile custom artifact before processing UAC's output file in Magnet AXIOM. This custom artifact parses the bodyfile.txt file generated by UAC. The custom artifact can be downloaded from Magnet Forensics <a href="https://artifacts.magnetforensics.com">Artifact Exchange page</a> or from <a href="../magnet/Bodyfile.py">here</a>.</p>
-<h3 id="parsing-uac-output-file-using-magnet-axiom">Parsing UAC output file using Magnet AXIOM</h3>
+<p>Before analyzing a UAC output file in AXIOM, it’s strongly recommended that you download and install the <strong>Bodyfile custom artifact</strong>. This custom parser reads the <code>bodyfile.txt</code> generated by UAC and enhances timeline extraction.</p>
+<p>You can download it from my <a href="https://github.com/tclahr/axiom-custom-artifacts">AXIOM Custom Artifacts repository</a>.</p>
+<h3 id="parsing-uac-output-file-in-magnet-axiom">Parsing UAC output file in Magnet AXIOM</h3>
 <ol>
 <li>
-<p>In the EVIDENCE SOURCES, load the UAC output file (tar.gz or zip) as a Linux or macOS disk image.</p>
+<p>Under <strong>EVIDENCE SOURCES</strong>, load the UAC output file (<code>.tar.gz</code> or <code>.zip</code>) as a Linux or macOS disk image.</p>
 </li>
 <li>
-<p>In the ARTIFACT DETAILS, click CUSTOMIZE COMPUTER ARTIFACTS. Make sure to select the Bodyfile custom artifact in the CUSTOM ARTIFACTS category.</p>
+<p>In <strong>ARTIFACT DETAILS</strong>, click <strong>CUSTOMIZE COMPUTER ARTIFACTS</strong> and ensure the <strong>Bodyfile</strong> custom artifact is selected under the <strong>CUSTOM ARTIFACTS</strong> category.</p>
 </li>
 <li>
-<p>In the PARSE AND CARVE ARTIFACTS, make sure "Parse and carve selected artifacts" is selected.</p>
+<p>In <strong>PARSE AND CARVE ARTIFACTS</strong>, select <strong>Parse and carve selected artifacts</strong>.</p>
 </li>
 </ol>
+<hr />
 <h2 id="using-cyber-triage">Using Cyber Triage</h2>
-<p>Please check the blog post <a href="https://www.cybertriage.com/blog/collecting-linux-dfir-artifacts-with-uac/">Collecting Linux DFIR Artifacts with UAC</a>.</p>
+<p>You can also analyze UAC output using <strong>Cyber Triage</strong>. For more details, refer to their blog post:<br />
+<a href="https://www.cybertriage.com/blog/collecting-linux-dfir-artifacts-with-uac/">Collecting Linux DFIR Artifacts with UAC</a></p>
               
             </div>
           </div><footer>

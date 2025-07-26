@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/testing_lab/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Testing Lab - UAC Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Testing Lab";
+        var mkdocs_page_input_path = "testing_lab.md";
+        var mkdocs_page_url = "/tclahr/uac/testing_lab/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> UAC Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">BASICS</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="..">Getting Started</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">DEFINITIONS</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../profiles/">Profiles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../artifacts/">Artifacts</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">CONFIG</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../config_file/">Config Files</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">OUTPUT</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../output_formats/">Output Formats</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">LOG</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../log_files/">Log Files</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">OTHER</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../parsing_uac_output/">Parsing UAC output</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">MISC</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Testing Lab</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#aix">aix</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#esxi">esxi</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#freebsd">freebsd</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#linux">linux</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#macos">macos</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#netbsd">netbsd</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#netscaler">netscaler</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#openbsd">openbsd</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#solaris">solaris</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">UAC Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">MISC</li>
+      <li class="breadcrumb-item active">Testing Lab</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="testing-lab">Testing lab</h1>
+<p>UAC is a forensic tool designed to automate the collection of key system artifacts across a wide range of Unix-like operating systems. It is built with portability and broad compatibility in mind, making it suitable for use in environments ranging from modern enterprise systems to legacy infrastructure.</p>
+<p>To ensure reliability, UAC is extensively tested in our lab across:</p>
+<ul>
+<li>
+<p>Diverse Unix-like operating systems.</p>
+</li>
+<li>
+<p>A wide range of system versions, from legacy releases to the latest stable builds.</p>
+</li>
+<li>
+<p>Various hardware architectures, such as i386, x86_64, ARM, MIPS, PowerPC, and others.</p>
+</li>
+</ul>
+<p>This comprehensive testing approach ensures that UAC functions consistently across different environments, including outdated or niche systems often encountered in forensic investigations and enterprise environments.</p>
+<p>The table below lists all OSes, versions, and architectures currently used in our testing pipeline.</p>
+<p>⚠️ <strong>Important Note</strong>: The operating systems and versions listed on this page represent those actively used in our testing lab. However, UAC is not limited to these platforms. The tool is designed to run on a wide array of Unix-like systems, even if a particular version or architecture is not explicitly listed. The testing matrix is provided for transparency and quality assurance purposes only.</p>
+<h2 id="aix">aix</h2>
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Architecture</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AIX 7.3</td>
+<td>powerpc</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="esxi">esxi</h2>
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Architecture</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ESXi 6.7</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>ESXi 8.0</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="freebsd">freebsd</h2>
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Architecture</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FreeBSD 7.4</td>
+<td>i386</td>
+<td></td>
+</tr>
+<tr>
+<td>FreeBSD 14.1</td>
+<td>amd64</td>
+<td></td>
+</tr>
+<tr>
+<td>pfsense 2.6</td>
+<td>amd64</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="linux">linux</h2>
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Architecture</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AlmaLinux 9</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Alpine Linux 3.21</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Amazon Linux</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Armbian Linux</td>
+<td>aarch64</td>
+<td>Running on a Orange Pi 3 LTS</td>
+</tr>
+<tr>
+<td>CentOS 3</td>
+<td>i386</td>
+<td></td>
+</tr>
+<tr>
+<td>CentOS 5</td>
+<td>i386</td>
+<td></td>
+</tr>
+<tr>
+<td>Clear Linux</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Debian 12</td>
+<td>aarch64</td>
+<td></td>
+</tr>
+<tr>
+<td>Debian 12</td>
+<td>x86_64</td>
+<td>Running containers (Docker)</td>
+</tr>
+<tr>
+<td>Debian 6</td>
+<td>i686</td>
+<td></td>
+</tr>
+<tr>
+<td>Fedora 39</td>
+<td>x86_64</td>
+<td>Running Gnome Shell</td>
+</tr>
+<tr>
+<td>Gentoo</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Kali Linux</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Kubuntu 24.04</td>
+<td>x86_64</td>
+<td>Running KDE Plasma</td>
+</tr>
+<tr>
+<td>Linux 2.6.15-sigma</td>
+<td>mips</td>
+<td>Very limited Linux running on a set-up box using Busybox v1.00</td>
+</tr>
+<tr>
+<td>Manjaro</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>OpenWRT 23</td>
+<td>i686</td>
+<td></td>
+</tr>
+<tr>
+<td>Oracle Linux 9</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Proxmox 7</td>
+<td>x86_64</td>
+<td>Running VMs</td>
+</tr>
+<tr>
+<td>Proxmox 8</td>
+<td>x86_64</td>
+<td>Running containers (LXC)</td>
+</tr>
+<tr>
+<td>QNAP QTS 5</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Red Hat 6</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Red Hat 9</td>
+<td>x86_64</td>
+<td>Running containers (Podman)</td>
+</tr>
+<tr>
+<td>Slackware 15</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Suse Tumbleweed</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Synology DSM 7</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Ubuntu Server 20.04</td>
+<td>x86_64</td>
+<td>Using BusyBox v1.30.1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="macos">macos</h2>
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Architecture</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>High Sierra</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+<tr>
+<td>Sonoma</td>
+<td>arm64</td>
+<td>Apple Silicon</td>
+</tr>
+<tr>
+<td>Ventura</td>
+<td>x86_64</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="netbsd">netbsd</h2>
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Architecture</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NetBSD 6</td>
+<td>i386</td>
+<td></td>
+</tr>
+<tr>
+<td>NetBSD 9.3</td>
+<td>amd64</td>
+<td></td>
+</tr>
+<tr>
+<td>NetBSD 10.0</td>
+<td>amd64</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="netscaler">netscaler</h2>
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Architecture</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NetScaler 10.5</td>
+<td>amd64</td>
+<td></td>
+</tr>
+<tr>
+<td>NetScaler 13.0</td>
+<td>amd64</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="openbsd">openbsd</h2>
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Architecture</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenBSD 7.3</td>
+<td>amd64</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="solaris">solaris</h2>
+<table>
+<thead>
+<tr>
+<th>Operating System</th>
+<th>Architecture</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Solaris 10</td>
+<td>i386</td>
+<td></td>
+</tr>
+<tr>
+<td>Solaris 11</td>
+<td>i386</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../using_uac_with_cs_falcon_rtr/" class="btn btn-neutral float-left" title="Using UAC with CrowdStrike Falcon Real Time Response"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../using_uac_with_cs_falcon_rtr/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
