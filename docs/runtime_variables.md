@@ -10,7 +10,7 @@ The following variables can be used in conjunction with these command-line optio
 - [--output-base-name](index.md#-o-output-base-name)
 - [--aws-s3-presigned-url](index.md#-aws-s3-presigned-url)
 - [--aws-s3-presigned-url-log-file](index.md#-aws-s3-presigned-url-log-file)
-- [--azure-storage-sas-url](index.md#--azure-storage-sas-url)
+- [--azure-storage-sas-url](index.md#-azure-storage-sas-url)
 - [--azure-storage-sas-url-log-file](index.md#-azure-storage-sas-url-log-file)
 
 | Variable        | Description |
