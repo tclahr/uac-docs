@@ -21,7 +21,7 @@ UAC reads YAML files on the fly and, based on their contents, collects relevant 
 - 🔒 Adheres to the order of volatility to ensure reliable data acquisition.
 - 🛠 Designed for diverse environments, including IoT devices and NAS systems.
 
-The source code is available on the [project](https://github.com/tclahr/uac) page](<https://github.com/tclahr/uac>).
+The source code is available on the [project](https://github.com/tclahr/uac) page.
 
 ![uac_collection](img/uac_3_collection.gif)
 
@@ -143,7 +143,7 @@ Output Arguments:
 
 Collection Arguments:
   -c, --config      FILE
-                    Load the config from a specific file.
+                    Load config from a specific file.
   -m, --mount-point MOUNT_POINT
                     Specify the mount point (default: /).
   -s, --operating-system OPERATING_SYSTEM
@@ -191,8 +191,9 @@ Remote Transfer Arguments:
       --sftp-identity-file FILE
                     File from which the identity (private key) for public key
                     authentication is read.
-      --sftp-ssh-options
-                    Comma separated ssh options.
+      --sftp-ssh-option
+                    Allow setting SSH options as key=value pairs.
+                    Can be used multiple times to set multiple options.
       --s3-provider
                     Transfer the output and log files to S3 service.
                     Options: amazon, google, ibm
@@ -236,11 +237,11 @@ Increases the verbosity level. Enabling a higher verbosity level will result in 
 
 #### --debug
 
-Enable debug mode. Enabling debug mode will prevent the removal of the ```uac-data.tmp``` directory in the destination directory. This directory stores collected, temporary and debugging data during execution.
+Enable debug mode. Enabling debug mode will prevent the removal of the `uac-data.tmp` directory in the destination directory. This directory stores collected, temporary and debugging data during execution.
 
 #### --trace
 
-Enable ```set -x```. Using ```set -x``` in a shell script enables command tracing by printing each command before execution, which helps in debugging and understanding the script's flow.
+Enable `set -x`. Using `set -x` in a shell script enables command tracing by printing each command before execution, which helps in debugging and understanding the script's flow.
 
 #### -V, --version
 
@@ -250,11 +251,11 @@ Output version information and exit.
 
 #### -p, --profile
 
-Specify the collection profile name. Profiles are used to define the list of artifacts that will be used during the execution. They are YAML files located in the ```profiles``` directory.
+Specify the collection profile name. Profiles are used to define the list of artifacts that will be used during the execution. They are YAML files located in the `profiles` directory.
 
 Feel free to utilize multiple profiles to craft a highly tailored collection. Profiles will be processed in the sequence they are listed in the command line. It's important to note that duplicate artifacts will be gathered just once.
 
-Use ```--profile list``` to list available profiles.
+Use `--profile list` to list available profiles.
 
 Examples:
 
@@ -266,7 +267,7 @@ Examples:
 ./uac -p ir_triage -p offline DESTINATION
 ```
 
-You also have the option to supply a file path to a custom profile located outside the ```profiles``` directory.
+You also have the option to supply a file path to a custom profile located outside the `profiles` directory.
 
 Example:
 
@@ -276,17 +277,21 @@ Example:
 
 #### -a, --artifacts
 
-Specify the artifacts to be used during the collection. Artifacts are used to define parameters that will be used by a [collector](artifacts.md#collector) to collect data. They are YAML files located in the ```artifacts``` directory.
+Specify the artifacts to be used during the collection. Artifacts define the parameters used by UAC collectors to gather data from the target system. They are YAML files located in the `artifacts` directory.
 
 Feel free to utilize multiple artifacts to craft a highly tailored collection. Artifacts will be processed in the sequence they are listed in the command line. It's important to note that duplicate artifacts will be gathered just once.
 
-You have the option to specify multiple artifacts simultaneously by either separating them with a comma (without spaces) or by using -a/--artifacts multiple times.
+You have the option to specify multiple artifacts simultaneously by either separating them with a comma (without spaces) or by using `-a`/`--artifacts` multiple times.
 
-You can exclude individual artifacts by prefixing them with an exclamation mark (!). Note that in many shells, special characters like ! and * require escaping with a backslash.
+Wildcards and glob-style patterns are supported.
 
-Use ```--artifacts list``` to list all available artifacts.
+Artifacts can be excluded using an exclamation mark (`!`) prefix.
 
-Use ```--artifacts list [OPERATING_SYSTEM]``` to list all available artifacts for a specific operating system.
+Note that in many shells, special characters like ! and * require escaping with a backslash.
+
+Use `--artifacts list` to list all available artifacts.
+
+Use `--artifacts list [OPERATING_SYSTEM]` to list all available artifacts for a specific operating system.
 
 Examples:
 
@@ -298,7 +303,7 @@ Examples:
 ./uac -a artifacts/live_response/\* -a ./artifacts/files/logs/\* -a \!files/logs/var_log.yaml DESTINATION
 ```
 
-You also have the option to supply a file path to a custom artifact file located outside the ```artifacts``` directory.
+You also have the option to supply a file path to a custom artifact file located outside the `artifacts` directory.
 
 Examples:
 
@@ -320,7 +325,7 @@ The directory where the output and acquisition log files should be copied to.
 
 #### -o, --output-base-name
 
-Specify the base name of the output file (without extension). Default is ```uac-%hostname%-%os%-%timestamp%```
+Specify the base name of the output file (without extension). Default is `uac-%hostname%-%os%-%timestamp%`
 
 Examples:
 
@@ -334,15 +339,13 @@ Examples:
 
 #### -f, --output-format
 
-Specify the output format. Compression will be automatically enabled if ```gzip``` is available.
+Specify the output format.
 
-Options: none, tar, zip (Default is ```tar```)
+- **none**: Collected data will not be archived or compressed. Instead, it will be copied directly into the specified output directory.
 
-- **none**: Collected data will not be archived or compressed. Instead, it will be copied directly to an output directory.
+- **tar**: Collected data will be archived and compressed into a `.tar` file. This is the default format used by UAC. Compression will be enabled if `gzip` is available in the target system.
 
-- **tar**: Collected data will be archived (and compressed) into a tar file.
-
-- **zip**: Collected data will be archived and compressed into a zip file.
+- **zip**: Collected data will be archived and compressed into a `.zip` file.
 
 Examples:
 
@@ -352,7 +355,7 @@ Examples:
 
 #### -P, --output-password
 
-Specify the password to be used to encrypt the contents of the archive file. Applies to zip output format only.
+Specify the password to be used to encrypt the contents of the archive file. Applies to the `zip` output format only.
 
 Examples:
 
@@ -364,7 +367,7 @@ Examples:
 
 #### -c, --config
 
-Load the config from a specific file.
+Load config from a specific file to **override** the default and the operating system specific configuration.
 
 Examples:
 
@@ -374,7 +377,7 @@ Examples:
 
 #### -m, --mount-point
 
-The mount point where the files will be collected from. Default is ```/```
+The mount point where the files will be collected from. Default is `/`.
 
 Examples:
 
@@ -386,15 +389,25 @@ Examples:
 
 This option allows you to force UAC to collect artifacts for a specific operating system. By default, UAC automatically attempts to identify the target operating system.
 
-Options: aix, esxi, freebsd, linux, macos, netbsd, netscaler, openbsd, solaris
+| Value       | Description            |
+| ----------- | ---------------------- |
+| `aix`       | IBM AIX                |
+| `esxi`      | VMware ESXi            |
+| `freebsd`   | FreeBSD                |
+| `linux`     | Linux                  |
+| `macos`     | macOS                  |
+| `netbsd`    | NetBSD                 |
+| `netscaler` | NetScaler              |
+| `openbsd`   | OpenBSD                |
+| `solaris`   | Solaris                |
 
 #### -H, --hash-collected
 
-Enabling this option will cause UAC to hash all collected files and save the results in a hash file. To accomplish this, all collected data must first be copied to the destination directory. Therefore, ensure you have twice the free space available on the system: once for the collected data and once for the output file. Additionally, note that this process will increase the running time.
+Enabling this option will cause UAC to hash all collected files and save the results in a hash file. To accomplish this, all collected data must be copied to the destination directory first. Therefore, ensure you have twice the free space available on the system: once for the collected data and once for the output file. Additionally, note that this process will increase the collection running time.
 
 #### -u, --run-as-non-root
 
-Disable root user check. Note that artifact collection may be limited.
+Disable `root` user check. Note that artifact collection may be limited.
 
 #### --enable-modifiers
 
@@ -402,11 +415,11 @@ Enabling this option will cause UAC to run artifacts that change the current sys
 
 #### --hostname
 
-Specify the hostname to be used as part of the output name when %hostname% is used in --output-base-name. By default, UAC automatically attempts to identify the target system's hostname.
+Specify the hostname to be used as the runtime variable `%hostname%`. By default, UAC automatically attempts to identify the target system's hostname.
 
 #### --temp-dir
 
-The location where the ```uac-data.tmp``` directory will be created. This directory stores collected, temporary and debugging data during execution. By default, ```uac-data.tmp``` will be created within the DESTINATION directory.
+The location where the `uac-data.tmp` directory will be created. This directory stores collected, temporary and debugging data during execution. By default, `uac-data.tmp` will be created within the `DESTINATION` directory.
 
 ### Filter Arguments
 
@@ -444,7 +457,7 @@ Specify the case notes.
 
 #### --sftp
 
-SFTP server host/IP for transferring the output and acquisition log files. It also transfers collected data when ```none``` is used as the output format. It must be specified in the form ```[user@]host:[path]```
+SFTP server host/IP for transferring the output and acquisition log files. It also transfers collected data when `none` is used as the output format. It must be specified in the form `[user@]host:[path]`
 
 Examples:
 
@@ -454,27 +467,31 @@ Examples:
 
 #### --sftp-port
 
-SFTP server port. Default is ```22```.
+SFTP server port. Default is `22`.
 
 #### --sftp-identity-file
 
 File from which the identity (private key) for public-key authentication is read.
 
-#### --sftp-ssh-options
+#### --sftp-ssh-option
 
-Comma-separated options that modify the behavior of the SSH client. These options are usually specified in the SSH client configuration file, but this argument allows you to specify them directly on the command line.
+Allow setting SSH options as key=value pairs. Can be used multiple times to set multiple options.
 
 Examples:
 
 ```shell
-./uac -p ir_triage --sftp "user@host:/remote_dir" --sftp-ssh-options "StrictHostKeyChecking=no,UserKnownHostsFile=/dev/null" DESTINATION
+./uac -p ir_triage --sftp "user@host:/remote_dir" --sftp-ssh-option "StrictHostKeyChecking=no" --sftp-ssh-option "UserKnownHostsFile=/dev/null" DESTINATION
 ```
 
 #### --s3-provider
 
 Transfer the output and log file to a S3 bucket/cloud object storage.
 
-Options: amazon, google, ibm
+| Value       | Description            |
+| ----------- | ---------------------- |
+| `amazon`    | Amazon Cloud           |
+| `google`    | Google Cloud           |
+| `ibm`       | IBM Cloud              |
 
 #### --s3-region
 
@@ -576,7 +593,7 @@ Examples:
 
 ## Validating custom artifacts
 
-It is recommended that you validate your custom artifacts before running a collection. You can do it using the ```--validate-artifact``` option as shown below.
+It is recommended that you validate your custom artifacts before running a collection. You can do it using the `--validate-artifact` option as shown below.
 
 ```shell
 ./uac --validate-artifact /path_to/my_custom_artifact.yaml
@@ -584,7 +601,7 @@ It is recommended that you validate your custom artifacts before running a colle
 
 ## Validating custom profiles
 
-It is recommended that you validate your custom profiles before running a collection. You can do it using the ```--validate-profile``` option as shown below.
+It is recommended that you validate your custom profiles before running a collection. You can do it using the `--validate-profile` option as shown below.
 
 ```shell
 ./uac --validate-profile /path_to/my_custom_profile.yaml
@@ -592,21 +609,21 @@ It is recommended that you validate your custom profiles before running a collec
 
 ## Using your binary files
 
-In most cases, the executables should be placed in the ```[UAC_DIRECTORY]/bin``` directory, along with any additional support files it needs to run.
+In most cases, the executables should be placed in the `[UAC_DIRECTORY]/bin` directory, along with any additional support files it needs to run.
 
-For example, if you have an artifact that uses an executable named 'my_script.sh', you should place this binary in the ```[UAC_DIRECTORY]/bin``` directory.
+For example, if you have an artifact that uses an executable named `my_script.sh`, you should place this binary in the `[UAC_DIRECTORY]/bin` directory.
 
-In the case where you have executables with the same name, but for multiple operating systems, they should be placed in the ```[UAC_DIRECTORY]/bin/[OS]``` directory.
+In the case where you have executables with the same name, but for multiple operating systems, they should be placed in the `[UAC_DIRECTORY]/bin/[OS]` directory.
 
-For example, if you have an artifact that uses an executable named 'lsof', but you have two binary files, one for Linux and one for FreeBSD, you should place the binaries in the ```[UAC_DIRECTORY]/bin/linux``` and ```[UAC_DIRECTORY]/bin/freebsd``` directories. Note that the operating system name must be in lowercase.
+For example, if you have an artifact that uses an executable named `lsof`, but you have two binary files, one for Linux and one for FreeBSD, you should place the binaries in the `[UAC_DIRECTORY]/bin/linux` and `[UAC_DIRECTORY]/bin/freebsd` directories. Note that the operating system name must be in lowercase.
 
-In the case where you have executables that can be run on multiple operating systems, they should be placed in the ```[UAC_DIRECTORY]/bin/[OS1_OS2_OS3]``` directory. Note that you can have multiple operating systems separated by an underscore '_'.
+In the case where you have executables that can be run on multiple operating systems, they should be placed in the `[UAC_DIRECTORY]/bin/[OS1_OS2_OS3]` directory. Note that you can have multiple operating systems separated by an underscore `_`.
 
-For example, if you have an artifact that uses an executable named 'netstat' that runs on both Linux and ESXi systems, you should place the binary either in the ```[UAC_DIRECTORY]/bin/linux_esxi``` directory or place the binary in the ```[UAC_DIRECTORY]/bin/linux``` and ```[UAC_DIRECTORY]/bin/esxi``` directories.
+For example, if you have an artifact that uses an executable named 'netstat' that runs on both Linux and ESXi systems, you should place the binary either in the `[UAC_DIRECTORY]/bin/linux_esxi` directory or place the binary in the `[UAC_DIRECTORY]/bin/linux` and `[UAC_DIRECTORY]/bin/esxi` directories.
 
-In the case where you have executables with the same name, but for multiple operating systems and multiple architectures, they should be placed in the ```[UAC_DIRECTORY]/bin/[OS]/[ARCH]``` directory.
+In the case where you have executables with the same name, but for multiple operating systems and multiple architectures, they should be placed in the `[UAC_DIRECTORY]/bin/[OS]/[ARCH]` directory.
 
-For example, if you have an artifact that uses an executable named 'ss', but you have binary files for Linux arm64 and ppc64, FreeBSD i386, and Solaris x86_64 and sparc64, you should place the binary files in the ```[UAC_DIRECTORY]/bin/linux/arm64```, ```[UAC_DIRECTORY]/bin/linux/ppc64```, ```[UAC_DIRECTORY]/bin/freebsd/i386```, ```[UAC_DIRECTORY]/bin/solaris/x86_64``` and ```[UAC_DIRECTORY]/bin/solaris/sparc64``` directories.
+For example, if you have an artifact that uses an executable named `ss`, but you have binary files for Linux arm64 and ppc64, FreeBSD i386, and Solaris x86_64 and sparc64, you should place the binary files in the `[UAC_DIRECTORY]/bin/linux/arm64`, `[UAC_DIRECTORY]/bin/linux/ppc64`, `[UAC_DIRECTORY]/bin/freebsd/i386`, `[UAC_DIRECTORY]/bin/solaris/x86_64` and `[UAC_DIRECTORY]/bin/solaris/sparc64` directories.
 
 ## Modifiers
 
@@ -616,13 +633,13 @@ Modifiers are artifacts that include commands that will alter the current system
 
 ### Debug mode
 
-Debug mode ```--debug``` may be useful if you are trying to find the source of an error. Enabling debug mode will prevent the removal of the ```uac-data.tmp``` directory in the destination directory. This directory stores collected, temporary and debugging data during execution.
+Debug mode `--debug` may be useful if you are trying to find the source of an error. Enabling debug mode will prevent the removal of the `uac-data.tmp` directory from the destination directory. This directory stores collected, temporary and debugging data during execution.
 
 ### Trace messages
 
-Using ```--trace``` enables command tracing by printing each command before execution, which helps in debugging and understanding the script's flow. It is recommended to redirect the stderr (shell tracing messages) to a text file.
+Using `--trace` enables command tracing by printing each command before execution, which helps in debugging and understanding the script's flow. It is recommended to redirect the stderr (shell tracing messages) to a text file.
 
-Consider the following command to enable command tracing and storing them in /tmp/uac-tracing.log file.
+Consider the following command to enable command tracing and storing them in `/tmp/uac-tracing.log` file.
 
 ```shell
 ./uac -p ir_triage --trace DESTINATION 2>/tmp/uac-tracing.log

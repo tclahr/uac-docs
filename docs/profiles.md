@@ -1,9 +1,9 @@
 <!-- markdownlint-disable MD036 -->
-# Profiles definition
+# Profile Definition
 
-Profiles are used to define the list of artifacts that will be collected during the execution.
+Profiles define the list of artifacts to be collected during execution.
 
-A profile has two mandatory fields at the top of the file, followed by a set of artifacts that will be used during the collection.
+Each profile file includes two mandatory fields at the top, followed by a set of artifacts that guide the collection process.
 
 Example:
 
@@ -21,23 +21,23 @@ artifacts:
 
 **Required**
 
-The profile name. This is the name UAC uses to find the correct profile during the script execution.
+The profile name. UAC uses this name to locate and apply the correct profile during script execution.
 
 ## description
 
 **Required**
 
-Describes the purpose of the profile as a whole. It should contain all the details about what kind of collection will be performed. No line breaks are supported.
+A brief summary describing the overall purpose of the profile. It should specify the type of collection being performed. Line breaks are not supported.
 
 ## artifacts
 
 **Required**
 
-This is the set of artifacts that will be used during the collection. All available artifacts are located in the ```artifacts``` directory.
+The list of artifacts to be collected. All available artifacts are stored in the `artifacts` directory.
 
-Artifacts will be executed in the order they are listed in the profile file.
+Artifacts are collected in the order they are listed.
 
-The example below shows a profile that will collect the ```live_response/process/ps.yaml``` artifact first, followed by the ```live_response/process/lsof.yaml``` artifact.
+The following example collects `live_response/process/ps.yaml` first, then `live_response/process/lsof.yaml`:
 
 ```yaml
 name: myprofile
@@ -47,7 +47,9 @@ artifacts:
   - live_response/process/lsof.yaml
 ```
 
-Wildcards and regex patterns (globbing) are also supported for referring to artifacts. The example below shows a profile that will collect all artifacts located in the ```live_response/process``` directory (including subdirectories). In this case, the artifacts will be processed in alphabetical order.
+### Globbing and Wildcards
+
+Wildcards and glob-style patterns are supported. The next example collects all artifacts in the `live_response/process` directory and its subdirectories, in alphabetical order:
 
 ```yaml
 name: myprofile
@@ -56,7 +58,9 @@ artifacts:
   - live_response/process/*
 ```
 
-Artifacts can be excluded from the collection by prefixing the artifact path with an exclamation mark (!). The example below shows a profile that will collect all artifacts in the ```files``` directory (including subdirectories), except for ```files/logs/additional_logs.yaml``` and all artifacts in the ```files/applications``` directory.
+### Excluding Artifacts
+
+Artifacts can be excluded using an exclamation mark (`!`) prefix. The example below collects everything from `files/`, except for `files/logs/additional_logs.yaml` and all items in `files/applications/`:
 
 ```yaml
 name: myprofile
@@ -67,7 +71,11 @@ artifacts:
   - !files/applications/*
 ```
 
-Artifacts located outside the artifacts directory can also be used by specifying their full path. The example below shows a profile that will first collect all artifacts in the ```live_response/process``` directory (including subdirectories), followed by a custom artifact located in the ```/my_artifacts_dir``` directory. Remember to use the full path for artifacts outside the ```artifacts``` directory.
+### Using External Artifacts
+
+Artifacts located outside the default `artifacts` directory can also be included by specifying their full path.
+
+Example:
 
 ```yaml
 name: myprofile
@@ -76,3 +84,5 @@ artifacts:
   - live_response/process/*
   - /my_artifacts_dir/my_artifact.yaml
 ```
+
+Ensure the full path is used when referencing external artifacts.

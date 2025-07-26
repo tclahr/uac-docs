@@ -6,11 +6,10 @@ nav:
   - 'DEFINITIONS':
     - 'Profiles': profiles.md
     - 'Artifacts': artifacts.md
-    - 'Multi-line Command': multi_line_command.md
-    - 'Exposed Variables': exposed_vars.md
-    - 'Exposed Functions': exposed_functions.md
+    - 'Runtime Variables': runtime_variables.md
+    - 'Helper Functions': helper_functions.md
   - 'CONFIG':
-    - 'uac.conf': config_file.md
+    - 'Config Files': config_file.md
   - 'OUTPUT':
     - 'Output Formats': output_formats.md
   - 'LOG':
@@ -18,6 +17,8 @@ nav:
   - 'OTHER':
     - 'Parsing UAC output': parsing_uac_output.md
     - 'Using UAC with CrowdStrike Falcon Real Time Response': using_uac_with_cs_falcon_rtr.md
+  - 'MISC':
+    - 'Testing Lab': testing_lab.md
 theme: readthedocs
 extra_css: [extra.css]
 plugins:
