@@ -684,22 +684,22 @@ Validation Arguments:
 <pre><code class="language-shell">./uac -p ir_triage --s3-provider ibm --s3-region us-south --s3-bucket uac-test --s3-token &quot;eyJraWQiOiIyMDIyMDkxMzA4MjciLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwiaWQiOiJJQk1pZC0wNjAwMDFLVVJDIiwicmVhbG1pZCI6IklCTWlkIiwianRpIjoiYWVhMDE0MGYtZGM2Ni00MzE0LWJhMjMtZTIxOTAzZmQ3Y2ZhIiwiaWRlbnRpZmllciI6IjA2MDAwMUtVUkMiLCJnaXZlbl9uYW1lIjoiVGhpYWdvIiwiZmFtaWx5X25hbWUiOiJDYW5ve&quot; DESTINATION
 </code></pre>
 <h4 id="-aws-s3-presigned-url">--aws-s3-presigned-url</h4>
-<p>This allows for using a pre-signed URL to upload the output file to AWS S3. Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.</p>
+<p>This allows for using a pre-signed URL to upload the output file to AWS S3. Make sure you generate a PUT URL for this to work. Use single quotes to enclose the URL.</p>
 <p>Example:</p>
 <pre><code class="language-shell">./uac -p full --aws-s3-presigned-url 'https://uac-test.s3.amazonaws.com/uac-output.tar.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20220924T135105Z&amp;X-Amz-Expires=360000&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' DESTINATION
 </code></pre>
 <h4 id="-aws-s3-presigned-url-log-file">--aws-s3-presigned-url-log-file</h4>
-<p>This allows for using a pre-signed URL to upload the acquisition log file to AWS S3. Make sure you generate a PUT URL for this to work. It is strongly recommended to use single quotes to enclose the URL.</p>
+<p>This allows for using a pre-signed URL to upload the acquisition log file to AWS S3. Make sure you generate a PUT URL for this to work. Use single quotes to enclose the URL.</p>
 <p>Example:</p>
 <pre><code class="language-shell">./uac -p full --aws-s3-presigned-url 'https://uac-test.s3.amazonaws.com/uac-output.tar.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20220924T135105Z&amp;X-Amz-Expires=360000&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' --aws-s3-presigned-url-log-file 'https://uac-test.s3.amazonaws.com/uac-output.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20220924T135105Z&amp;X-Amz-Expires=360000&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' DESTINATION
 </code></pre>
 <h4 id="-azure-storage-sas-url">--azure-storage-sas-url</h4>
-<p>This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage. It is strongly recommended to use single quotes to enclose the URL.</p>
+<p>This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage. Use single quotes to enclose the URL.</p>
 <p>Example:</p>
 <pre><code class="language-shell">./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
 </code></pre>
 <h4 id="-azure-storage-sas-url-log-file">--azure-storage-sas-url-log-file</h4>
-<p>This allows for using a shared access signature (SAS) URL to upload the acquisition log to Azure Storage. It is strongly recommended to use single quotes to enclose the URL.</p>
+<p>This allows for using a shared access signature (SAS) URL to upload the acquisition log to Azure Storage. Use single quotes to enclose the URL.</p>
 <p>Example:</p>
 <pre><code class="language-shell">./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' --azure-storage-sas-url-log-file 'https://uac-test.blob.core.windows.net/uac-container/uac-output.log?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
 </code></pre>
