@@ -415,7 +415,7 @@ Enabling this option will cause UAC to run artifacts that change the current sys
 
 #### --hostname
 
-Specify the hostname to be used as part of the output name when the runtime variable `%hostname%` is used in `--output-base-name`. By default, UAC automatically attempts to identify the target system's hostname.
+Specify the hostname to be used as the runtime variable `%hostname%`. By default, UAC automatically attempts to identify the target system's hostname.
 
 #### --temp-dir
 

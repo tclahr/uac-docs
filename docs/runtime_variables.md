@@ -1,9 +1,41 @@
 
 # Runtime Variables
 
-UAC supports a set of special runtime variables that are dynamically replaced during execution. These variables can be used within artifact definitions to make your collection scripts more flexible and adaptable.
+UAC supports a set of special runtime variables that are dynamically replaced during execution.
+
+## Command Line Variables
+
+The following variables can be used in conjunction with these command-line options:
+
+- [--output-base-name](index.md#-o---output-base-name)
+- [--aws-s3-presigned-url](index.md#--aws-s3-presigned-url)
+- [--aws-s3-presigned-url-log-file](index.md#--aws-s3-presigned-url-log-file)
+- [--azure-storage-sas-url](index.md#--azure-storage-sas-url)
+- [--azure-storage-sas-url-log-file](index.md#--azure-storage-sas-url-log-file)
+
+| Variable        | Description |
+|-----------------|-------------|
+| `%hostname%`    | The hostname of the target system. |
+| `%os%`          | The operating system of the target system. |
+| `%timestamp%`   | The Unix timestamp indicating when the data collection started. |
+
+Examples:
+
+Use variables to create custom output file names:
+
+```shell
+./uac -a files/browsers/\* --output-base-name "uac-%hostname%-%os%-browsers-only-%timestamp%" /tmp
+```
+
+Use variables to upload custom file names during presigned URL transfers:
+
+```shell
+./uac -a files/browsers/\* --output-base-name "uac-%hostname%-%os%-browsers-only-%timestamp%" --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-%hostname%-%os%-browsers-only-%timestamp%.tar.gz?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' /tmp
+```
 
 ## General Variables
+
+These variables can be used within artifact definitions to make your collection scripts more flexible and adaptable.
 
 | Variable               | Description |
 |------------------------|-------------|
@@ -12,18 +44,9 @@ UAC supports a set of special runtime variables that are dynamically replaced du
 | `%temp_directory%`     | Full path to the temporary directory used by UAC to store transient data. Files in this directory are **not** included in the final output archive. |
 | `%non_local_mount_points%` | Pipe-separated list of non-local mount points, based on the `exclude_file_system` setting in the `uac.conf` file. |
 | `%start_date%`         | Date provided via the `--start-date` command-line option. |
-| `%start_date_epoch%`   | Epoch timestamp corresponding to the `--start-date` value. |
+| `%start_date_epoch%`   | The Unix timestamp corresponding to the `--start-date` value. |
 | `%end_date%`           | Date provided via the `--end-date` command-line option. |
-| `%end_date_epoch%`     | Epoch timestamp corresponding to the `--end-date` value. |
-
-## User-Based Variables
-
-These variables trigger a loop in which UAC runs the command once for **each user** detected on the system.
-
-| Variable       | Description |
-|----------------|-------------|
-| `%user%`       | Username of the current user in the loop. |
-| `%user_home%`  | Full path to the current user's home directory. |
+| `%end_date_epoch%`     | The Unix timestamp corresponding to the `--end-date` value. |
 
 Examples:
 
@@ -77,6 +100,17 @@ artifacts:
     output_directory: /live_response/hash_executables
     output_file: hash_running_processes
 ```
+
+## User-Based Variables
+
+These variables trigger a loop in which UAC runs the command once for **each user** detected on the system.
+
+| Variable       | Description |
+|----------------|-------------|
+| `%user%`       | Username of the current user in the loop. |
+| `%user_home%`  | Full path to the current user's home directory. |
+
+Example:
 
 Use `%user_home%` to collect files for each user. This example collects shell history and related files from each user's home directory:
 
