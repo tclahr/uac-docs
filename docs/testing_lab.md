@@ -68,7 +68,6 @@ The table below lists all OSes, versions, and architectures currently used in ou
 |Suse Tumbleweed|x86_64||
 |Synology DSM 7|x86_64||
 |Ubuntu Server 20.04|x86_64|Using BusyBox v1.30.1|
-|VyOS Rolling Release|x86_64|VyOS Universal Router|
 
 ## macos
 
