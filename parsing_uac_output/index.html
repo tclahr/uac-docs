@@ -99,6 +99,12 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-cyber-triage">Using Cyber Triage</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-dissect">Using Dissect</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#parsing-uac-output-file-in-dissect">Parsing UAC output file in dissect</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../using_uac_with_cs_falcon_rtr/">Using UAC with CrowdStrike Falcon Real Time Response</a>
@@ -136,7 +142,7 @@
                 <h1 id="parsing-uac-output">Parsing UAC output</h1>
 <h2 id="using-plaso">Using Plaso</h2>
 <p>Plaso is a Python-based backend engine that powers <strong>log2timeline</strong> - a tool designed to extract timestamps and forensic artifacts from a computer system to facilitate timeline analysis. It generates what is commonly referred to as a <strong>"Super Timeline."</strong></p>
-<p>If you haven’t seen it already, there's a great <a href="https://www.youtube.com/watch?v=ywx9U-d3hS4">YouTube video by Richard Davis of 13cubed</a> that introduces the concept effectively.</p>
+<p>If you haven’t seen it already, there's a great <a href="https://youtu.be/sAvyRwOmE10?si=1ftxTX1gRntQ5gLb">YouTube video by Richard Davis of 13cubed</a> that introduces the concept effectively.</p>
 <p>For more details about Plaso, refer to the <a href="https://plaso.readthedocs.io">official documentation page</a>.</p>
 <h3 id="plaso-in-a-docker-container">Plaso in a Docker container</h3>
 <h4 id="obtaining-the-plaso-docker-image">Obtaining the Plaso Docker image</h4>
@@ -180,6 +186,20 @@
 <h2 id="using-cyber-triage">Using Cyber Triage</h2>
 <p>You can also analyze UAC output using <strong>Cyber Triage</strong>. For more details, refer to their blog post:<br />
 <a href="https://www.cybertriage.com/blog/collecting-linux-dfir-artifacts-with-uac/">Collecting Linux DFIR Artifacts with UAC</a></p>
+<h2 id="using-dissect">Using Dissect</h2>
+<p>Dissect is a Python-based framework. One of the most important tools is <code>target-query</code>. It allows you to query a forensic image (or collection) for extracting useful information from it.</p>
+<p>If you haven’t seen it already, there's also a great <a href="https://youtu.be/A2e203LizAM?si=vI684VjFiJ2Ysuhk">YouTube video by Richard Davis of 13cubed</a> that introduces the concept effectively.</p>
+<p>For more details about dissect, refer to the <a href="https://docs.dissect.tools/en/latest/">official documentation page</a>.</p>
+<h3 id="parsing-uac-output-file-in-dissect">Parsing UAC output file in dissect</h3>
+<p>Dissect has a loader for UAC, and can process compressed or uncompressed UAC collections. For performance reasons, its recommanded to extract collection before processing. Multiple collection can be analysed in the same command.</p>
+<p>Retrieves basics information related to collection:</p>
+<pre><code class="language-shell">target-query -f hostname,os,domain,version,ips --cmdb -d &quot;;&quot; ./uac-livecd.centos-linux-20240726111442.tar.gz ./uac-localhost-esxi-20250822074643.zip
+&gt; uac-livecd.centos-linux-20240726111442.tar.gz;livecd;linux;centos;CentOS release 6.8 (Final);['10.0.2.15']
+&gt; uac-localhost-esxi-20250822074643.zip;localhost;esxi;None;6.7.0;['192.168.56.101']
+</code></pre>
+<p>Execute a specific plugins:</p>
+<pre><code class="language-shell">target-query -f authlog --json /uac-livecd.centos-linux-20240726111442.tar.gz
+</code></pre>
               
             </div>
           </div><footer>
