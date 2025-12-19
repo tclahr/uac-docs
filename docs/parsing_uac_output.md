@@ -86,16 +86,18 @@ For more details about dissect, refer to the [official documentation page](https
 
 ### Parsing UAC output file in dissect
 
-Dissect has a loader for uac, and can process compressed or uncompressed uac collections. For performance reasons, its recommanded to extract collection before processing. Multiple collection can be analysed in the same command.
+Dissect has a loader for UAC, and can process compressed or uncompressed UAC collections. For performance reasons, its recommanded to extract collection before processing. Multiple collection can be analysed in the same command.
 
-Retrieves basics information related to collection 
+Retrieves basics information related to collection:
+
 ```shell
-target-query  -f hostname,os,domain,version,ips --cmdb -d ";"  ./uac-livecd.centos-linux-20240726111442.tar.gz ./uac-localhost-esxi-20250822074643.zip
+target-query -f hostname,os,domain,version,ips --cmdb -d ";" ./uac-livecd.centos-linux-20240726111442.tar.gz ./uac-localhost-esxi-20250822074643.zip
 > uac-livecd.centos-linux-20240726111442.tar.gz;livecd;linux;centos;CentOS release 6.8 (Final);['10.0.2.15']
 > uac-localhost-esxi-20250822074643.zip;localhost;esxi;None;6.7.0;['192.168.56.101']
 ```
 
-Execute a specific plugins : 
+Execute a specific plugins:
+
 ```shell
 target-query -f authlog --json /uac-livecd.centos-linux-20240726111442.tar.gz
 ```
