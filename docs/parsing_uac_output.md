@@ -4,7 +4,7 @@
 
 Plaso is a Python-based backend engine that powers **log2timeline** - a tool designed to extract timestamps and forensic artifacts from a computer system to facilitate timeline analysis. It generates what is commonly referred to as a **"Super Timeline."**
 
-If you haven’t seen it already, there's a great [YouTube video by Richard Davis of 13cubed](https://www.youtube.com/watch?v=ywx9U-d3hS4) that introduces the concept effectively.
+If you haven’t seen it already, there's a great [YouTube video by Richard Davis of 13cubed](https://youtu.be/sAvyRwOmE10?si=1ftxTX1gRntQ5gLb) that introduces the concept effectively.
 
 For more details about Plaso, refer to the [official documentation page](https://plaso.readthedocs.io).
 
@@ -74,3 +74,30 @@ You can download it from my [AXIOM Custom Artifacts repository](https://github.c
 
 You can also analyze UAC output using **Cyber Triage**. For more details, refer to their blog post:  
 [Collecting Linux DFIR Artifacts with UAC](https://www.cybertriage.com/blog/collecting-linux-dfir-artifacts-with-uac/)
+
+
+## Using Dissect
+
+Dissect is a Python-based framework. One of the most important tools is `target-query`. It allows you to query a forensic image (or collection) for extracting useful information from it.
+
+If you haven’t seen it already, there's also a great [YouTube video by Richard Davis of 13cubed](https://youtu.be/A2e203LizAM?si=vI684VjFiJ2Ysuhk) that introduces the concept effectively.
+
+For more details about dissect, refer to the [official documentation page](https://docs.dissect.tools/en/latest/).
+
+### Parsing UAC output file in dissect
+
+Dissect has a loader for UAC, and can process compressed or uncompressed UAC collections. For performance reasons, its recommanded to extract collection before processing. Multiple collection can be analysed in the same command.
+
+Retrieves basics information related to collection:
+
+```shell
+target-query -f hostname,os,domain,version,ips --cmdb -d ";" ./uac-livecd.centos-linux-20240726111442.tar.gz ./uac-localhost-esxi-20250822074643.zip
+> uac-livecd.centos-linux-20240726111442.tar.gz;livecd;linux;centos;CentOS release 6.8 (Final);['10.0.2.15']
+> uac-localhost-esxi-20250822074643.zip;localhost;esxi;None;6.7.0;['192.168.56.101']
+```
+
+Execute a specific plugins:
+
+```shell
+target-query -f authlog --json /uac-livecd.centos-linux-20240726111442.tar.gz
+```
