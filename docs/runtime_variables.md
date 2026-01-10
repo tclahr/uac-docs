@@ -13,11 +13,11 @@ The following variables can be used in conjunction with these command-line optio
 - [--azure-storage-sas-url](index.md#-azure-storage-sas-url)
 - [--azure-storage-sas-url-log-file](index.md#-azure-storage-sas-url-log-file)
 
-| Variable        | Description |
-|-----------------|-------------|
-| `%hostname%`    | The hostname of the target system. |
-| `%os%`          | The operating system of the target system. |
-| `%timestamp%`   | The Unix timestamp indicating when the data collection started. |
+| Variable | Description |
+| --- | --- |
+| `%hostname%` | The hostname of the target system. |
+| `%os%` | The operating system of the target system. |
+| `%timestamp%` | The Unix timestamp indicating when the data collection started. |
 
 Examples:
 
@@ -37,16 +37,20 @@ Use variables to upload custom file names during presigned URL transfers:
 
 These variables can be used within artifact definitions to make your collection scripts more flexible and adaptable.
 
-| Variable               | Description |
-|------------------------|-------------|
-| `%uac_directory%`      | Full path to the directory where UAC was executed. |
-| `%mount_point%`        | Full path to the target mount point. |
-| `%temp_directory%`     | Full path to the temporary directory used by UAC to store transient data. Files in this directory are **not** included in the final output archive. |
+| Variable | Description |
+| --- | --- |
+| `%uac_directory%` | Full path to the directory where UAC was executed. |
+| `%mount_point%` | Full path to the target mount point. |
+| `%temp_directory%` | Full path to the temporary directory used by UAC to store transient data. Files in this directory are **not** included in the final output archive. |
+| `%artifacts_output_directory%` | Full path to the directory where collected artifacts that goes to the output file are temporarily stored. |
 | `%non_local_mount_points%` | Pipe-separated list of non-local mount points, based on the `exclude_file_system` setting in the `uac.conf` file. |
-| `%start_date%`         | Date provided via the `--start-date` command-line option. |
-| `%start_date_epoch%`   | The Unix timestamp corresponding to the `--start-date` value. |
-| `%end_date%`           | Date provided via the `--end-date` command-line option. |
-| `%end_date_epoch%`     | The Unix timestamp corresponding to the `--end-date` value. |
+| `%hostname%` | The hostname of the target system. |
+| `%os%` | The operating system of the target system. |
+| `%timestamp%` | The Unix timestamp indicating when the data collection started. |
+| `%start_date%` | Date provided via the `--start-date` command-line option. |
+| `%start_date_epoch%` | The Unix timestamp corresponding to the `--start-date` value. |
+| `%end_date%` | Date provided via the `--end-date` command-line option. |
+| `%end_date_epoch%` | The Unix timestamp corresponding to the `--end-date` value. |
 
 Examples:
 
@@ -101,14 +105,14 @@ artifacts:
     output_file: hash_running_processes
 ```
 
-## User-Based Variables
+## Loop Variables
 
 These variables trigger a loop in which UAC runs the command once for **each user** detected on the system.
 
-| Variable       | Description |
-|----------------|-------------|
-| `%user%`       | Username of the current user in the loop. |
-| `%user_home%`  | Full path to the current user's home directory. |
+| Variable | Description |
+| --- | --- |
+| `%user%` | Username of the current user in the loop. |
+| `%user_home%` | Full path to the current user's home directory. |
 
 Example:
 
