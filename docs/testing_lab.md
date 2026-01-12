@@ -45,6 +45,7 @@ The table below lists all OSes, versions, and architectures currently used in ou
 |Alpine Linux 3.21|x86_64||
 |Amazon Linux|x86_64||
 |Armbian Linux|aarch64|Running on a Orange Pi 3 LTS|
+|Aurora|x86_64|Atomic|
 |CentOS 3|i386||
 |CentOS 5|i386||
 |Clear Linux|x86_64||
