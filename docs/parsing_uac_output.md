@@ -75,7 +75,6 @@ You can download it from my [AXIOM Custom Artifacts repository](https://github.c
 You can also analyze UAC output using **Cyber Triage**. For more details, refer to their blog post:  
 [Collecting Linux DFIR Artifacts with UAC](https://www.cybertriage.com/blog/collecting-linux-dfir-artifacts-with-uac/)
 
-
 ## Using Dissect
 
 Dissect is a Python-based framework. One of the most important tools is `target-query`. It allows you to query a forensic image (or collection) for extracting useful information from it.

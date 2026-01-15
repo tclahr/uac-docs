@@ -150,6 +150,9 @@ Collection Arguments:
                     Specify the operating system.
                     Options: aix, esxi, freebsd, linux, macos, netbsd
                       netscaler, openbsd, solaris
+  -D, --define    VAR=VALUE
+                    Define a user-defined variable.
+                    Use '--define list' to list all available user-defined variables.
   -H, --hash-collected
                     Hash all collected files.
   -u, --run-as-non-root
@@ -401,6 +404,18 @@ This option allows you to force UAC to collect artifacts for a specific operatin
 | `netscaler` | NetScaler              |
 | `openbsd`   | OpenBSD                |
 | `solaris`   | Solaris                |
+
+#### -D, --define
+
+Define a user-defined variable. This option can be used multiple times to define multiple variables. The syntax is `VAR=VALUE`.
+
+Use `--define list` to list all available user-defined variables.
+
+Examples:
+
+```shell
+./uac -p full -D var1="value1" -D var2="value2" DESTINATION
+```
 
 #### -H, --hash-collected
 
