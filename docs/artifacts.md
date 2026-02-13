@@ -234,6 +234,24 @@ Use with timeout:
 command: timeout.sh 2 ps -ef
 ```
 
+You can also use the `find` collector to run a specific command once for each matched file:
+
+```yaml
+version: 1.0
+condition: command_exists "lsattr"
+output_directory: /system
+artifacts:
+  -
+    description: List immutable files.
+    supported_os: [linux]
+    collector: find
+    path: /
+    exclude_path_pattern: ["/dev", "/proc", "/run", "/sys"]
+    file_type: [f]
+    command: lsattr -d | awk '$1 ~ /i/ && $1 !~ /^\\//'
+    output_file: immutable_files.txt
+```
+
 ### compress\_output\_file
 
 **Optional for: command**
