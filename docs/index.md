@@ -110,6 +110,10 @@ Optional Arguments:
       --trace       Enable trace messages.
   -V, --version     Output version information and exit.
 
+System Information:
+      --system-info
+                    Display system information.
+
 Profiling Arguments:
   -p, --profile   PROFILE
                     Specify the collection profile name or path.
