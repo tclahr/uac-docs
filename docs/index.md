@@ -110,6 +110,10 @@ Optional Arguments:
       --trace       Enable trace messages.
   -V, --version     Output version information and exit.
 
+System Information:
+      --system-info
+                    Display system information.
+
 Profiling Arguments:
   -p, --profile   PROFILE
                     Specify the collection profile name or path.
@@ -250,6 +254,12 @@ Enable `set -x`. Using `set -x` in a shell script enables command tracing by pri
 #### -V, --version
 
 Output version information and exit.
+
+### System Information
+
+#### --system-info
+
+Output system information and exit.
 
 ### Profiling Arguments
 
