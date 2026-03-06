@@ -255,6 +255,12 @@ Enable `set -x`. Using `set -x` in a shell script enables command tracing by pri
 
 Output version information and exit.
 
+### System Information
+
+#### --system-info
+
+Output system information and exit.
+
 ### Profiling Arguments
 
 #### -p, --profile
