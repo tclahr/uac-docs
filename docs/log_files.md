@@ -5,11 +5,11 @@
 The `uac.log` file contains timestamped messages that include a log level and a corresponding message. This is the primary log used to track the actions performed by UAC during its execution. The level of detail in this log is affected by the `--debug` option. When data collection is complete, this log is also included in the final output archive.
 
 | Level | Description |
-|-------|-------------|
-| DBG   | Debug messages |
-| INF   | Informational messages |
-| ERR   | Error messages |
-| CMD   | Executed commands and their stderr output |
+| --- | --- |
+| DBG | Debug messages |
+| INF | Informational messages |
+| ERR | Error messages |
+| CMD | Executed commands and their stderr output |
 
 At the beginning of the file, UAC logs important information such as the command-line options used, operating system, system architecture, mount point, loaded configuration (from `uac.conf`), available tools, and other environment details. These entries are logged at the `INF` level.
 

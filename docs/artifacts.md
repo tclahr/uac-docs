@@ -126,7 +126,7 @@ artifacts:
     name_pattern: ["*access_log*", "*access.log*", "*error_log*", "*error.log*"]
     max_depth: 5
     file_type: [f]
-    max_file_size: 1073741824 # 1GB
+    max_file_size: 1GB
 ```
 
 Resulting command with standard `find`:
@@ -538,7 +538,17 @@ artifacts:
 
 **Optional**
 
-Only include files within the specified size limits (in bytes).
+Only include files within the specified size limits.
+
+Valid units are:
+
+```text
+b|c               bytes
+k|K|kb|KB|Kb|kB   kilobytes
+m|M|mb|MB|Mb|mB   megabytes
+g|G|gb|GB|Gb|gB   gigabytes
+t|T|tb|TB|Tb|tB   terabytes
+```
 
 ```yaml
 version: 1.0
@@ -553,11 +563,34 @@ artifacts:
     output_file: smaller_than.txt
 ```
 
+```yaml
+version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all files smaller than 200 megabytes.
+    supported_os: [all]
+    collector: find
+    path: /
+    max_file_size: 200MB
+    output_file: smaller_than.txt
+```
+
 ### min\_file\_size
 
 **Optional**
 
-Only include files within the specified size limits (in bytes).
+Only include files within the specified size limits.
+
+Valid units are:
+
+```text
+b|c               bytes
+k|K|kb|KB|Kb|kB   kilobytes
+m|M|mb|MB|Mb|mB   megabytes
+g|G|gb|GB|Gb|gB   gigabytes
+t|T|tb|TB|Tb|tB   terabytes
+```
 
 ```yaml
 version: 1.0
@@ -569,6 +602,19 @@ artifacts:
     collector: find
     path: /
     min_file_size: 1048576
+    output_file: bigger_than.txt
+```
+
+```yaml
+version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all files bigger than 1GB bytes.
+    supported_os: [all]
+    collector: find
+    path: /
+    min_file_size: 1GB
     output_file: bigger_than.txt
 ```
 
