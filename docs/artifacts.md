@@ -510,7 +510,7 @@ artifacts:
     description: Hash files based on a file list located in /%uac_directory%/my_file_list.txt.
     supported_os: [all]
     collector: hash
-    path: /%uac_directory%/my_file_list.txt
+    path: %uac_directory%/my_file_list.txt
     is_file_list: true
     output_file: hash_my_file_list.txt
 ```
@@ -808,11 +808,24 @@ artifacts:
     description: List files under user's home directory (no recursion, top-level only) with an unknown user ID name.
     supported_os: [aix, freebsd, linux, netbsd, netscaler, openbsd]
     collector: find
-    path: /home /export/home /Users /%user_home%
+    path: /home /export/home /Users %user_home%
     max_depth: 1
     file_type: [f]
     no_user: true
     output_file: user_name_unknown_files.txt
+```
+
+When specifying paths using placeholders such as `%user_home%`, `%mount_point%`, `%uac_directory%`, and `%temp_directory%`, the leading slash can be omitted.
+
+```yaml
+version: 1.1
+artifacts:
+  -
+    description: Collect activity tracking data used by KActivityManager (part of KDE) to track and manage user activities, such as recently opened files, applications, and other resources.
+    supported_os: [freebsd, linux, netbsd, openbsd]
+    collector: file
+    path: %user_home%/.local/share/kactivitymanagerd/resources
+    exclude_nologin_users: true
 ```
 
 Use quotation marks when specifying paths with spaces or special characters.
@@ -843,7 +856,7 @@ artifacts:
     description: Find Discord cache files.
     supported_os: [all]
     collector: find
-    path: /%user_home%
+    path: %user_home%
     path_pattern: ["*/discord/Cache/*"]
     output_file: discord_cache.txt
 ```
