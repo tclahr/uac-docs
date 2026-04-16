@@ -11,7 +11,6 @@ The following variables can be used in conjunction with these command-line optio
 - [--aws-s3-presigned-url](index.md#-aws-s3-presigned-url)
 - [--aws-s3-presigned-url-log-file](index.md#-aws-s3-presigned-url-log-file)
 - [--azure-storage-sas-url](index.md#-azure-storage-sas-url)
-- [--azure-storage-sas-url-log-file](index.md#-azure-storage-sas-url-log-file)
 
 | Variable | Description |
 | --- | --- |
@@ -63,7 +62,7 @@ artifacts:
     description: Hash all files based on a file list located in the UAC directory.
     supported_os: [all]
     collector: hash
-    path: /%uac_directory%/my_file_list.txt
+    path: %uac_directory%/my_file_list.txt
     is_file_list: true
     output_directory: /live_response/system
     output_file: my_hash_list.txt
@@ -99,7 +98,7 @@ artifacts:
     description: Hash running process executables.
     supported_os: [esxi, freebsd, macos, openbsd]
     collector: hash
-    path: /%temp_directory%/process/hash_running_processes_full_paths.txt
+    path: %temp_directory%/process/hash_running_processes_full_paths.txt
     is_file_list: true
     output_directory: /live_response/hash_executables
     output_file: hash_running_processes
@@ -125,6 +124,6 @@ artifacts:
     description: Collect shell history files.
     supported_os: [all]
     collector: file
-    path: /%user_home%/
+    path: %user_home%/
     name_pattern: [".*_history", ".*history", ".lesshst", ".zhistory"]
 ```
