@@ -126,7 +126,7 @@ artifacts:
     name_pattern: ["*access_log*", "*access.log*", "*error_log*", "*error.log*"]
     max_depth: 5
     file_type: [f]
-    max_file_size: 1073741824 # 1GB
+    max_file_size: 1GB
 ```
 
 Resulting command with standard `find`:
@@ -232,6 +232,24 @@ Use with timeout:
 
 ```yaml
 command: timeout.sh 2 ps -ef
+```
+
+You can also use the `find` collector to run a specific command once for each matched file:
+
+```yaml
+version: 1.0
+condition: command_exists "lsattr"
+output_directory: /system
+artifacts:
+  -
+    description: List immutable files.
+    supported_os: [linux]
+    collector: find
+    path: /
+    exclude_path_pattern: ["/dev", "/proc", "/run", "/sys"]
+    file_type: [f]
+    command: lsattr -d | awk '$1 ~ /i/ && $1 !~ /^\\//'
+    output_file: immutable_files.txt
 ```
 
 ### compress\_output\_file
@@ -492,7 +510,7 @@ artifacts:
     description: Hash files based on a file list located in /%uac_directory%/my_file_list.txt.
     supported_os: [all]
     collector: hash
-    path: /%uac_directory%/my_file_list.txt
+    path: %uac_directory%/my_file_list.txt
     is_file_list: true
     output_file: hash_my_file_list.txt
 ```
@@ -520,7 +538,17 @@ artifacts:
 
 **Optional**
 
-Only include files within the specified size limits (in bytes).
+Only include files within the specified size limits.
+
+Valid units are:
+
+```text
+b|c               bytes
+k|K|kb|KB|Kb|kB   kilobytes
+m|M|mb|MB|Mb|mB   megabytes
+g|G|gb|GB|Gb|gB   gigabytes
+t|T|tb|TB|Tb|tB   terabytes
+```
 
 ```yaml
 version: 1.0
@@ -535,11 +563,34 @@ artifacts:
     output_file: smaller_than.txt
 ```
 
+```yaml
+version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all files smaller than 200 megabytes.
+    supported_os: [all]
+    collector: find
+    path: /
+    max_file_size: 200MB
+    output_file: smaller_than.txt
+```
+
 ### min\_file\_size
 
 **Optional**
 
-Only include files within the specified size limits (in bytes).
+Only include files within the specified size limits.
+
+Valid units are:
+
+```text
+b|c               bytes
+k|K|kb|KB|Kb|kB   kilobytes
+m|M|mb|MB|Mb|mB   megabytes
+g|G|gb|GB|Gb|gB   gigabytes
+t|T|tb|TB|Tb|tB   terabytes
+```
 
 ```yaml
 version: 1.0
@@ -551,6 +602,19 @@ artifacts:
     collector: find
     path: /
     min_file_size: 1048576
+    output_file: bigger_than.txt
+```
+
+```yaml
+version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all files bigger than 1GB bytes.
+    supported_os: [all]
+    collector: find
+    path: /
+    min_file_size: 1GB
     output_file: bigger_than.txt
 ```
 
@@ -744,11 +808,24 @@ artifacts:
     description: List files under user's home directory (no recursion, top-level only) with an unknown user ID name.
     supported_os: [aix, freebsd, linux, netbsd, netscaler, openbsd]
     collector: find
-    path: /home /export/home /Users /%user_home%
+    path: /home /export/home /Users %user_home%
     max_depth: 1
     file_type: [f]
     no_user: true
     output_file: user_name_unknown_files.txt
+```
+
+When specifying paths using placeholders such as `%user_home%`, `%mount_point%`, `%uac_directory%`, and `%temp_directory%`, the leading slash can be omitted.
+
+```yaml
+version: 1.1
+artifacts:
+  -
+    description: Collect activity tracking data used by KActivityManager (part of KDE) to track and manage user activities, such as recently opened files, applications, and other resources.
+    supported_os: [freebsd, linux, netbsd, openbsd]
+    collector: file
+    path: %user_home%/.local/share/kactivitymanagerd/resources
+    exclude_nologin_users: true
 ```
 
 Use quotation marks when specifying paths with spaces or special characters.
@@ -779,7 +856,7 @@ artifacts:
     description: Find Discord cache files.
     supported_os: [all]
     collector: find
-    path: /%user_home%
+    path: %user_home%
     path_pattern: ["*/discord/Cache/*"]
     output_file: discord_cache.txt
 ```

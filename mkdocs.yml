@@ -7,6 +7,7 @@ nav:
     - 'Profiles': profiles.md
     - 'Artifacts': artifacts.md
     - 'Runtime Variables': runtime_variables.md
+    - 'User-defined Variables': user_defined_variables.md
     - 'Helper Functions': helper_functions.md
   - 'CONFIG':
     - 'Config Files': config_file.md

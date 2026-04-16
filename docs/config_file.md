@@ -32,6 +32,26 @@ Exclude file systems by type. UAC retrieves the list of existing mountpoints (pa
 exclude_file_system: [9p, afs, nfs, nfs4, rpc_pipefs, smbfs, sysfs]
 ```
 
+## exclude\_mount\_point\_size
+
+Exclude any mount points with more than this much space *used* (root will never be excluded). Mount points will be excluded from find, file, hash and stat collectors.
+
+Valid units are:
+
+```text
+b|c               bytes
+k|K|kb|KB|Kb|kB   kilobytes
+m|M|mb|MB|Mb|mB   megabytes
+g|G|gb|GB|Gb|gB   gigabytes
+t|T|tb|TB|Tb|tB   terabytes
+```
+
+Accepted values: A positive integer or `0` to disable size limiting.
+
+```ini
+exclude_mount_point_size: 100M
+```
+
 ## hash_algorithm
 
 Specifies the hash algorithms to be used by the `hash` collector.

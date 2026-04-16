@@ -110,6 +110,10 @@ Optional Arguments:
       --trace       Enable trace messages.
   -V, --version     Output version information and exit.
 
+System Information:
+      --system-info
+                    Display system information.
+
 Profiling Arguments:
   -p, --profile   PROFILE
                     Specify the collection profile name or path.
@@ -150,6 +154,9 @@ Collection Arguments:
                     Specify the operating system.
                     Options: aix, esxi, freebsd, linux, macos, netbsd
                       netscaler, openbsd, solaris
+  -D, --define    VAR=VALUE
+                    Define a user-defined variable.
+                    Use '--define list' to list all available user-defined variables.
   -H, --hash-collected
                     Hash all collected files.
   -u, --run-as-non-root
@@ -184,7 +191,7 @@ Informational Arguments:
 
 Remote Transfer Arguments:
       --sftp SERVER
-                    Transfer the output file to remote SFTP server.
+                    Transfer the output and log file to remote SFTP server.
                     SERVER must be specified in the form [user@]host:[path]
       --sftp-port PORT
                     Remote SFTP server port (default: 22).
@@ -195,7 +202,7 @@ Remote Transfer Arguments:
                     Allow setting SSH options as key=value pairs.
                     Can be used multiple times to set multiple options.
       --s3-provider
-                    Transfer the output and log files to S3 service.
+                    Transfer the output and log file to S3 service.
                     Options: amazon, google, ibm
       --s3-region
                     S3 region name (default: us-east-1 [amazon], us-south [ibm]).
@@ -214,10 +221,7 @@ Remote Transfer Arguments:
                     Transfer the log file to AWS S3 using a pre-signed URL.
                     Use single quotes to enclose the URL.
       --azure-storage-sas-url URL
-                    Transfer the output file to Azure Storage using a SAS URL.
-                    Use single quotes to enclose the URL.
-      --azure-storage-sas-url-log-file URL
-                    Transfer the log file to Azure Storage using a SAS URL.
+                    Transfer the output and log file to Azure Storage using a SAS URL.
                     Use single quotes to enclose the URL.
       --delete-local-on-successful-transfer
                     Delete local output and log files on successful transfer.
@@ -250,6 +254,12 @@ Enable `set -x`. Using `set -x` in a shell script enables command tracing by pri
 #### -V, --version
 
 Output version information and exit.
+
+### System Information
+
+#### --system-info
+
+Output system information and exit.
 
 ### Profiling Arguments
 
@@ -405,6 +415,18 @@ This option allows you to force UAC to collect artifacts for a specific operatin
 | `openbsd`   | OpenBSD                |
 | `solaris`   | Solaris                |
 
+#### -D, --define
+
+Define a user-defined variable. This option can be used multiple times to define multiple variables. The syntax is `VAR=VALUE`.
+
+Use `--define list` to list all available user-defined variables.
+
+Examples:
+
+```shell
+./uac -p full -D var1="value1" -D var2="value2" DESTINATION
+```
+
 #### -H, --hash-collected
 
 Enabling this option will cause UAC to hash all collected files and save the results in a hash file. To accomplish this, all collected data must be copied to the destination directory first. Therefore, ensure you have twice the free space available on the system: once for the collected data and once for the output file. Additionally, note that this process will increase the collection running time.
@@ -461,7 +483,7 @@ Specify the case notes.
 
 #### --sftp
 
-SFTP server host/IP for transferring the output and acquisition log files. It also transfers collected data when `none` is used as the output format. It must be specified in the form `[user@]host:[path]`
+SFTP server host/IP for transferring the output and log file. It also transfers collected data when `none` is used as the output format. It must be specified in the form `[user@]host:[path]`
 
 Examples:
 
@@ -551,22 +573,12 @@ Example:
 
 #### --azure-storage-sas-url
 
-This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage. Use single quotes to enclose the URL.
+This allows for using a shared access signature (SAS) URL to upload the output and log file to Azure Storage. Use single quotes to enclose the URL.
 
 Example:
 
 ```shell
-./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
-```
-
-#### --azure-storage-sas-url-log-file
-
-This allows for using a shared access signature (SAS) URL to upload the acquisition log to Azure Storage. Use single quotes to enclose the URL.
-
-Example:
-
-```shell
-./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' --azure-storage-sas-url-log-file 'https://uac-test.blob.core.windows.net/uac-container/uac-output.log?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
+./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container?sp=racwdl&st=2022-09-20T11:20:49Z&se=2022-09-21T19:20:49Z&spr=https&sv=2021-06-08&sr=c&sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
 ```
 
 #### --delete-local-on-successful-transfer
