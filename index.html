@@ -68,6 +68,12 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#system-information">System Information</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#-system-info">--system-info</a>
+    </li>
+        </ul>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#profiling-arguments">Profiling Arguments</a>
         <ul>
     <li class="toctree-l4"><a class="reference internal" href="#-p-profile">-p, --profile</a>
@@ -99,6 +105,8 @@
     <li class="toctree-l4"><a class="reference internal" href="#-m-mount-point">-m, --mount-point</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#-s-operating-system">-s, --operating-system</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#-d-define">-D, --define</a>
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#-h-hash-collected">-H, --hash-collected</a>
     </li>
@@ -162,8 +170,6 @@
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#-azure-storage-sas-url">--azure-storage-sas-url</a>
     </li>
-    <li class="toctree-l4"><a class="reference internal" href="#-azure-storage-sas-url-log-file">--azure-storage-sas-url-log-file</a>
-    </li>
     <li class="toctree-l4"><a class="reference internal" href="#-delete-local-on-successful-transfer">--delete-local-on-successful-transfer</a>
     </li>
         </ul>
@@ -214,6 +220,8 @@
                   <li class="toctree-l1"><a class="reference internal" href="artifacts/">Artifacts</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="runtime_variables/">Runtime Variables</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="user_defined_variables/">User-defined Variables</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="helper_functions/">Helper Functions</a>
                   </li>
@@ -352,6 +360,10 @@ Optional Arguments:
       --trace       Enable trace messages.
   -V, --version     Output version information and exit.
 
+System Information:
+      --system-info
+                    Display system information.
+
 Profiling Arguments:
   -p, --profile   PROFILE
                     Specify the collection profile name or path.
@@ -392,6 +404,9 @@ Collection Arguments:
                     Specify the operating system.
                     Options: aix, esxi, freebsd, linux, macos, netbsd
                       netscaler, openbsd, solaris
+  -D, --define    VAR=VALUE
+                    Define a user-defined variable.
+                    Use '--define list' to list all available user-defined variables.
   -H, --hash-collected
                     Hash all collected files.
   -u, --run-as-non-root
@@ -426,7 +441,7 @@ Informational Arguments:
 
 Remote Transfer Arguments:
       --sftp SERVER
-                    Transfer the output file to remote SFTP server.
+                    Transfer the output and log file to remote SFTP server.
                     SERVER must be specified in the form [user@]host:[path]
       --sftp-port PORT
                     Remote SFTP server port (default: 22).
@@ -437,7 +452,7 @@ Remote Transfer Arguments:
                     Allow setting SSH options as key=value pairs.
                     Can be used multiple times to set multiple options.
       --s3-provider
-                    Transfer the output and log files to S3 service.
+                    Transfer the output and log file to S3 service.
                     Options: amazon, google, ibm
       --s3-region
                     S3 region name (default: us-east-1 [amazon], us-south [ibm]).
@@ -456,10 +471,7 @@ Remote Transfer Arguments:
                     Transfer the log file to AWS S3 using a pre-signed URL.
                     Use single quotes to enclose the URL.
       --azure-storage-sas-url URL
-                    Transfer the output file to Azure Storage using a SAS URL.
-                    Use single quotes to enclose the URL.
-      --azure-storage-sas-url-log-file URL
-                    Transfer the log file to Azure Storage using a SAS URL.
+                    Transfer the output and log file to Azure Storage using a SAS URL.
                     Use single quotes to enclose the URL.
       --delete-local-on-successful-transfer
                     Delete local output and log files on successful transfer.
@@ -481,6 +493,9 @@ Validation Arguments:
 <p>Enable <code>set -x</code>. Using <code>set -x</code> in a shell script enables command tracing by printing each command before execution, which helps in debugging and understanding the script's flow.</p>
 <h4 id="-v-version">-V, --version</h4>
 <p>Output version information and exit.</p>
+<h3 id="system-information">System Information</h3>
+<h4 id="-system-info">--system-info</h4>
+<p>Output system information and exit.</p>
 <h3 id="profiling-arguments">Profiling Arguments</h3>
 <h4 id="-p-profile">-p, --profile</h4>
 <p>Specify the collection profile name. Profiles are used to define the list of artifacts that will be used during the execution. They are YAML files located in the <code>profiles</code> directory.</p>
@@ -606,6 +621,12 @@ Validation Arguments:
 </tr>
 </tbody>
 </table>
+<h4 id="-d-define">-D, --define</h4>
+<p>Define a user-defined variable. This option can be used multiple times to define multiple variables. The syntax is <code>VAR=VALUE</code>.</p>
+<p>Use <code>--define list</code> to list all available user-defined variables.</p>
+<p>Examples:</p>
+<pre><code class="language-shell">./uac -p full -D var1=&quot;value1&quot; -D var2=&quot;value2&quot; DESTINATION
+</code></pre>
 <h4 id="-h-hash-collected">-H, --hash-collected</h4>
 <p>Enabling this option will cause UAC to hash all collected files and save the results in a hash file. To accomplish this, all collected data must be copied to the destination directory first. Therefore, ensure you have twice the free space available on the system: once for the collected data and once for the output file. Additionally, note that this process will increase the collection running time.</p>
 <h4 id="-u-run-as-non-root">-u, --run-as-non-root</h4>
@@ -634,7 +655,7 @@ Validation Arguments:
 <p>Specify the case notes.</p>
 <h3 id="remote-transfer-arguments">Remote Transfer Arguments</h3>
 <h4 id="-sftp">--sftp</h4>
-<p>SFTP server host/IP for transferring the output and acquisition log files. It also transfers collected data when <code>none</code> is used as the output format. It must be specified in the form <code>[user@]host:[path]</code></p>
+<p>SFTP server host/IP for transferring the output and log file. It also transfers collected data when <code>none</code> is used as the output format. It must be specified in the form <code>[user@]host:[path]</code></p>
 <p>Examples:</p>
 <pre><code class="language-shell">./uac -p full --sftp &quot;user@host:/remote_dir&quot; DESTINATION
 </code></pre>
@@ -698,14 +719,9 @@ Validation Arguments:
 <pre><code class="language-shell">./uac -p full --aws-s3-presigned-url 'https://uac-test.s3.amazonaws.com/uac-output.tar.gz?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20220924T135105Z&amp;X-Amz-Expires=360000&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' --aws-s3-presigned-url-log-file 'https://uac-test.s3.amazonaws.com/uac-output.log?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=ALIATVL26RGHMZ23AUV6%2F20220924%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20220924T135105Z&amp;X-Amz-Expires=360000&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=74328833a872951ed54dc0dd57180b814a808ad53efc97b361487c10a87bc795' DESTINATION
 </code></pre>
 <h4 id="-azure-storage-sas-url">--azure-storage-sas-url</h4>
-<p>This allows for using a shared access signature (SAS) URL to upload the output file to Azure Storage. Use single quotes to enclose the URL.</p>
+<p>This allows for using a shared access signature (SAS) URL to upload the output and log file to Azure Storage. Use single quotes to enclose the URL.</p>
 <p>Example:</p>
-<pre><code class="language-shell">./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
-</code></pre>
-<h4 id="-azure-storage-sas-url-log-file">--azure-storage-sas-url-log-file</h4>
-<p>This allows for using a shared access signature (SAS) URL to upload the acquisition log to Azure Storage. Use single quotes to enclose the URL.</p>
-<p>Example:</p>
-<pre><code class="language-shell">./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container/uac-output.tar.gz?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' --azure-storage-sas-url-log-file 'https://uac-test.blob.core.windows.net/uac-container/uac-output.log?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
+<pre><code class="language-shell">./uac -p ir_triage --azure-storage-sas-url 'https://uac-test.blob.core.windows.net/uac-container?sp=racwdl&amp;st=2022-09-20T11:20:49Z&amp;se=2022-09-21T19:20:49Z&amp;spr=https&amp;sv=2021-06-08&amp;sr=c&amp;sig=LmNQLedzYBXKSlGGGA0D6x1qSCek1OHELZDiD13BxKk%3D' DESTINATION
 </code></pre>
 <h4 id="-delete-local-on-successful-transfer">--delete-local-on-successful-transfer</h4>
 <p>Delete the local output and acquisition log files if they were successfully transferred to a remote destination such as an SFTP server or S3.</p>

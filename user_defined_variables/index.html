@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/helper_functions/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://github.com/tclahr/uac/user_defined_variables/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Helper Functions - UAC Documentation</title>
+    <title>User-defined Variables - UAC Documentation</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Helper Functions";
-        var mkdocs_page_input_path = "helper_functions.md";
-        var mkdocs_page_url = "/tclahr/uac/helper_functions/";
+        var mkdocs_page_name = "User-defined Variables";
+        var mkdocs_page_input_path = "user_defined_variables.md";
+        var mkdocs_page_url = "/tclahr/uac/user_defined_variables/";
       </script>
     
     <!--[if lt IE 9]>
@@ -53,13 +53,13 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../user_defined_variables/">User-defined Variables</a>
-                  </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Helper Functions</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">User-defined Variables</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#command_exists">command_exists</a>
+    <li class="toctree-l2"><a class="reference internal" href="#listing-available-user-defined-variables">Listing Available User-defined Variables</a>
     </li>
     </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">CONFIG</span></p>
@@ -104,7 +104,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
           <li class="breadcrumb-item">DEFINITIONS</li>
-      <li class="breadcrumb-item active">Helper Functions</li>
+      <li class="breadcrumb-item active">User-defined Variables</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -113,33 +113,54 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="helper-functions">Helper functions</h1>
-<p>Some helper functions are available for use during artifact collection. These functions can enhance your collection logic by introducing conditional behavior based on the target system's state.</p>
-<h2 id="command_exists">command_exists</h2>
-<p>Checks whether a given command is available on the target system. Returns <code>true</code> if the command exists.</p>
+                <h1 id="user-defined-variables">User-defined Variables</h1>
+<p>User-defined variables make artifact definitions more flexible and reusable. They are set at runtime using the <code>--define</code> (or <code>-D</code>) command-line option and are expanded dynamically during execution.</p>
+<p>Use the syntax <code>%var%</code> or <code>%var=default_value%</code> to declare a variable with an optional default value inside an artifact definition.</p>
+<p>User-defined variables can be used within the following fields:</p>
 <ul>
-<li><strong>Parameter:</strong> The command name must be provided as a string (enclosed in quotes).</li>
-<li><strong>Returns:</strong> Boolean (<code>true</code> if the command exists)</li>
+<li><code>command</code></li>
+<li><code>condition</code></li>
+<li><code>foreach</code></li>
+<li><code>output_file</code></li>
+<li><code>path</code></li>
 </ul>
 <p>Example:</p>
-<p>The following artifact will only collect block device information if the <code>lsblk</code> command is available:</p>
+<p>The example below limits how many iterations (frames) the top command runs before exiting:</p>
 <pre><code class="language-yaml">version: 1.0
-condition: command_exists &quot;lsblk&quot;
-output_directory: /live_response/storage
 artifacts:
   -
-    description: List block devices.
+    description: Display current running processes.
     supported_os: [linux]
     collector: command
-    command: lsblk -l
-    output_file: lsblk_-l.txt
+    command: top -b -n%top_number_of_iterations=1%
+    output_file: top_-b_-n%top_number_of_iterations=1%.txt
+</code></pre>
+<p>Run UAC and override the default value:</p>
+<pre><code class="language-shell">./uac -p full -D top_number_of_iterations=5 DESTINATION
+</code></pre>
+<p>You can set multiple user-defined variables using the <code>-D</code> option multiple times.</p>
+<p>Example:</p>
+<p>You can set default values for different variables. If no <code>-D directory=/mydir</code> is specified, the default value will be used. The command will be expanded to: <code>ls /tmp /var /usr</code></p>
+<pre><code class="language-yaml">version: 1.0
+artifacts:
+  -
+    description: Test user-defined variables.
+    supported_os: [linux]
+    collector: command
+    command: ls %directory=/tmp% %directory=/var% %directory=/usr% %directory%
+    output_file: ls.txt
+</code></pre>
+<p>If <code>-D directory=/mydir</code> is specified, the command will be expanded to: <code>ls /mydir /mydir /mydir /mydir</code></p>
+<h2 id="listing-available-user-defined-variables">Listing Available User-defined Variables</h2>
+<p>To list all available user-defined variables:</p>
+<pre><code class="language-shell">./uac --define list
 </code></pre>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../user_defined_variables/" class="btn btn-neutral float-left" title="User-defined Variables"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../config_file/" class="btn btn-neutral float-right" title="Config Files">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../runtime_variables/" class="btn btn-neutral float-left" title="Runtime Variables"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../helper_functions/" class="btn btn-neutral float-right" title="Helper Functions">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -162,10 +183,10 @@ artifacts:
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../user_defined_variables/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../runtime_variables/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../config_file/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../helper_functions/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

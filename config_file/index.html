@@ -53,6 +53,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../user_defined_variables/">User-defined Variables</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
                   </li>
               </ul>
@@ -65,6 +67,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#exclude_name_pattern">exclude_name_pattern</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#exclude_file_system">exclude_file_system</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#exclude_mount_point_size">exclude_mount_point_size</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#hash_algorithm">hash_algorithm</a>
     </li>
@@ -137,6 +141,18 @@
 <h2 id="exclude_file_system">exclude_file_system</h2>
 <p>Exclude file systems by type. UAC retrieves the list of existing mountpoints (paths) at runtime and excludes them from the collection.</p>
 <pre><code class="language-ini">exclude_file_system: [9p, afs, nfs, nfs4, rpc_pipefs, smbfs, sysfs]
+</code></pre>
+<h2 id="exclude_mount_point_size">exclude_mount_point_size</h2>
+<p>Exclude any mount points with more than this much space <em>used</em> (root will never be excluded). Mount points will be excluded from find, file, hash and stat collectors.</p>
+<p>Valid units are:</p>
+<pre><code class="language-text">b|c               bytes
+k|K|kb|KB|Kb|kB   kilobytes
+m|M|mb|MB|Mb|mB   megabytes
+g|G|gb|GB|Gb|gB   gigabytes
+t|T|tb|TB|Tb|tB   terabytes
+</code></pre>
+<p>Accepted values: A positive integer or <code>0</code> to disable size limiting.</p>
+<pre><code class="language-ini">exclude_mount_point_size: 100M
 </code></pre>
 <h2 id="hash_algorithm">hash_algorithm</h2>
 <p>Specifies the hash algorithms to be used by the <code>hash</code> collector.</p>

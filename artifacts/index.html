@@ -139,6 +139,8 @@
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../runtime_variables/">Runtime Variables</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../user_defined_variables/">User-defined Variables</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="../helper_functions/">Helper Functions</a>
                   </li>
               </ul>
@@ -292,7 +294,7 @@ artifacts:
     name_pattern: [&quot;*access_log*&quot;, &quot;*access.log*&quot;, &quot;*error_log*&quot;, &quot;*error.log*&quot;]
     max_depth: 5
     file_type: [f]
-    max_file_size: 1073741824 # 1GB
+    max_file_size: 1GB
 </code></pre>
 <p>Resulting command with standard <code>find</code>:</p>
 <pre><code class="language-shell">find /var/log -maxdepth 5 \( -path &quot;/sys&quot; -o -path &quot;/proc&quot; \) -prune -o -size -1073741824c  \( -name &quot;*access_log*&quot; -o -name &quot;*access.log*&quot; -o -name &quot;*error_log*&quot; -o -name &quot;*error.log*&quot; \) -print
@@ -364,6 +366,21 @@ artifacts:
 </code></pre>
 <p>Use with timeout:</p>
 <pre><code class="language-yaml">command: timeout.sh 2 ps -ef
+</code></pre>
+<p>You can also use the <code>find</code> collector to run a specific command once for each matched file:</p>
+<pre><code class="language-yaml">version: 1.0
+condition: command_exists &quot;lsattr&quot;
+output_directory: /system
+artifacts:
+  -
+    description: List immutable files.
+    supported_os: [linux]
+    collector: find
+    path: /
+    exclude_path_pattern: [&quot;/dev&quot;, &quot;/proc&quot;, &quot;/run&quot;, &quot;/sys&quot;]
+    file_type: [f]
+    command: lsattr -d | awk '$1 ~ /i/ &amp;&amp; $1 !~ /^\\//'
+    output_file: immutable_files.txt
 </code></pre>
 <h3 id="compress_output_file">compress_output_file</h3>
 <p><strong>Optional for: command</strong></p>
@@ -581,7 +598,7 @@ artifacts:
     description: Hash files based on a file list located in /%uac_directory%/my_file_list.txt.
     supported_os: [all]
     collector: hash
-    path: /%uac_directory%/my_file_list.txt
+    path: %uac_directory%/my_file_list.txt
     is_file_list: true
     output_file: hash_my_file_list.txt
 </code></pre>
@@ -601,7 +618,14 @@ artifacts:
 </code></pre>
 <h3 id="max_file_size">max_file_size</h3>
 <p><strong>Optional</strong></p>
-<p>Only include files within the specified size limits (in bytes).</p>
+<p>Only include files within the specified size limits.</p>
+<p>Valid units are:</p>
+<pre><code class="language-text">b|c               bytes
+k|K|kb|KB|Kb|kB   kilobytes
+m|M|mb|MB|Mb|mB   megabytes
+g|G|gb|GB|Gb|gB   gigabytes
+t|T|tb|TB|Tb|tB   terabytes
+</code></pre>
 <pre><code class="language-yaml">version: 1.0
 output_directory: /live_response/system
 artifacts:
@@ -613,9 +637,27 @@ artifacts:
     max_file_size: 1048576
     output_file: smaller_than.txt
 </code></pre>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all files smaller than 200 megabytes.
+    supported_os: [all]
+    collector: find
+    path: /
+    max_file_size: 200MB
+    output_file: smaller_than.txt
+</code></pre>
 <h3 id="min_file_size">min_file_size</h3>
 <p><strong>Optional</strong></p>
-<p>Only include files within the specified size limits (in bytes).</p>
+<p>Only include files within the specified size limits.</p>
+<p>Valid units are:</p>
+<pre><code class="language-text">b|c               bytes
+k|K|kb|KB|Kb|kB   kilobytes
+m|M|mb|MB|Mb|mB   megabytes
+g|G|gb|GB|Gb|gB   gigabytes
+t|T|tb|TB|Tb|tB   terabytes
+</code></pre>
 <pre><code class="language-yaml">version: 1.0
 output_directory: /live_response/system
 artifacts:
@@ -625,6 +667,17 @@ artifacts:
     collector: find
     path: /
     min_file_size: 1048576
+    output_file: bigger_than.txt
+</code></pre>
+<pre><code class="language-yaml">version: 1.0
+output_directory: /live_response/system
+artifacts:
+  -
+    description: Search all files bigger than 1GB bytes.
+    supported_os: [all]
+    collector: find
+    path: /
+    min_file_size: 1GB
     output_file: bigger_than.txt
 </code></pre>
 <h3 id="modifier">modifier</h3>
@@ -771,11 +824,21 @@ artifacts:
     description: List files under user's home directory (no recursion, top-level only) with an unknown user ID name.
     supported_os: [aix, freebsd, linux, netbsd, netscaler, openbsd]
     collector: find
-    path: /home /export/home /Users /%user_home%
+    path: /home /export/home /Users %user_home%
     max_depth: 1
     file_type: [f]
     no_user: true
     output_file: user_name_unknown_files.txt
+</code></pre>
+<p>When specifying paths using placeholders such as <code>%user_home%</code>, <code>%mount_point%</code>, <code>%uac_directory%</code>, and <code>%temp_directory%</code>, the leading slash can be omitted.</p>
+<pre><code class="language-yaml">version: 1.1
+artifacts:
+  -
+    description: Collect activity tracking data used by KActivityManager (part of KDE) to track and manage user activities, such as recently opened files, applications, and other resources.
+    supported_os: [freebsd, linux, netbsd, openbsd]
+    collector: file
+    path: %user_home%/.local/share/kactivitymanagerd/resources
+    exclude_nologin_users: true
 </code></pre>
 <p>Use quotation marks when specifying paths with spaces or special characters.</p>
 <pre><code class="language-yaml">version: 1.0
@@ -798,7 +861,7 @@ artifacts:
     description: Find Discord cache files.
     supported_os: [all]
     collector: find
-    path: /%user_home%
+    path: %user_home%
     path_pattern: [&quot;*/discord/Cache/*&quot;]
     output_file: discord_cache.txt
 </code></pre>
